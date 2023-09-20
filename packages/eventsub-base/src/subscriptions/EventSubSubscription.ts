@@ -9,6 +9,7 @@ import type { EventSubBase } from '../EventSubBase';
  */
 @rtfm('eventsub-base', 'EventSubSubscription')
 export abstract class EventSubSubscription</** @private */ T = unknown> {
+	private _startedFromExistingTwitchSub = true;
 	private _verified: boolean = false;
 	private _twitchSubscriptionData?: HelixEventSubSubscription;
 	/** @protected */ abstract readonly _cliName: string;
