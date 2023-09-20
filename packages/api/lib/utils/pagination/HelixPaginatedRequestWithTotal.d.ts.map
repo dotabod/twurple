@@ -1,0 +1,1 @@
+{"version":3,"file":"HelixPaginatedRequestWithTotal.d.ts","sourceRoot":"","sources":["../../../src/utils/pagination/HelixPaginatedRequestWithTotal.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,qBAAqB,EAAE,MAAM,yBAAyB,CAAC;AAEhE;;;;GAIG;AACH,qBACa,8BAA8B,CAAC,CAAC,EAAE,CAAC,CAAE,SAAQ,qBAAqB,CAAC,CAAC,EAAE,CAAC,CAAC;IAGpF;;OAEG;IACG,aAAa,IAAI,OAAO,CAAC,MAAM,CAAC;CAMtC"}

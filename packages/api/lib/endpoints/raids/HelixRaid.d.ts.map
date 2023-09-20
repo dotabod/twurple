@@ -1,0 +1,1 @@
+{"version":3,"file":"HelixRaid.d.ts","sourceRoot":"","sources":["../../../src/endpoints/raids/HelixRaid.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAuB,MAAM,iBAAiB,CAAC;AAClE,OAAO,EAAE,KAAK,aAAa,EAAE,MAAM,0CAA0C,CAAC;AAE9E;;GAEG;AACH,qBACa,SAAU,SAAQ,UAAU,CAAC,aAAa,CAAC;IACvD;;OAEG;IACH,IAAI,YAAY,IAAI,IAAI,CAEvB;IAED;;OAEG;IACH,IAAI,cAAc,IAAI,OAAO,CAE5B;CACD"}

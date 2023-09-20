@@ -1,0 +1,1 @@
+{"version":3,"file":"ChatMessageAttributes.d.ts","sourceRoot":"","sources":["../src/ChatMessageAttributes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,wBAAwB,CAAC;AAErD;;GAEG;AACH,MAAM,WAAW,wBAAwB;IACxC;;OAEG;IACH,OAAO,CAAC,EAAE,MAAM,GAAG,WAAW,CAAC;CAC/B;AAED,eAAe;AACf,wBAAgB,gBAAgB,CAAC,OAAO,EAAE,MAAM,GAAG,WAAW,GAAG,MAAM,CAEtE"}

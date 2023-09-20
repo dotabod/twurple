@@ -1,0 +1,1 @@
+{"version":3,"file":"user.input.d.ts","sourceRoot":"","sources":["../../../src/interfaces/endpoints/user.input.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,eAAe;IAC/B,WAAW,CAAC,EAAE,MAAM,CAAC;CACrB;AAED;;GAEG;AACH,MAAM,WAAW,4BAA4B;IAC5C;;OAEG;IACH,aAAa,CAAC,EAAE,MAAM,GAAG,SAAS,CAAC;IAEnC;;OAEG;IACH,MAAM,CAAC,EAAE,MAAM,GAAG,YAAY,GAAG,OAAO,CAAC;CACzC"}

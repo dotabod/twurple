@@ -1,0 +1,1 @@
+{"version":3,"file":"HelixPrivilegedUser.d.ts","sourceRoot":"","sources":["../../../src/endpoints/user/HelixPrivilegedUser.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AAExC;;;;GAIG;AACH,qBACa,mBAAoB,SAAQ,SAAS;IAGjD;;OAEG;IACH,IAAI,KAAK,IAAI,MAAM,GAAG,SAAS,CAE9B;IAED;;;;OAIG;IACG,cAAc,CAAC,WAAW,EAAE,MAAM,GAAG,OAAO,CAAC,mBAAmB,CAAC;CAGvE"}

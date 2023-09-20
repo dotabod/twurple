@@ -1,0 +1,1 @@
+{"version":3,"file":"subscription.input.d.ts","sourceRoot":"","sources":["../../../src/interfaces/endpoints/subscription.input.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,iBAAiB,EAAE,MAAM,iDAAiD,CAAC;AACzF,OAAO,EAAE,KAAK,6BAA6B,EAAE,MAAM,6CAA6C,CAAC;AAEjG;;GAEG;AACH,MAAM,WAAW,iCAAkC,SAAQ,6BAA6B,CAAC,iBAAiB,CAAC;IAC1G;;OAEG;IACH,MAAM,EAAE,MAAM,CAAC;CACf"}

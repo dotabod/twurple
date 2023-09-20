@@ -1,0 +1,1 @@
+{"version":3,"file":"StreamNotLiveError.d.ts","sourceRoot":"","sources":["../../src/errors/StreamNotLiveError.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,iBAAiB,CAAC;AAE9C;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,WAAW;IAClD,eAAe;gBACH,OAAO,CAAC,EAAE,YAAY;CAGlC"}

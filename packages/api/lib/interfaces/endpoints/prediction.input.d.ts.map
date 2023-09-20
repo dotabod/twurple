@@ -1,0 +1,1 @@
+{"version":3,"file":"prediction.input.d.ts","sourceRoot":"","sources":["../../../src/interfaces/endpoints/prediction.input.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,yBAAyB;IACzC;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;IAEd;;OAEG;IACH,QAAQ,EAAE,MAAM,EAAE,CAAC;IAEnB;;OAEG;IACH,aAAa,EAAE,MAAM,CAAC;CACtB"}

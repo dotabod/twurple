@@ -1,0 +1,1 @@
+{"version":3,"file":"poll.input.d.ts","sourceRoot":"","sources":["../../../src/interfaces/endpoints/poll.input.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,mBAAmB;IACnC;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;IAEd;;OAEG;IACH,OAAO,EAAE,MAAM,EAAE,CAAC;IAElB;;OAEG;IACH,QAAQ,EAAE,MAAM,CAAC;IAEjB;;OAEG;IACH,oBAAoB,CAAC,EAAE,MAAM,CAAC;CAC9B"}
