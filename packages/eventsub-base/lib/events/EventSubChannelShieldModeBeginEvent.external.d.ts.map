@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubChannelShieldModeBeginEvent.external.d.ts","sourceRoot":"","sources":["../../src/events/EventSubChannelShieldModeBeginEvent.external.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,kCAAkC,EAAE,MAAM,2CAA2C,CAAC;AAEpG,eAAe;AACf,MAAM,WAAW,uCAAwC,SAAQ,kCAAkC;IAClG,UAAU,EAAE,MAAM,CAAC;CACnB"}

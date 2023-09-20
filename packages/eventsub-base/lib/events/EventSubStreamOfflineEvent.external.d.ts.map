@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubStreamOfflineEvent.external.d.ts","sourceRoot":"","sources":["../../src/events/EventSubStreamOfflineEvent.external.ts"],"names":[],"mappings":"AAAA,eAAe;AACf,MAAM,WAAW,8BAA8B;IAC9C,mBAAmB,EAAE,MAAM,CAAC;IAC5B,sBAAsB,EAAE,MAAM,CAAC;IAC/B,qBAAqB,EAAE,MAAM,CAAC;CAC9B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubUserAuthorizationGrantEvent.external.d.ts","sourceRoot":"","sources":["../../src/events/EventSubUserAuthorizationGrantEvent.external.ts"],"names":[],"mappings":"AAAA,eAAe;AACf,MAAM,WAAW,uCAAuC;IACvD,SAAS,EAAE,MAAM,CAAC;IAClB,OAAO,EAAE,MAAM,CAAC;IAChB,UAAU,EAAE,MAAM,CAAC;IACnB,SAAS,EAAE,MAAM,CAAC;CAClB"}

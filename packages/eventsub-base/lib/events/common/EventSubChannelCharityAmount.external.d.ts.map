@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubChannelCharityAmount.external.d.ts","sourceRoot":"","sources":["../../../src/events/common/EventSubChannelCharityAmount.external.ts"],"names":[],"mappings":"AAAA,eAAe;AACf,MAAM,WAAW,gCAAgC;IAChD,KAAK,EAAE,MAAM,CAAC;IACd,cAAc,EAAE,MAAM,CAAC;IACvB,QAAQ,EAAE,MAAM,CAAC;CACjB"}

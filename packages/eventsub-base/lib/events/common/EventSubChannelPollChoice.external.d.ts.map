@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubChannelPollChoice.external.d.ts","sourceRoot":"","sources":["../../../src/events/common/EventSubChannelPollChoice.external.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,kCAAkC,EAAE,MAAM,2CAA2C,CAAC;AAEpG,eAAe;AACf,MAAM,WAAW,6BAA8B,SAAQ,kCAAkC;IACxF,UAAU,EAAE,MAAM,CAAC;IACnB,oBAAoB,EAAE,MAAM,CAAC;IAC7B,KAAK,EAAE,MAAM,CAAC;CACd"}
