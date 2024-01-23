@@ -111,13 +111,14 @@ let HelixPaginatedRequest = class HelixPaginatedRequest {
                 ...this._callOptions.query,
                 after: this._currentCursor,
                 first: this._limitPerPage.toString(),
-                ...additionalOptions.query
-            }
+                ...additionalOptions.query,
+            },
         });
     }
     /** @internal */
     _processResult(result) {
-        this._currentCursor = result.pagination ? result.pagination.cursor : undefined;
+        var _a;
+        this._currentCursor = typeof result.pagination === 'string' ? result.pagination : (_a = result.pagination) === null || _a === void 0 ? void 0 : _a.cursor;
         if (this._currentCursor === undefined) {
             this._isFinished = true;
         }

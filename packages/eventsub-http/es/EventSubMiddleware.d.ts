@@ -1,6 +1,5 @@
 import type { IRouter } from 'express-serve-static-core';
-import type { EventSubHttpBaseConfig } from './EventSubHttpBase';
-import { EventSubHttpBase } from './EventSubHttpBase';
+import { EventSubHttpBase, type EventSubHttpBaseConfig } from './EventSubHttpBase';
 /**
  * The configuration of the EventSub middleware.
  *

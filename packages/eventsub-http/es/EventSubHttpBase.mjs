@@ -1,7 +1,7 @@
 import { __decorate } from "tslib";
 import getRawBody from '@d-fischer/raw-body';
 import { Enumerable } from '@d-fischer/shared-utils';
-import { EventSubBase } from '@twurple/eventsub-base';
+import { EventSubBase, } from '@twurple/eventsub-base';
 import * as crypto from 'crypto';
 /**
  * @private
@@ -54,7 +54,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
         return {
             method: 'webhook',
             callback: await this._buildHookUrl(subscription.id),
-            secret: this._createSecretForSubscription(subscription)
+            secret: this._createSecretForSubscription(subscription),
         };
     }
     /** @private */
@@ -86,7 +86,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
         }
     }
     _createHandleRequest() {
-        return async (req, res, next) => {
+        return async (req, res) => {
             if (req.readableEnded) {
                 throw new Error('The request body was already consumed by something else.\n' +
                     "Please make sure you don't globally apply middlewares that consume the request body, " +
@@ -134,54 +134,59 @@ To use your legacy subscriptions without having to clean them up and resubscribi
                 res.end('Not OK');
                 return;
             }
-            if (type === 'webhook_callback_verification') {
-                const verificationBody = data;
-                this.emit(this.onVerify, true, subscription);
-                subscription._verify();
-                if (twitchSubscription) {
-                    twitchSubscription._status = 'enabled';
+            switch (type) {
+                case 'webhook_callback_verification': {
+                    const verificationBody = data;
+                    this.emit(this.onVerify, true, subscription);
+                    subscription._verify();
+                    if (twitchSubscription) {
+                        twitchSubscription._status = 'enabled';
+                    }
+                    res.setHeader('Content-Length', verificationBody.challenge.length);
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.writeHead(200, undefined);
+                    res.end(verificationBody.challenge);
+                    this._logger.debug(`Successfully subscribed to event: ${id}`);
+                    break;
                 }
-                res.setHeader('Content-Length', verificationBody.challenge.length);
-                res.setHeader('Content-Type', 'text/plain');
-                res.writeHead(200, undefined);
-                res.end(verificationBody.challenge);
-                this._logger.debug(`Successfully subscribed to event: ${id}`);
-            }
-            else if (type === 'notification') {
-                if (new Date(timestamp).getTime() < Date.now() - 10 * 60 * 1000) {
-                    this._logger.debug(`Old notification(s) prevented for event: ${id}`);
-                }
-                else {
-                    const payload = data;
-                    if ('events' in payload) {
-                        for (const event of payload.events) {
-                            this._handleSingleEventPayload(subscription, event.data, event.id);
-                        }
+                case 'notification': {
+                    if (new Date(timestamp).getTime() < Date.now() - 10 * 60 * 1000) {
+                        this._logger.debug(`Old notification(s) prevented for event: ${id}`);
                     }
                     else {
-                        this._handleSingleEventPayload(subscription, payload.event, messageId);
+                        const payload = data;
+                        if ('events' in payload) {
+                            for (const event of payload.events) {
+                                this._handleSingleEventPayload(subscription, event.data, event.id);
+                            }
+                        }
+                        else {
+                            this._handleSingleEventPayload(subscription, payload.event, messageId);
+                        }
                     }
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.writeHead(202);
+                    res.end('OK');
+                    break;
                 }
-                res.setHeader('Content-Type', 'text/plain');
-                res.writeHead(202);
-                res.end('OK');
+                case 'revocation': {
+                    this._dropSubscription(subscription.id);
+                    this._dropTwitchSubscription(subscription.id);
+                    this.emit(this.onRevoke, subscription);
+                    this._logger.debug(`Subscription revoked by Twitch for event: ${id}`);
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.writeHead(202);
+                    res.end('OK');
+                    break;
+                }
+                default: {
+                    this._logger.warn(`Unknown action ${type} for event: ${id}`);
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.writeHead(400);
+                    res.end('Not OK');
+                    break;
+                }
             }
-            else if (type === 'revocation') {
-                this._dropSubscription(subscription.id);
-                this._dropTwitchSubscription(subscription.id);
-                this.emit(this.onRevoke, subscription);
-                this._logger.debug(`Subscription revoked by Twitch for event: ${id}`);
-                res.setHeader('Content-Type', 'text/plain');
-                res.writeHead(202);
-                res.end('OK');
-            }
-            else {
-                this._logger.warn(`Unknown action ${type} for event: ${id}`);
-                res.setHeader('Content-Type', 'text/plain');
-                res.writeHead(400);
-                res.end('Not OK');
-            }
-            next();
         };
     }
     _createDropLegacyRequest() {
@@ -228,7 +233,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
                 // localhost is always fine
                 return false;
             }
-            const host = req.headers.host;
+            const { host } = req.headers;
             if (host === undefined) {
                 this._logger.debug(`Denied request from ${ip} because its host header is empty`);
                 return true;

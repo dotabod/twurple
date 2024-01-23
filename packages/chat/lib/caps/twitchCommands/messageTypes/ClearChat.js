@@ -6,7 +6,7 @@ class ClearChat extends ircv3_1.Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
             channel: { type: 'channel' },
-            user: { trailing: true, optional: true }
+            user: { trailing: true, optional: true },
         });
     }
     get date() {

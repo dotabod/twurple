@@ -2,7 +2,7 @@ import { __decorate } from "tslib";
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
 import { createModeratorActionQuery, createSingleKeyQuery } from "../../interfaces/endpoints/generic.external.mjs";
-import { createAutoModProcessBody, createAutoModSettingsBody, createBanUserBody, createModerationUserListQuery, createModeratorModifyQuery, createUpdateShieldModeStatusBody } from "../../interfaces/endpoints/moderation.external.mjs";
+import { createAutoModProcessBody, createAutoModSettingsBody, createBanUserBody, createModerationUserListQuery, createModeratorModifyQuery, createUpdateShieldModeStatusBody, } from "../../interfaces/endpoints/moderation.external.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { createPaginatedResult } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
@@ -45,8 +45,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderation:read'],
             query: {
                 ...createModerationUserListQuery(channel, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return createPaginatedResult(result, HelixBan, this._client);
     }
@@ -60,9 +60,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             url: 'moderation/banned',
             userId: extractUserId(channel),
             scopes: ['moderation:read'],
-            query: createBroadcasterQuery(channel)
-        }, this._client, data => new HelixBan(data, this._client), 50 // possibly a relatively consistent workaround for twitchdev/issues#18
-        );
+            query: createBroadcasterQuery(channel),
+        }, this._client, data => new HelixBan(data, this._client), 50);
     }
     /**
      * Checks whether a given user is banned in a given channel.
@@ -91,8 +90,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderation:read', 'channel:manage:moderators'],
             query: {
                 ...createModerationUserListQuery(channel, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return createPaginatedResult(result, HelixModerator, this._client);
     }
@@ -106,7 +105,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             url: 'moderation/moderators',
             userId: extractUserId(channel),
             scopes: ['moderation:read', 'channel:manage:moderators'],
-            query: createBroadcasterQuery(channel)
+            query: createBroadcasterQuery(channel),
         }, this._client, data => new HelixModerator(data, this._client));
     }
     /**
@@ -133,7 +132,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             method: 'POST',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:moderators'],
-            query: createModeratorModifyQuery(broadcaster, user)
+            query: createModeratorModifyQuery(broadcaster, user),
         });
     }
     /**
@@ -149,7 +148,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             method: 'DELETE',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:moderators'],
-            query: createModeratorModifyQuery(broadcaster, user)
+            query: createModeratorModifyQuery(broadcaster, user),
         });
     }
     /**
@@ -167,8 +166,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderation:read'],
             query: createBroadcasterQuery(channel),
             jsonBody: {
-                data
-            }
+                data,
+            },
         });
         return result.data.map(statusData => new HelixAutoModStatus(statusData));
     }
@@ -186,7 +185,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             method: 'POST',
             userId: extractUserId(user),
             scopes: ['moderator:manage:automod'],
-            jsonBody: createAutoModProcessBody(user, msgId, allow)
+            jsonBody: createAutoModProcessBody(user, msgId, allow),
         });
     }
     /**
@@ -206,7 +205,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             userId: broadcasterId,
             scopes: ['moderator:read:automod_settings'],
             canOverrideScopedUserContext: true,
-            query: this._createModeratorActionQuery(broadcasterId)
+            query: this._createModeratorActionQuery(broadcasterId),
         });
         return result.data.map(data => new HelixAutoModSettings(data));
     }
@@ -230,7 +229,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderator:manage:automod_settings'],
             canOverrideScopedUserContext: true,
             query: this._createModeratorActionQuery(broadcasterId),
-            jsonBody: createAutoModSettingsBody(data)
+            jsonBody: createAutoModSettingsBody(data),
         });
         return result.data.map(settingsData => new HelixAutoModSettings(settingsData));
     }
@@ -258,7 +257,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderator:manage:banned_users'],
             canOverrideScopedUserContext: true,
             query: this._createModeratorActionQuery(broadcasterId),
-            jsonBody: createBanUserBody(data)
+            jsonBody: createBanUserBody(data),
         });
         return result.data.map(banData => new HelixBanUser(banData, banData.end_time, this._client));
     }
@@ -283,8 +282,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             canOverrideScopedUserContext: true,
             query: {
                 ...this._createModeratorActionQuery(broadcasterId),
-                ...createSingleKeyQuery('user_id', extractUserId(user))
-            }
+                ...createSingleKeyQuery('user_id', extractUserId(user)),
+            },
         });
     }
     /**
@@ -311,8 +310,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             canOverrideScopedUserContext: true,
             query: {
                 ...this._createModeratorActionQuery(broadcasterId),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResult(result, HelixBlockedTerm, this._client);
     }
@@ -339,8 +338,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             canOverrideScopedUserContext: true,
             query: this._createModeratorActionQuery(broadcasterId),
             jsonBody: {
-                text
-            }
+                text,
+            },
         });
         return result.data.map(blockedTermData => new HelixBlockedTerm(blockedTermData));
     }
@@ -363,8 +362,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             canOverrideScopedUserContext: true,
             query: {
                 ...this._createModeratorActionQuery(broadcasterId),
-                id
-            }
+                id,
+            },
         });
     }
     /**
@@ -388,8 +387,8 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             canOverrideScopedUserContext: true,
             query: {
                 ...this._createModeratorActionQuery(broadcasterId),
-                ...createSingleKeyQuery('message_id', messageId)
-            }
+                ...createSingleKeyQuery('message_id', messageId),
+            },
         });
     }
     /**
@@ -406,7 +405,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             userId: broadcasterId,
             scopes: ['moderator:read:shield_mode', 'moderator:manage:shield_mode'],
             canOverrideScopedUserContext: true,
-            query: this._createModeratorActionQuery(broadcasterId)
+            query: this._createModeratorActionQuery(broadcasterId),
         });
         return new HelixShieldModeStatus(result.data[0], this._client);
     }
@@ -430,7 +429,7 @@ let HelixModerationApi = class HelixModerationApi extends BaseApi {
             scopes: ['moderator:manage:shield_mode'],
             canOverrideScopedUserContext: true,
             query: this._createModeratorActionQuery(broadcasterId),
-            jsonBody: createUpdateShieldModeStatusBody(activate)
+            jsonBody: createUpdateShieldModeStatusBody(activate),
         });
         return new HelixShieldModeStatus(result.data[0], this._client);
     }

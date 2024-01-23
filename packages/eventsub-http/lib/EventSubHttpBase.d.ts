@@ -1,6 +1,5 @@
 import type { HelixEventSubSubscription, HelixEventSubWebHookTransportOptions } from '@twurple/api';
-import type { EventSubBaseConfig, EventSubNotificationPayload, EventSubSubscription, EventSubSubscriptionBody } from '@twurple/eventsub-base';
-import { EventSubBase } from '@twurple/eventsub-base';
+import { EventSubBase, type EventSubBaseConfig, type EventSubNotificationPayload, type EventSubSubscription, type EventSubSubscriptionBody } from '@twurple/eventsub-base';
 import type { Request, RequestHandler } from 'httpanda';
 /** @private */
 export interface EventSubVerificationPayload {

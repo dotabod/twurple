@@ -14,7 +14,7 @@ let HelixPaginatedScheduleSegmentRequest = class HelixPaginatedScheduleSegmentRe
     constructor(broadcaster, client, filter) {
         super({
             url: 'schedule',
-            query: (0, schedule_external_1.createScheduleQuery)(broadcaster, filter)
+            query: (0, schedule_external_1.createScheduleQuery)(broadcaster, filter),
         }, client, data => new HelixScheduleSegment_1.HelixScheduleSegment(data, client), 25);
     }
     // sadly, this hack is necessary to work around the weird data model of schedules
@@ -25,7 +25,7 @@ let HelixPaginatedScheduleSegmentRequest = class HelixPaginatedScheduleSegmentRe
         const origData = (await super._fetchData(additionalOptions));
         return {
             data: (_a = origData.data.segments) !== null && _a !== void 0 ? _a : [],
-            pagination: origData.pagination
+            pagination: origData.pagination,
         };
     }
 };

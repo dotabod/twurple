@@ -74,6 +74,12 @@ let CommunitySubEvent = class CommunitySubEvent {
         return this._info.plan;
     }
     /**
+     * The number of subscriptions that were gifted.
+     */
+    get count() {
+        return this._info.count;
+    }
+    /**
      * The full object that contains all the message information.
      */
     get messageObject() {

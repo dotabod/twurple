@@ -2,7 +2,7 @@ import { Message } from 'ircv3';
 class RoomState extends Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
-            channel: { type: 'channel' }
+            channel: { type: 'channel' },
         });
     }
 }

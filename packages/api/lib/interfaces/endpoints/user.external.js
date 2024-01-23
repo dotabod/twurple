@@ -7,14 +7,14 @@ function createUserBlockCreateQuery(target, additionalInfo) {
     return {
         target_user_id: (0, common_1.extractUserId)(target),
         source_context: additionalInfo.sourceContext,
-        reason: additionalInfo.reason
+        reason: additionalInfo.reason,
     };
 }
 exports.createUserBlockCreateQuery = createUserBlockCreateQuery;
 /** @internal */
 function createUserBlockDeleteQuery(target) {
     return {
-        target_user_id: (0, common_1.extractUserId)(target)
+        target_user_id: (0, common_1.extractUserId)(target),
     };
 }
 exports.createUserBlockDeleteQuery = createUserBlockDeleteQuery;

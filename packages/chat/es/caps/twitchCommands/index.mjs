@@ -7,5 +7,5 @@ import { Whisper } from "./messageTypes/Whisper.mjs";
 /** @internal */
 export const TwitchCommandsCapability = {
     name: 'twitch.tv/commands',
-    messageTypes: [ClearChat, Reconnect, RoomState, UserNotice, UserState, Whisper]
+    messageTypes: [ClearChat, Reconnect, RoomState, UserNotice, UserState, Whisper],
 };

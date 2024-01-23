@@ -6,7 +6,7 @@ const common_1 = require("@twurple/common");
 function createSubscriptionCheckQuery(broadcaster, user) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        user_id: (0, common_1.extractUserId)(user)
+        user_id: (0, common_1.extractUserId)(user),
     };
 }
 exports.createSubscriptionCheckQuery = createSubscriptionCheckQuery;

@@ -3,6 +3,6 @@ import { extractUserId } from '@twurple/common';
 export function createSubscriptionCheckQuery(broadcaster, user) {
     return {
         broadcaster_id: extractUserId(broadcaster),
-        user_id: extractUserId(user)
+        user_id: extractUserId(user),
     };
 }

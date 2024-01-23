@@ -80,6 +80,18 @@ let HelixChannel = class HelixChannel extends DataObject {
     get tags() {
         return this[rawDataSymbol].tags;
     }
+    /**
+     * The content classification labels applied to the channel.
+     */
+    get contentClassificationLabels() {
+        return this[rawDataSymbol].content_classification_labels;
+    }
+    /**
+     * Whether the channel currently displays branded content (as specified by the broadcaster).
+     */
+    get isBrandedContent() {
+        return this[rawDataSymbol].is_branded_content;
+    }
 };
 __decorate([
     Enumerable(false)

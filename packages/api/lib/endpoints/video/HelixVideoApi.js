@@ -30,7 +30,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi_1.Base
         super(...arguments);
         /** @internal */
         this._getVideoByIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'videos'
+            url: 'videos',
         }, 'id', 'id', this._client, (data) => new HelixVideo_1.HelixVideo(data, this._client));
     }
     /**
@@ -119,8 +119,8 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi_1.Base
             scopes: ['channel:manage:videos'],
             userId: (0, common_1.extractUserId)(broadcaster),
             query: {
-                id: ids
-            }
+                id: ids,
+            },
         });
     }
     /** @internal */
@@ -134,8 +134,8 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi_1.Base
             userId: filterType === 'user_id' ? filterValues[0] : undefined,
             query: {
                 ...HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter),
-                ...(0, HelixPagination_1.createPaginationQuery)(filter)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(filter),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixVideo_1.HelixVideo, this._client);
     }
@@ -144,7 +144,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi_1.Base
         return new HelixPaginatedRequest_1.HelixPaginatedRequest({
             url: 'videos',
             userId: filterType === 'user_id' ? filterValues[0] : undefined,
-            query: HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter)
+            query: HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter),
         }, this._client, data => new HelixVideo_1.HelixVideo(data, this._client));
     }
     /** @internal */
@@ -155,7 +155,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi_1.Base
             language,
             period,
             sort: orderBy,
-            type
+            type,
         };
     }
 };

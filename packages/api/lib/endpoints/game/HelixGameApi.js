@@ -29,15 +29,15 @@ let HelixGameApi = class HelixGameApi extends BaseApi_1.BaseApi {
         super(...arguments);
         /** @internal */
         this._getGameByIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'id', 'id', this._client, (data) => new HelixGame_1.HelixGame(data, this._client));
         /** @internal */
         this._getGameByNameBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'name', 'name', this._client, (data) => new HelixGame_1.HelixGame(data, this._client));
         /** @internal */
         this._getGameByIgdbIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'igdb_id', 'igdb_id', this._client, (data) => new HelixGame_1.HelixGame(data, this._client));
     }
     /**
@@ -129,7 +129,7 @@ let HelixGameApi = class HelixGameApi extends BaseApi_1.BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'games/top',
-            query: (0, HelixPagination_1.createPaginationQuery)(pagination)
+            query: (0, HelixPagination_1.createPaginationQuery)(pagination),
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixGame_1.HelixGame, this._client);
     }
@@ -138,7 +138,7 @@ let HelixGameApi = class HelixGameApi extends BaseApi_1.BaseApi {
      */
     getTopGamesPaginated() {
         return new HelixPaginatedRequest_1.HelixPaginatedRequest({
-            url: 'games/top'
+            url: 'games/top',
         }, this._client, data => new HelixGame_1.HelixGame(data, this._client));
     }
     /** @internal */
@@ -150,8 +150,8 @@ let HelixGameApi = class HelixGameApi extends BaseApi_1.BaseApi {
             type: 'helix',
             url: 'games',
             query: {
-                [filterType]: filterValues
-            }
+                [filterType]: filterValues,
+            },
         });
         return result.data.map(entry => new HelixGame_1.HelixGame(entry, this._client));
     }

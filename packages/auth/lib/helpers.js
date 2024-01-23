@@ -14,7 +14,7 @@ function createAccessTokenFromData(data) {
         refreshToken: data.refresh_token || null,
         scope: (_a = data.scope) !== null && _a !== void 0 ? _a : [],
         expiresIn: (_b = data.expires_in) !== null && _b !== void 0 ? _b : null,
-        obtainmentTimestamp: Date.now()
+        obtainmentTimestamp: Date.now(),
     };
 }
 /**
@@ -32,7 +32,7 @@ async function exchangeCode(clientId, clientSecret, code, redirectUri) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: (0, helpers_external_1.createExchangeCodeQuery)(clientId, clientSecret, code, redirectUri)
+        query: (0, helpers_external_1.createExchangeCodeQuery)(clientId, clientSecret, code, redirectUri),
     }));
 }
 exports.exchangeCode = exchangeCode;
@@ -47,7 +47,7 @@ async function getAppToken(clientId, clientSecret) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: (0, helpers_external_1.createGetAppTokenQuery)(clientId, clientSecret)
+        query: (0, helpers_external_1.createGetAppTokenQuery)(clientId, clientSecret),
     }));
 }
 exports.getAppToken = getAppToken;
@@ -63,7 +63,7 @@ async function refreshUserToken(clientId, clientSecret, refreshToken) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: (0, helpers_external_1.createRefreshTokenQuery)(clientId, clientSecret, refreshToken)
+        query: (0, helpers_external_1.createRefreshTokenQuery)(clientId, clientSecret, refreshToken),
     }));
 }
 exports.refreshUserToken = refreshUserToken;
@@ -78,7 +78,7 @@ async function revokeToken(clientId, accessToken) {
         type: 'auth',
         url: 'revoke',
         method: 'POST',
-        query: (0, helpers_external_1.createRevokeTokenQuery)(clientId, accessToken)
+        query: (0, helpers_external_1.createRevokeTokenQuery)(clientId, accessToken),
     });
 }
 exports.revokeToken = revokeToken;
@@ -203,7 +203,7 @@ const scopeEquivalencies = new Map([
     ['user_follows_edit', ['user:edit:follows']],
     ['user_read', ['user:read:email']],
     ['user_subscriptions', ['user:read:subscriptions']],
-    ['user:edit:broadcast', ['channel:manage:broadcast', 'channel:manage:extensions']]
+    ['user:edit:broadcast', ['channel:manage:broadcast', 'channel:manage:extensions']],
 ]);
 /**
  * Compares scopes for a non-upgradable {@link AuthProvider} instance.
@@ -247,6 +247,7 @@ exports.compareScopeSets = compareScopeSets;
  * @param requestedScopeSets The scope sets you requested.
  */
 async function loadAndCompareTokenInfo(clientId, token, userId, loadedScopes, requestedScopeSets) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if ((requestedScopeSets === null || requestedScopeSets === void 0 ? void 0 : requestedScopeSets.length) || !userId) {
         const userInfo = await getTokenInfo(token, clientId);
         if (!userInfo.userId) {

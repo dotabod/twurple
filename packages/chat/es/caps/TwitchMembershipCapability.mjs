@@ -5,5 +5,5 @@
  * @internal
  */
 export const TwitchMembershipCapability = {
-    name: 'twitch.tv/membership'
+    name: 'twitch.tv/membership',
 };

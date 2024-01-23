@@ -25,7 +25,7 @@ class HelixExtensionSecretList extends common_1.DataObject {
         for (const secret of this.currentSecrets) {
             try {
                 const { payload } = await (0, jose_1.jwtVerify)(token, jose_1.base64url.decode(secret), {
-                    algorithms: ['HS256']
+                    algorithms: ['HS256'],
                 });
                 return payload;
             }

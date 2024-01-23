@@ -10,7 +10,7 @@ exports.createSingleKeyQuery = createSingleKeyQuery;
 /** @internal */
 function createUserQuery(user) {
     return {
-        user_id: (0, common_1.extractUserId)(user)
+        user_id: (0, common_1.extractUserId)(user),
     };
 }
 exports.createUserQuery = createUserQuery;
@@ -18,7 +18,7 @@ exports.createUserQuery = createUserQuery;
 function createModeratorActionQuery(broadcaster, moderatorId) {
     return {
         broadcaster_id: broadcaster,
-        moderator_id: moderatorId
+        moderator_id: moderatorId,
     };
 }
 exports.createModeratorActionQuery = createModeratorActionQuery;
@@ -26,7 +26,7 @@ exports.createModeratorActionQuery = createModeratorActionQuery;
 function createGetByIdsQuery(broadcaster, rewardIds) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        id: rewardIds
+        id: rewardIds,
     };
 }
 exports.createGetByIdsQuery = createGetByIdsQuery;
@@ -34,7 +34,7 @@ exports.createGetByIdsQuery = createGetByIdsQuery;
 function createChannelUsersCheckQuery(broadcaster, users) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        user_id: users.map(common_1.extractUserId)
+        user_id: users.map(common_1.extractUserId),
     };
 }
 exports.createChannelUsersCheckQuery = createChannelUsersCheckQuery;

@@ -5,7 +5,7 @@ exports.createExtensionTransactionQuery = exports.createExtensionProductBody = e
 function createReleasedExtensionFilter(extensionId, version) {
     return {
         extension_id: extensionId,
-        extension_version: version
+        extension_version: version,
     };
 }
 exports.createReleasedExtensionFilter = createReleasedExtensionFilter;
@@ -15,12 +15,12 @@ function createExtensionProductBody(data) {
         sku: data.sku,
         cost: {
             amount: data.cost,
-            type: 'bits'
+            type: 'bits',
         },
         display_name: data.displayName,
         in_development: data.inDevelopment,
         expiration: data.expirationDate,
-        is_broadcast: data.broadcast
+        is_broadcast: data.broadcast,
     };
 }
 exports.createExtensionProductBody = createExtensionProductBody;
@@ -28,7 +28,7 @@ exports.createExtensionProductBody = createExtensionProductBody;
 function createExtensionTransactionQuery(extensionId, filter) {
     return {
         extension_id: extensionId,
-        id: filter.transactionIds
+        id: filter.transactionIds,
     };
 }
 exports.createExtensionTransactionQuery = createExtensionTransactionQuery;

@@ -10,5 +10,5 @@ const Whisper_1 = require("./messageTypes/Whisper");
 /** @internal */
 exports.TwitchCommandsCapability = {
     name: 'twitch.tv/commands',
-    messageTypes: [ClearChat_1.ClearChat, Reconnect_1.Reconnect, RoomState_1.RoomState, UserNotice_1.UserNotice, UserState_1.UserState, Whisper_1.Whisper]
+    messageTypes: [ClearChat_1.ClearChat, Reconnect_1.Reconnect, RoomState_1.RoomState, UserNotice_1.UserNotice, UserState_1.UserState, Whisper_1.Whisper],
 };

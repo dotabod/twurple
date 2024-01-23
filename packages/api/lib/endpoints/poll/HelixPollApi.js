@@ -42,8 +42,8 @@ let HelixPollApi = class HelixPollApi extends BaseApi_1.BaseApi {
             scopes: ['channel:read:polls'],
             query: {
                 ...(0, api_call_1.createBroadcasterQuery)(broadcaster),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixPoll_1.HelixPoll, this._client);
     }
@@ -57,7 +57,7 @@ let HelixPollApi = class HelixPollApi extends BaseApi_1.BaseApi {
             url: 'polls',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:polls'],
-            query: (0, api_call_1.createBroadcasterQuery)(broadcaster)
+            query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
         }, this._client, data => new HelixPoll_1.HelixPoll(data, this._client), 20);
     }
     /**
@@ -75,7 +75,7 @@ let HelixPollApi = class HelixPollApi extends BaseApi_1.BaseApi {
             url: 'polls',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:polls'],
-            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, ids)
+            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, ids),
         });
         return result.data.map(data => new HelixPoll_1.HelixPoll(data, this._client));
     }
@@ -104,7 +104,7 @@ let HelixPollApi = class HelixPollApi extends BaseApi_1.BaseApi {
             method: 'POST',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:polls'],
-            jsonBody: (0, poll_external_1.createPollBody)(broadcaster, data)
+            jsonBody: (0, poll_external_1.createPollBody)(broadcaster, data),
         });
         return new HelixPoll_1.HelixPoll(result.data[0], this._client);
     }
@@ -122,7 +122,7 @@ let HelixPollApi = class HelixPollApi extends BaseApi_1.BaseApi {
             method: 'PATCH',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:polls'],
-            jsonBody: (0, poll_external_1.createPollEndBody)(broadcaster, id, showResult)
+            jsonBody: (0, poll_external_1.createPollEndBody)(broadcaster, id, showResult),
         });
         return new HelixPoll_1.HelixPoll(result.data[0], this._client);
     }

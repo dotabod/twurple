@@ -1,4 +1,4 @@
-import type { Message } from 'ircv3';
+import { type Message } from 'ircv3';
 /**
  * Parses a raw message from Twitch into a message object.
  *

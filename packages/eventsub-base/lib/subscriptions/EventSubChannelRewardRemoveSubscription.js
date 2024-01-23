@@ -29,9 +29,7 @@ let EventSubChannelRewardRemoveSubscription = class EventSubChannelRewardRemoveS
         if (this._rewardId) {
             return await this._client._apiClient.eventSub.subscribeToChannelRewardRemoveEventsForReward(this._userId, this._rewardId, await this._getTransportOptions());
         }
-        else {
-            return await this._client._apiClient.eventSub.subscribeToChannelRewardRemoveEvents(this._userId, await this._getTransportOptions());
-        }
+        return await this._client._apiClient.eventSub.subscribeToChannelRewardRemoveEvents(this._userId, await this._getTransportOptions());
     }
 };
 EventSubChannelRewardRemoveSubscription = tslib_1.__decorate([

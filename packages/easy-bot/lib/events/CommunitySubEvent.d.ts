@@ -39,6 +39,10 @@ export declare class CommunitySubEvent {
      */
     get plan(): string;
     /**
+     * The number of subscriptions that were gifted.
+     */
+    get count(): number;
+    /**
      * The full object that contains all the message information.
      */
     get messageObject(): UserNotice;

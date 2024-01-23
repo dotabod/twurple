@@ -1,8 +1,8 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixClipData } from '../../interfaces/endpoints/clip.external';
 import { type HelixClipCreateParams, type HelixClipFilter, type HelixPaginatedClipFilter } from '../../interfaces/endpoints/clip.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
 import { BaseApi } from '../BaseApi';
 import { HelixClip } from './HelixClip';
 /**

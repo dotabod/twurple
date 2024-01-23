@@ -1,0 +1,1 @@
+{"version":3,"file":"EventSubChannelChatClearEvent.external.d.ts","sourceRoot":"","sources":["../../src/events/EventSubChannelChatClearEvent.external.ts"],"names":[],"mappings":"AAAA,eAAe;AACf,MAAM,WAAW,iCAAiC;IACjD,mBAAmB,EAAE,MAAM,CAAC;IAC5B,sBAAsB,EAAE,MAAM,CAAC;IAC/B,qBAAqB,EAAE,MAAM,CAAC;CAC9B"}

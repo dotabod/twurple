@@ -1,10 +1,10 @@
 var ChatClient_1;
 import { __decorate } from "tslib";
 import { createLogger, LogLevel } from '@d-fischer/logger';
-import { PartitionedTimeBasedRateLimiter, TimeBasedRateLimiter, TimedPassthruRateLimiter } from '@d-fischer/rate-limiter';
-import { delay, Enumerable, fibWithLimit, promiseWithResolvers, resolveConfigValue } from '@d-fischer/shared-utils';
+import { PartitionedTimeBasedRateLimiter, TimeBasedRateLimiter, TimedPassthruRateLimiter, } from '@d-fischer/rate-limiter';
+import { delay, Enumerable, fibWithLimit, promiseWithResolvers, resolveConfigValue, } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
-import { accessTokenIsExpired, getTokenInfo, InvalidTokenError, InvalidTokenTypeError, RefreshingAuthProvider } from '@twurple/auth';
+import { accessTokenIsExpired, getTokenInfo, InvalidTokenError, InvalidTokenTypeError, RefreshingAuthProvider, } from '@twurple/auth';
 import { rtfm } from '@twurple/common';
 import { IrcClient, MessageTypes } from 'ircv3';
 import { TwitchCommandsCapability } from "./caps/twitchCommands/index.mjs";
@@ -413,21 +413,21 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
         this._ircClient = new IrcClient({
             connection: {
                 hostName: (_a = config.hostName) !== null && _a !== void 0 ? _a : (((_b = config.webSocket) !== null && _b !== void 0 ? _b : true) ? 'irc-ws.chat.twitch.tv' : 'irc.chat.twitch.tv'),
-                secure: (_c = config.ssl) !== null && _c !== void 0 ? _c : true
+                secure: (_c = config.ssl) !== null && _c !== void 0 ? _c : true,
             },
             credentials: {
                 nick: '',
-                password: async () => await this._getAuthToken()
+                password: async () => await this._getAuthToken(),
             },
             webSocket: (_d = config.webSocket) !== null && _d !== void 0 ? _d : true,
             connectionOptions: config.connectionOptions,
             logger: {
                 name: 'twurple:chat:irc',
-                ...config.logger
+                ...config.logger,
             },
             nonConformingCommands: ['004'],
             manuallyAcknowledgeJoins: true,
-            rejoinChannelsOnReconnect: config.rejoinChannelsOnReconnect
+            rejoinChannelsOnReconnect: config.rejoinChannelsOnReconnect,
         });
         this._ircClient.onDisconnect((manually, reason) => {
             this._messageRateLimiter.clear();
@@ -439,7 +439,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
         this._ircClient.registerMessageType(ChatMessage);
         this._chatLogger = createLogger({
             name: 'twurple:chat:twitch',
-            ...config.logger
+            ...config.logger,
         });
         this._authProvider = config.authProvider;
         this._useLegacyScopes = !!config.legacyScopes;
@@ -482,7 +482,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
             this._messageRateLimiter = new TimeBasedRateLimiter({
                 bucketSize: config.botLevel === 'verified' ? 7500 : 100,
                 timeFrame: 32000,
-                doRequest: executeChatMessageRequest
+                doRequest: executeChatMessageRequest,
             });
         }
         else {
@@ -498,13 +498,13 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                 timeFrame: 1200,
                 logger: { minLevel: LogLevel.ERROR },
                 doRequest: executeChatMessageRequest,
-                getPartitionKey: ({ channel }) => channel
+                getPartitionKey: ({ channel }) => channel,
             }), { bucketSize, timeFrame: 32000 });
         }
         this._joinRateLimiter = new TimeBasedRateLimiter({
             bucketSize: config.botLevel === 'verified' ? 2000 : 20,
             timeFrame: 11000,
-            doRequest: executeJoinRequest
+            doRequest: executeJoinRequest,
         });
         this._messageRateLimiter.pause();
         this._joinRateLimiter.pause();
@@ -635,7 +635,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         isPrime: plan === 'Prime',
                         months: Number(tags.get('msg-param-cumulative-months')),
                         streak: streakMonths ? Number(streakMonths) : undefined,
-                        message
+                        message,
                     };
                     const wasGifted = tags.get('msg-param-was-gifted') === 'true';
                     if (wasGifted) {
@@ -646,7 +646,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                             subInfo.originalGiftInfo = {
                                 anonymous: true,
                                 duration,
-                                redeemedMonth
+                                redeemedMonth,
                             };
                         }
                         else {
@@ -656,7 +656,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                                 redeemedMonth,
                                 userId: tags.get('msg-param-gifter-id'),
                                 userName: tags.get('msg-param-gifter-login'),
-                                userDisplayName: tags.get('msg-param-gifter-name')
+                                userDisplayName: tags.get('msg-param-gifter-name'),
                             };
                         }
                     }
@@ -678,7 +678,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         plan,
                         planName: tags.get('msg-param-sub-plan-name'),
                         isPrime: plan === 'Prime',
-                        months: Number(tags.get('msg-param-months'))
+                        months: Number(tags.get('msg-param-months')),
                     };
                     this.emit(this.onSubGift, broadcasterName, tags.get('msg-param-recipient-user-name'), subInfo, userNotice);
                     break;
@@ -692,7 +692,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         gifterDisplayName: isAnon ? undefined : tags.get('display-name'),
                         gifterGiftCount: isAnon ? undefined : Number(tags.get('msg-param-sender-count')),
                         count: Number(tags.get('msg-param-mass-gift-count')),
-                        plan: tags.get('msg-param-sub-plan')
+                        plan: tags.get('msg-param-sub-plan'),
                     };
                     this.emit(this.onCommunitySub, broadcasterName, tags.get('login'), communitySubInfo, userNotice);
                     break;
@@ -701,7 +701,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                     const upgradeInfo = {
                         userId: tags.get('user-id'),
                         displayName: tags.get('display-name'),
-                        plan: tags.get('msg-param-sub-plan')
+                        plan: tags.get('msg-param-sub-plan'),
                     };
                     this.emit(this.onPrimePaidUpgrade, broadcasterName, tags.get('login'), upgradeInfo, userNotice);
                     break;
@@ -711,7 +711,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         userId: tags.get('user-id'),
                         displayName: tags.get('display-name'),
                         gifter: tags.get('msg-param-sender-login'),
-                        gifterDisplayName: tags.get('msg-param-sender-name')
+                        gifterDisplayName: tags.get('msg-param-sender-name'),
                     };
                     this.emit(this.onGiftPaidUpgrade, broadcasterName, tags.get('login'), upgradeInfo, userNotice);
                     break;
@@ -726,7 +726,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                             ? undefined
                             : tags.get('msg-param-prior-gifter-display-name'),
                         recipientUserId: tags.get('msg-param-recipient-id'),
-                        recipientDisplayName: tags.get('msg-param-recipient-display-name')
+                        recipientDisplayName: tags.get('msg-param-recipient-display-name'),
                     };
                     this.emit(this.onStandardPayForward, broadcasterName, tags.get('login'), forwardInfo, userNotice);
                     break;
@@ -739,7 +739,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         originalGifterUserId: wasAnon ? undefined : tags.get('msg-param-prior-gifter-id'),
                         originalGifterDisplayName: wasAnon
                             ? undefined
-                            : tags.get('msg-param-prior-gifter-display-name')
+                            : tags.get('msg-param-prior-gifter-display-name'),
                     };
                     this.emit(this.onCommunityPayForward, broadcasterName, tags.get('login'), forwardInfo, userNotice);
                     break;
@@ -748,7 +748,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                     const giftInfo = {
                         name: tags.get('msg-param-gift-name'),
                         gifter: tags.get('login'),
-                        gifterDisplayName: tags.get('display-name')
+                        gifterDisplayName: tags.get('display-name'),
                     };
                     this.emit(this.onPrimeCommunityGift, broadcasterName, tags.get('msg-param-recipient'), giftInfo, userNotice);
                     break;
@@ -756,7 +756,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                 case 'raid': {
                     const raidInfo = {
                         displayName: tags.get('msg-param-displayName'),
-                        viewerCount: Number(tags.get('msg-param-viewerCount'))
+                        viewerCount: Number(tags.get('msg-param-viewerCount')),
                     };
                     this.emit(this.onRaid, broadcasterName, tags.get('login'), raidInfo, userNotice);
                     break;
@@ -768,7 +768,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                 case 'ritual': {
                     const ritualInfo = {
                         ritualName: tags.get('msg-param-ritual-name'),
-                        message
+                        message,
                     };
                     this.emit(this.onRitual, broadcasterName, tags.get('login'), ritualInfo, userNotice);
                     break;
@@ -776,7 +776,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                 case 'bitsbadgetier': {
                     const badgeUpgradeInfo = {
                         displayName: tags.get('display-name'),
-                        threshold: Number(tags.get('msg-param-threshold'))
+                        threshold: Number(tags.get('msg-param-threshold')),
                     };
                     this.emit(this.onBitsBadgeUpgrade, broadcasterName, tags.get('login'), badgeUpgradeInfo, userNotice);
                     break;
@@ -787,7 +787,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         displayName: tags.get('display-name'),
                         plan: tags.get('msg-param-sub-plan'),
                         months: Number(tags.get('msg-param-cumulative-months')),
-                        endMonth: Number(tags.get('msg-param-sub-benefit-end-month'))
+                        endMonth: Number(tags.get('msg-param-sub-benefit-end-month')),
                     };
                     this.emit(this.onSubExtend, broadcasterName, tags.get('login'), extendInfo, userNotice);
                     break;
@@ -799,14 +799,14 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
                         gifterDisplayName: tags.get('display-name'),
                         count: Number(tags.get('msg-param-selected-count')),
                         gifterGiftCount: Number(tags.get('msg-param-total-reward-count')),
-                        triggerType: tags.get('msg-param-trigger-type')
+                        triggerType: tags.get('msg-param-trigger-type'),
                     };
                     this.emit(this.onRewardGift, broadcasterName, tags.get('login'), rewardGiftInfo, userNotice);
                     break;
                 }
                 case 'announcement': {
                     const announcementInfo = {
-                        color: tags.get('msg-param-color')
+                        color: tags.get('msg-param-color'),
                     };
                     this.emit(this.onAnnouncement, broadcasterName, tags.get('login'), announcementInfo, userNotice);
                     break;
@@ -978,7 +978,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
             type: 'say',
             channel: toChannelName(channel),
             text: msg,
-            tags
+            tags,
         }, rateLimiterOptions)));
     }
     /**
@@ -993,7 +993,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
         await Promise.all(texts.map(async (msg) => await this._messageRateLimiter.request({
             type: 'action',
             channel: toChannelName(channel),
-            text: msg
+            text: msg,
         }, rateLimiterOptions)));
     }
     /**
@@ -1062,7 +1062,7 @@ let ChatClient = ChatClient_1 = class ChatClient extends EventEmitter {
             }
             this._chatLogger.warn('No valid token available; trying to refresh');
             try {
-                this._authToken = await ((_b = (_a = this._authProvider).refreshAccessTokenForIntent) === null || _b === void 0 ? void 0 : _b.call(_a, 'chat'));
+                this._authToken = await ((_b = (_a = this._authProvider).refreshAccessTokenForIntent) === null || _b === void 0 ? void 0 : _b.call(_a, intent));
                 if (this._authToken) {
                     const token = await getTokenInfo(this._authToken.accessToken);
                     if (!token.userName) {

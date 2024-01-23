@@ -36,11 +36,11 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
         super(...arguments);
         /** @internal */
         this._getStreamByUserIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'streams'
+            url: 'streams',
         }, 'user_id', 'user_id', this._client, (data) => new HelixStream_1.HelixStream(data, this._client));
         /** @internal */
         this._getStreamByUserNameBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'streams'
+            url: 'streams',
         }, 'user_login', 'user_login', this._client, (data) => new HelixStream_1.HelixStream(data, this._client));
     }
     /**
@@ -55,8 +55,8 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             type: 'helix',
             query: {
                 ...(0, stream_external_1.createStreamQuery)(filter),
-                ...(0, HelixPagination_1.createPaginationQuery)(filter)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(filter),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixStream_1.HelixStream, this._client);
     }
@@ -69,7 +69,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
     getStreamsPaginated(filter = {}) {
         return new HelixPaginatedRequest_1.HelixPaginatedRequest({
             url: 'streams',
-            query: (0, stream_external_1.createStreamQuery)(filter)
+            query: (0, stream_external_1.createStreamQuery)(filter),
         }, this._client, data => new HelixStream_1.HelixStream(data, this._client));
     }
     /**
@@ -119,7 +119,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             url: 'streams',
             type: 'helix',
             userId,
-            query: (0, stream_external_1.createStreamQuery)({ userId })
+            query: (0, stream_external_1.createStreamQuery)({ userId }),
         });
         return (0, shared_utils_1.mapNullable)(result.data[0], data => new HelixStream_1.HelixStream(data, this._client));
     }
@@ -146,15 +146,15 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             type: 'helix',
             query: {
                 ...(0, generic_external_1.createUserQuery)(user),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
             },
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:read:broadcast'],
-            canOverrideScopedUserContext: true
+            canOverrideScopedUserContext: true,
         });
         return {
             data: (0, shared_utils_1.flatten)(result.data.map(data => HelixStreamApi_1._mapGetStreamMarkersResult(data, this._client))),
-            cursor: (_a = result.pagination) === null || _a === void 0 ? void 0 : _a.cursor
+            cursor: (_a = result.pagination) === null || _a === void 0 ? void 0 : _a.cursor,
         };
     }
     /**
@@ -168,7 +168,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             query: (0, generic_external_1.createUserQuery)(user),
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:read:broadcast'],
-            canOverrideScopedUserContext: true
+            canOverrideScopedUserContext: true,
         }, this._client, data => HelixStreamApi_1._mapGetStreamMarkersResult(data, this._client));
     }
     /**
@@ -187,15 +187,15 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             type: 'helix',
             query: {
                 ...(0, stream_external_1.createVideoQuery)(videoId),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
             },
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:read:broadcast'],
-            canOverrideScopedUserContext: true
+            canOverrideScopedUserContext: true,
         });
         return {
             data: (0, shared_utils_1.flatten)(result.data.map(data => HelixStreamApi_1._mapGetStreamMarkersResult(data, this._client))),
-            cursor: (_a = result.pagination) === null || _a === void 0 ? void 0 : _a.cursor
+            cursor: (_a = result.pagination) === null || _a === void 0 ? void 0 : _a.cursor,
         };
     }
     /**
@@ -210,7 +210,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             query: (0, stream_external_1.createVideoQuery)(videoId),
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:read:broadcast'],
-            canOverrideScopedUserContext: true
+            canOverrideScopedUserContext: true,
         }, this._client, data => HelixStreamApi_1._mapGetStreamMarkersResult(data, this._client));
     }
     /**
@@ -230,7 +230,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
                 userId: (0, common_1.extractUserId)(broadcaster),
                 scopes: ['channel:manage:broadcast'],
                 canOverrideScopedUserContext: true,
-                jsonBody: (0, stream_external_1.createStreamMarkerBody)(broadcaster, description)
+                jsonBody: (0, stream_external_1.createStreamMarkerBody)(broadcaster, description),
             });
             return new HelixStreamMarker_1.HelixStreamMarker(result.data[0], this._client);
         }
@@ -253,7 +253,7 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             url: 'streams/key',
             userId,
             scopes: ['channel:read:stream_key'],
-            query: (0, api_call_1.createBroadcasterQuery)(broadcaster)
+            query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
         });
         return result.data[0].stream_key;
     }
@@ -274,8 +274,8 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             scopes: ['user:read:follows'],
             query: {
                 ...(0, generic_external_1.createSingleKeyQuery)('user_id', userId),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixStream_1.HelixStream, this._client);
     }
@@ -290,13 +290,13 @@ let HelixStreamApi = HelixStreamApi_1 = class HelixStreamApi extends BaseApi_1.B
             url: 'streams/followed',
             userId,
             scopes: ['user:read:follows'],
-            query: (0, generic_external_1.createSingleKeyQuery)('user_id', userId)
+            query: (0, generic_external_1.createSingleKeyQuery)('user_id', userId),
         }, this._client, data => new HelixStream_1.HelixStream(data, this._client));
     }
     static _mapGetStreamMarkersResult(data, client) {
         return data.videos.reduce((result, video) => [
             ...result,
-            ...video.markers.map(marker => new HelixStreamMarkerWithVideo_1.HelixStreamMarkerWithVideo(marker, video.video_id, client))
+            ...video.markers.map(marker => new HelixStreamMarkerWithVideo_1.HelixStreamMarkerWithVideo(marker, video.video_id, client)),
         ], []);
     }
 };

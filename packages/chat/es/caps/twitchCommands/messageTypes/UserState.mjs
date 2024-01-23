@@ -3,7 +3,7 @@ import { Message } from 'ircv3';
 class UserState extends Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
-            channel: { type: 'channel' }
+            channel: { type: 'channel' },
         });
     }
 }

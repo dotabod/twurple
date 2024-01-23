@@ -9,6 +9,8 @@ export interface HelixChannelData {
     title: string;
     delay: number;
     tags: string[];
+    content_classification_labels: string[];
+    is_branded_content: boolean;
 }
 /** @private */
 export interface HelixChannelEditorData {
@@ -37,4 +39,19 @@ export interface HelixChannelFollowerData {
     user_login: string;
     user_name: string;
     followed_at: string;
+}
+/** @private */
+export interface HelixAdScheduleData {
+    snooze_count: number;
+    snooze_refresh_at: number;
+    next_ad_at: number;
+    duration: number;
+    last_ad_at: number;
+    preroll_free_time: number;
+}
+/** @private */
+export interface HelixSnoozeNextAdData {
+    snooze_count: number;
+    snooze_refresh_at: number;
+    next_ad_at: number;
 }

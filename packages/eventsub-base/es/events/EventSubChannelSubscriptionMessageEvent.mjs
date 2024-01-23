@@ -95,7 +95,7 @@ let EventSubChannelSubscriptionMessageEvent = class EventSubChannelSubscriptionM
         var _a;
         return new Map(Object.entries(groupBy((_a = this[rawDataSymbol].message.emotes) !== null && _a !== void 0 ? _a : [], 'id')).map(([id, ranges]) => [
             id,
-            ranges.map(({ begin, end }) => `${begin}-${end}`)
+            ranges.map(({ begin, end }) => `${begin}-${end}`),
         ]));
     }
 };

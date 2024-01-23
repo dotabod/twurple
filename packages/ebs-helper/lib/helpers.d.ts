@@ -1,8 +1,7 @@
-import type { UserIdResolvable } from '@twurple/common';
-import { HelixExtension } from '@twurple/common';
+import { HelixExtension, type UserIdResolvable } from '@twurple/common';
 import { HelixExtensionConfigurationSegment } from './classes/HelixExtensionConfigurationSegment';
 import { HelixExtensionSecretList } from './classes/HelixExtensionSecretList';
-import type { BaseExternalJwtConfig } from './jwt';
+import { type BaseExternalJwtConfig } from './jwt';
 /**
  * Configuration for an EBS call.
  *

@@ -1,9 +1,9 @@
-import type { UserIdResolvable, UserNameResolvable } from '@twurple/common';
+import { type UserIdResolvable, type UserNameResolvable } from '@twurple/common';
 import { type HelixStreamData, type HelixStreamGetMarkersResponse } from '../../interfaces/endpoints/stream.external';
 import { type HelixPaginatedStreamFilter, type HelixStreamFilter } from '../../interfaces/endpoints/stream.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination, HelixPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixForwardPagination, type HelixPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixStream } from './HelixStream';
 import { HelixStreamMarker } from './HelixStreamMarker';

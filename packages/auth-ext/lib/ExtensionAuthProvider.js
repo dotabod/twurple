@@ -23,7 +23,7 @@ class ExtensionAuthProvider {
         }
         return {
             ...(await this.getAnyAccessToken()),
-            userId: (0, common_1.extractUserId)(user)
+            userId: (0, common_1.extractUserId)(user),
         };
     }
     async getAnyAccessToken() {
@@ -39,7 +39,7 @@ class ExtensionAuthProvider {
             refreshToken: null,
             expiresIn: null,
             obtainmentTimestamp: Date.now(),
-            scope: []
+            scope: [],
         };
     }
     async refreshAccessTokenForUser(user) {

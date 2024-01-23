@@ -1,10 +1,10 @@
 import { __decorate } from "tslib";
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
-import { createChatColorUpdateQuery, createChatSettingsUpdateBody, createShoutoutQuery } from "../../interfaces/endpoints/chat.external.mjs";
+import { createChatColorUpdateQuery, createChatSettingsUpdateBody, createShoutoutQuery, } from "../../interfaces/endpoints/chat.external.mjs";
 import { createModeratorActionQuery, createSingleKeyQuery } from "../../interfaces/endpoints/generic.external.mjs";
 import { HelixPaginatedRequestWithTotal } from "../../utils/pagination/HelixPaginatedRequestWithTotal.mjs";
-import { createPaginatedResultWithTotal } from "../../utils/pagination/HelixPaginatedResult.mjs";
+import { createPaginatedResultWithTotal, } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
 import { BaseApi } from "../BaseApi.mjs";
 import { HelixChannelEmote } from "./HelixChannelEmote.mjs";
@@ -51,8 +51,8 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             scopes: ['moderator:read:chatters'],
             query: {
                 ...this._createModeratorActionQuery(broadcasterId),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResultWithTotal(result, HelixChatChatter, this._client);
     }
@@ -74,7 +74,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             userId: broadcasterId,
             canOverrideScopedUserContext: true,
             scopes: ['moderator:read:chatters'],
-            query: this._createModeratorActionQuery(broadcasterId)
+            query: this._createModeratorActionQuery(broadcasterId),
         }, this._client, data => new HelixChatChatter(data, this._client));
     }
     /**
@@ -83,7 +83,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
     async getGlobalBadges() {
         const result = await this._client.callApi({
             type: 'helix',
-            url: 'chat/badges/global'
+            url: 'chat/badges/global',
         });
         return result.data.map(data => new HelixChatBadgeSet(data));
     }
@@ -97,7 +97,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             type: 'helix',
             url: 'chat/badges',
             userId: extractUserId(broadcaster),
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return result.data.map(data => new HelixChatBadgeSet(data));
     }
@@ -107,7 +107,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
     async getGlobalEmotes() {
         const result = await this._client.callApi({
             type: 'helix',
-            url: 'chat/emotes/global'
+            url: 'chat/emotes/global',
         });
         return result.data.map(data => new HelixEmote(data));
     }
@@ -121,7 +121,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             type: 'helix',
             url: 'chat/emotes',
             userId: extractUserId(broadcaster),
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return result.data.map(data => new HelixChannelEmote(data, this._client));
     }
@@ -134,7 +134,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'chat/emotes/set',
-            query: createSingleKeyQuery('emote_set_id', setIds)
+            query: createSingleKeyQuery('emote_set_id', setIds),
         });
         return result.data.map(data => new HelixEmoteFromSet(data, this._client));
     }
@@ -148,7 +148,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             type: 'helix',
             url: 'chat/settings',
             userId: extractUserId(broadcaster),
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return new HelixChatSettings(result.data[0]);
     }
@@ -169,7 +169,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             userId: broadcasterId,
             canOverrideScopedUserContext: true,
             scopes: ['moderator:read:chat_settings'],
-            query: this._createModeratorActionQuery(broadcasterId)
+            query: this._createModeratorActionQuery(broadcasterId),
         });
         return new HelixPrivilegedChatSettings(result.data[0]);
     }
@@ -195,7 +195,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             canOverrideScopedUserContext: true,
             scopes: ['moderator:manage:chat_settings'],
             query: this._createModeratorActionQuery(broadcasterId),
-            jsonBody: createChatSettingsUpdateBody(settings)
+            jsonBody: createChatSettingsUpdateBody(settings),
         });
         return new HelixPrivilegedChatSettings(result.data[0]);
     }
@@ -221,8 +221,8 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             query: this._createModeratorActionQuery(broadcasterId),
             jsonBody: {
                 message: announcement.message,
-                color: announcement.color
-            }
+                color: announcement.color,
+            },
         });
     }
     /**
@@ -238,7 +238,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
         const response = await this._client.callApi({
             type: 'helix',
             url: 'chat/color',
-            query: createSingleKeyQuery('user_id', users.map(extractUserId))
+            query: createSingleKeyQuery('user_id', users.map(extractUserId)),
         });
         return new Map(response.data.map(data => [data.user_id, data.color || null]));
     }
@@ -254,7 +254,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             type: 'helix',
             url: 'chat/color',
             userId: extractUserId(user),
-            query: createSingleKeyQuery('user_id', extractUserId(user))
+            query: createSingleKeyQuery('user_id', extractUserId(user)),
         });
         if (!response.data.length) {
             return undefined;
@@ -276,7 +276,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             method: 'PUT',
             userId: extractUserId(user),
             scopes: ['user:manage:chat_color'],
-            query: createChatColorUpdateQuery(user, color)
+            query: createChatColorUpdateQuery(user, color),
         });
     }
     /**
@@ -299,7 +299,7 @@ let HelixChatApi = class HelixChatApi extends BaseApi {
             userId: fromId,
             canOverrideScopedUserContext: true,
             scopes: ['moderator:manage:shoutouts'],
-            query: createShoutoutQuery(from, to, this._getUserContextIdWithDefault(fromId))
+            query: createShoutoutQuery(from, to, this._getUserContextIdWithDefault(fromId)),
         });
     }
     _createModeratorActionQuery(broadcasterId) {

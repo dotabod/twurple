@@ -1,7 +1,7 @@
 import { __decorate } from "tslib";
 import { Enumerable } from '@d-fischer/shared-utils';
 import { extractUserId, rtfm } from '@twurple/common';
-import { createClipCreateQuery, createClipQuery } from "../../interfaces/endpoints/clip.external.mjs";
+import { createClipCreateQuery, createClipQuery, } from "../../interfaces/endpoints/clip.external.mjs";
 import { HelixRequestBatcher } from "../../utils/HelixRequestBatcher.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { createPaginatedResult } from "../../utils/pagination/HelixPaginatedResult.mjs";
@@ -27,7 +27,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
         super(...arguments);
         /** @internal */
         this._getClipByIdBatcher = new HelixRequestBatcher({
-            url: 'clips'
+            url: 'clips',
         }, 'id', 'id', this._client, (data) => new HelixClip(data, this._client));
     }
     /**
@@ -43,7 +43,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
             ...filter,
             filterType: 'broadcaster_id',
             ids: extractUserId(broadcaster),
-            userId: extractUserId(broadcaster)
+            userId: extractUserId(broadcaster),
         });
     }
     /**
@@ -59,7 +59,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
             ...filter,
             filterType: 'broadcaster_id',
             ids: extractUserId(broadcaster),
-            userId: extractUserId(broadcaster)
+            userId: extractUserId(broadcaster),
         });
     }
     /**
@@ -74,7 +74,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
         return await this._getClips({
             ...filter,
             filterType: 'game_id',
-            ids: gameId
+            ids: gameId,
         });
     }
     /**
@@ -89,7 +89,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
         return this._getClipsPaginated({
             ...filter,
             filterType: 'game_id',
-            ids: gameId
+            ids: gameId,
         });
     }
     /**
@@ -100,7 +100,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
     async getClipsByIds(ids) {
         const result = await this._getClips({
             filterType: 'id',
-            ids
+            ids,
         });
         return result.data;
     }
@@ -138,7 +138,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
             userId: extractUserId(channel),
             scopes: ['clips:edit'],
             canOverrideScopedUserContext: true,
-            query: createClipCreateQuery(channel, createAfterDelay)
+            query: createClipCreateQuery(channel, createAfterDelay),
         });
         return result.data[0].id;
     }
@@ -152,8 +152,8 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
             userId: params.userId,
             query: {
                 ...createClipQuery(params),
-                ...createPaginationQuery(params)
-            }
+                ...createPaginationQuery(params),
+            },
         });
         return createPaginatedResult(result, HelixClip, this._client);
     }
@@ -161,7 +161,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi {
         return new HelixPaginatedRequest({
             url: 'clips',
             userId: params.userId,
-            query: createClipQuery(params)
+            query: createClipQuery(params),
         }, this._client, data => new HelixClip(data, this._client));
     }
 };

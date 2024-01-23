@@ -34,8 +34,8 @@ export type UserNameResolvable = string | UserNameResolveableType;
  */
 export declare function extractUserId(user: UserIdResolvable): string;
 /**
- * Extracts the user name from an argument that is possibly an object containing that name.
+ * Extracts the username from an argument that is possibly an object containing that name.
  *
- * @param user The user name or object.
+ * @param user The username or object.
  */
 export declare function extractUserName(user: UserNameResolvable): string;

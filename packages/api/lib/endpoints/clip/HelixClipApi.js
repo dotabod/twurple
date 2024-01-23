@@ -30,7 +30,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
         super(...arguments);
         /** @internal */
         this._getClipByIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'clips'
+            url: 'clips',
         }, 'id', 'id', this._client, (data) => new HelixClip_1.HelixClip(data, this._client));
     }
     /**
@@ -46,7 +46,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
             ...filter,
             filterType: 'broadcaster_id',
             ids: (0, common_1.extractUserId)(broadcaster),
-            userId: (0, common_1.extractUserId)(broadcaster)
+            userId: (0, common_1.extractUserId)(broadcaster),
         });
     }
     /**
@@ -62,7 +62,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
             ...filter,
             filterType: 'broadcaster_id',
             ids: (0, common_1.extractUserId)(broadcaster),
-            userId: (0, common_1.extractUserId)(broadcaster)
+            userId: (0, common_1.extractUserId)(broadcaster),
         });
     }
     /**
@@ -77,7 +77,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
         return await this._getClips({
             ...filter,
             filterType: 'game_id',
-            ids: gameId
+            ids: gameId,
         });
     }
     /**
@@ -92,7 +92,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
         return this._getClipsPaginated({
             ...filter,
             filterType: 'game_id',
-            ids: gameId
+            ids: gameId,
         });
     }
     /**
@@ -103,7 +103,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
     async getClipsByIds(ids) {
         const result = await this._getClips({
             filterType: 'id',
-            ids
+            ids,
         });
         return result.data;
     }
@@ -141,7 +141,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(channel),
             scopes: ['clips:edit'],
             canOverrideScopedUserContext: true,
-            query: (0, clip_external_1.createClipCreateQuery)(channel, createAfterDelay)
+            query: (0, clip_external_1.createClipCreateQuery)(channel, createAfterDelay),
         });
         return result.data[0].id;
     }
@@ -155,8 +155,8 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
             userId: params.userId,
             query: {
                 ...(0, clip_external_1.createClipQuery)(params),
-                ...(0, HelixPagination_1.createPaginationQuery)(params)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(params),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixClip_1.HelixClip, this._client);
     }
@@ -164,7 +164,7 @@ let HelixClipApi = class HelixClipApi extends BaseApi_1.BaseApi {
         return new HelixPaginatedRequest_1.HelixPaginatedRequest({
             url: 'clips',
             userId: params.userId,
-            query: (0, clip_external_1.createClipQuery)(params)
+            query: (0, clip_external_1.createClipQuery)(params),
         }, this._client, data => new HelixClip_1.HelixClip(data, this._client));
     }
 };

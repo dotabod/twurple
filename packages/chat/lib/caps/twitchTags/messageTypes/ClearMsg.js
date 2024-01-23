@@ -6,7 +6,7 @@ class ClearMsg extends ircv3_1.Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
             channel: { type: 'channel' },
-            text: { trailing: true }
+            text: { trailing: true },
         });
     }
     get date() {

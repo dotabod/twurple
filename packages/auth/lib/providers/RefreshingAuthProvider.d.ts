@@ -1,7 +1,7 @@
-import type { MakeOptional } from '@d-fischer/shared-utils';
+import { type MakeOptional } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
 import { type UserIdResolvable } from '@twurple/common';
-import type { AccessToken, AccessTokenMaybeWithUserId, AccessTokenWithUserId } from '../AccessToken';
+import { type AccessToken, type AccessTokenMaybeWithUserId, type AccessTokenWithUserId } from '../AccessToken';
 import { type AuthProvider } from './AuthProvider';
 /**
  * Configuration for the {@link RefreshingAuthProvider}.

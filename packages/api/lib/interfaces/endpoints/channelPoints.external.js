@@ -6,7 +6,7 @@ const common_1 = require("@twurple/common");
 function createCustomRewardsQuery(broadcaster, onlyManageable) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        only_manageable_rewards: onlyManageable === null || onlyManageable === void 0 ? void 0 : onlyManageable.toString()
+        only_manageable_rewards: onlyManageable === null || onlyManageable === void 0 ? void 0 : onlyManageable.toString(),
     };
 }
 exports.createCustomRewardsQuery = createCustomRewardsQuery;
@@ -14,7 +14,7 @@ exports.createCustomRewardsQuery = createCustomRewardsQuery;
 function createCustomRewardChangeQuery(broadcaster, rewardId) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        id: rewardId
+        id: rewardId,
     };
 }
 exports.createCustomRewardChangeQuery = createCustomRewardChangeQuery;
@@ -28,7 +28,7 @@ function createCustomRewardBody(data) {
         background_color: data.backgroundColor,
         is_enabled: data.isEnabled,
         is_user_input_required: data.userInputRequired,
-        should_redemptions_skip_request_queue: data.autoFulfill
+        should_redemptions_skip_request_queue: data.autoFulfill,
     };
     if (data.maxRedemptionsPerStream !== undefined) {
         result.is_max_per_stream_enabled = !!data.maxRedemptionsPerStream;
@@ -53,7 +53,7 @@ function createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds)
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
         reward_id: rewardId,
-        id: redemptionIds
+        id: redemptionIds,
     };
 }
 exports.createRewardRedemptionsByIdsQuery = createRewardRedemptionsByIdsQuery;
@@ -63,7 +63,7 @@ function createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, fil
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
         reward_id: rewardId,
         status,
-        sort: filter.newestFirst ? 'NEWEST' : 'OLDEST'
+        sort: filter.newestFirst ? 'NEWEST' : 'OLDEST',
     };
 }
 exports.createRedemptionsForBroadcasterQuery = createRedemptionsForBroadcasterQuery;

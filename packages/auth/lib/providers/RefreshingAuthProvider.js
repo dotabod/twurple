@@ -68,7 +68,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
         this._cachedRefreshFailures.delete(userId);
         this._userAccessTokens.set(userId, {
             ...initialToken,
-            userId
+            userId,
         });
         if (!this._userTokenFetchers.has(userId)) {
             this._userTokenFetchers.set(userId, new TokenFetcher_1.TokenFetcher(async (scopes) => await this._fetchUserToken(userId, scopes)));
@@ -118,7 +118,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
             ? tokenToAdd
             : {
                 ...tokenToAdd,
-                scope: tokenInfo.scopes
+                scope: tokenInfo.scopes,
             };
         this.addUser(tokenInfo.userId, token, intents);
         return tokenInfo.userId;
@@ -239,12 +239,12 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
         this._checkIntermediateUserRemoval(userId);
         this._userAccessTokens.set(userId, {
             ...tokenData,
-            userId
+            userId,
         });
         this.emit(this.onRefresh, userId, tokenData);
         return {
             ...tokenData,
-            userId
+            userId,
         };
     }
     /**
@@ -312,7 +312,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
         }
         return {
             ...newToken,
-            userId
+            userId,
         };
     }
     /**
@@ -331,7 +331,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
                 }
                 return {
                     ...token,
-                    userId
+                    userId,
                 };
             }
         }
@@ -370,7 +370,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends typed_event_em
                 const [scope = []] = await (0, helpers_1.loadAndCompareTokenInfo)(this._clientId, previousToken.accessToken, userId, previousToken.scope, scopeSets);
                 const newToken = {
                     ...previousToken,
-                    scope
+                    scope,
                 };
                 this._checkIntermediateUserRemoval(userId);
                 this._userAccessTokens.set(userId, newToken);

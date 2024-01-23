@@ -26,9 +26,7 @@ let EventSubChannelRewardUpdateSubscription = class EventSubChannelRewardUpdateS
         if (this._rewardId) {
             return await this._client._apiClient.eventSub.subscribeToChannelRewardUpdateEventsForReward(this._userId, this._rewardId, await this._getTransportOptions());
         }
-        else {
-            return await this._client._apiClient.eventSub.subscribeToChannelRewardUpdateEvents(this._userId, await this._getTransportOptions());
-        }
+        return await this._client._apiClient.eventSub.subscribeToChannelRewardUpdateEvents(this._userId, await this._getTransportOptions());
     }
 };
 EventSubChannelRewardUpdateSubscription = __decorate([

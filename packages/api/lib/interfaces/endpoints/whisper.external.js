@@ -6,7 +6,7 @@ const common_1 = require("@twurple/common");
 function createWhisperQuery(from, to) {
     return {
         from_user_id: (0, common_1.extractUserId)(from),
-        to_user_id: (0, common_1.extractUserId)(to)
+        to_user_id: (0, common_1.extractUserId)(to),
     };
 }
 exports.createWhisperQuery = createWhisperQuery;

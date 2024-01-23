@@ -8,7 +8,7 @@ function createDropsEntitlementQuery(filters, alwaysApp) {
     return {
         user_id: alwaysApp ? (0, shared_utils_1.mapOptional)(filters.user, common_1.extractUserId) : undefined,
         game_id: filters.gameId,
-        fulfillment_status: filters.fulfillmentStatus
+        fulfillment_status: filters.fulfillmentStatus,
     };
 }
 exports.createDropsEntitlementQuery = createDropsEntitlementQuery;
@@ -16,7 +16,7 @@ exports.createDropsEntitlementQuery = createDropsEntitlementQuery;
 function createDropsEntitlementUpdateBody(ids, fulfillmentStatus) {
     return {
         fulfillment_status: fulfillmentStatus,
-        entitlement_ids: ids
+        entitlement_ids: ids,
     };
 }
 exports.createDropsEntitlementUpdateBody = createDropsEntitlementUpdateBody;

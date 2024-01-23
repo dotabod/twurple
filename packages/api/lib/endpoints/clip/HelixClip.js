@@ -4,6 +4,9 @@ exports.HelixClip = void 0;
 const tslib_1 = require("tslib");
 const shared_utils_1 = require("@d-fischer/shared-utils");
 const common_1 = require("@twurple/common");
+/**
+ * A clip from a Twitch stream.
+ */
 let HelixClip = class HelixClip extends common_1.DataObject {
     /** @internal */
     constructor(data, client) {
@@ -134,6 +137,12 @@ let HelixClip = class HelixClip extends common_1.DataObject {
      */
     get vodOffset() {
         return this[common_1.rawDataSymbol].vod_offset;
+    }
+    /**
+     * Whether the clip is featured.
+     */
+    get isFeatured() {
+        return this[common_1.rawDataSymbol].is_featured;
     }
 };
 tslib_1.__decorate([

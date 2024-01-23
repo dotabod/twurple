@@ -1,5 +1,5 @@
 export { accessTokenIsExpired, getExpiryDateOfAccessToken } from "./AccessToken.mjs";
-export { exchangeCode, getAppToken, getTokenInfo, getValidTokenFromProviderForUser, getValidTokenFromProviderForIntent, refreshUserToken, revokeToken } from "./helpers.mjs";
+export { exchangeCode, getAppToken, getTokenInfo, getValidTokenFromProviderForUser, getValidTokenFromProviderForIntent, refreshUserToken, revokeToken, } from "./helpers.mjs";
 export { TokenFetcher } from "./TokenFetcher.mjs";
 export { TokenInfo } from "./TokenInfo.mjs";
 export { AppTokenAuthProvider } from "./providers/AppTokenAuthProvider.mjs";

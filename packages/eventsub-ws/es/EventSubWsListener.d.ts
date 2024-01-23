@@ -57,7 +57,7 @@ export declare class EventSubWsListener extends EventSubBase implements EventSub
      */
     stop(): void;
     /** @private */
-    _getCliTestCommandForSubscription(): Promise<string>;
+    _getCliTestCommandForSubscription(subscription: EventSubSubscription): Promise<string>;
     /** @private */
     _isReadyToSubscribe(subscription: EventSubSubscription): boolean;
     /** @private */

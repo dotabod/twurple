@@ -6,7 +6,7 @@ class Whisper extends Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
             target: {},
-            text: { trailing: true }
+            text: { trailing: true },
         });
     }
     get userInfo() {

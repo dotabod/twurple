@@ -6,7 +6,7 @@ const common_1 = require("@twurple/common");
 function createModerationUserListQuery(channel, filter) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(channel),
-        user_id: filter === null || filter === void 0 ? void 0 : filter.userId
+        user_id: filter === null || filter === void 0 ? void 0 : filter.userId,
     };
 }
 exports.createModerationUserListQuery = createModerationUserListQuery;
@@ -14,7 +14,7 @@ exports.createModerationUserListQuery = createModerationUserListQuery;
 function createModeratorModifyQuery(broadcaster, user) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        user_id: (0, common_1.extractUserId)(user)
+        user_id: (0, common_1.extractUserId)(user),
     };
 }
 exports.createModeratorModifyQuery = createModeratorModifyQuery;
@@ -23,7 +23,7 @@ function createAutoModProcessBody(user, msgId, allow) {
     return {
         user_id: (0, common_1.extractUserId)(user),
         msg_id: msgId,
-        action: allow ? 'ALLOW' : 'DENY'
+        action: allow ? 'ALLOW' : 'DENY',
     };
 }
 exports.createAutoModProcessBody = createAutoModProcessBody;
@@ -38,7 +38,7 @@ function createAutoModSettingsBody(data) {
         race_ethnicity_or_religion: data.raceEthnicityOrReligion,
         sex_based_terms: data.sexBasedTerms,
         sexuality_sex_or_gender: data.sexualitySexOrGender,
-        swearing: data.swearing
+        swearing: data.swearing,
     };
 }
 exports.createAutoModSettingsBody = createAutoModSettingsBody;
@@ -48,15 +48,15 @@ function createBanUserBody(data) {
         data: {
             duration: data.duration,
             reason: data.reason,
-            user_id: (0, common_1.extractUserId)(data.user)
-        }
+            user_id: (0, common_1.extractUserId)(data.user),
+        },
     };
 }
 exports.createBanUserBody = createBanUserBody;
 /** @internal */
 function createUpdateShieldModeStatusBody(activate) {
     return {
-        is_active: activate
+        is_active: activate,
     };
 }
 exports.createUpdateShieldModeStatusBody = createUpdateShieldModeStatusBody;

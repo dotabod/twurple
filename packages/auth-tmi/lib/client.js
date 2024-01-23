@@ -25,7 +25,7 @@ class DecoratedClient extends tmi_js_1.Client {
                         try {
                             const { accessToken } = await (0, auth_1.getValidTokenFromProviderForIntent)(authProvider, intent, [
                                 'chat:read',
-                                'chat:edit'
+                                'chat:edit',
                             ]);
                             return accessToken.accessToken;
                         }
@@ -34,8 +34,8 @@ class DecoratedClient extends tmi_js_1.Client {
                         }
                     }
                     throw new Error('Could not find a token for any given intent', { cause: lastTokenError });
-                }
-            }
+                },
+            },
         });
     }
 }

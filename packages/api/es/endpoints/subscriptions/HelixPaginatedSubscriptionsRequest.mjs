@@ -16,7 +16,7 @@ let HelixPaginatedSubscriptionsRequest = class HelixPaginatedSubscriptionsReques
             url: 'subscriptions',
             scopes: ['channel:read:subscriptions'],
             userId: extractUserId(broadcaster),
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         }, client, data => new HelixSubscription(data, client));
     }
     /**

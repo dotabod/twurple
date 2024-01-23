@@ -51,7 +51,7 @@ let PubSubClient = class PubSubClient extends typed_event_emitter_1.EventEmitter
         this._authProvider = config.authProvider;
         this._logger = (0, logger_1.createLogger)({
             name: 'twurple:pubsub',
-            ...config.logger
+            ...config.logger,
         });
         this._basicClient = new BasicPubSubClient_1.BasicPubSubClient(config);
         this._basicClient.onMessage((topic, messageData) => {
@@ -191,9 +191,7 @@ let PubSubClient = class PubSubClient extends typed_event_emitter_1.EventEmitter
         if (channel) {
             return this._addHandler(topic, callback, user, scope, (0, common_1.extractUserId)(channel));
         }
-        else {
-            return this._addHandler(topic, callback, user, scope);
-        }
+        return this._addHandler(topic, callback, user, scope);
     }
     /**
      * Removes a handler from the client.
@@ -240,7 +238,7 @@ let PubSubClient = class PubSubClient extends typed_event_emitter_1.EventEmitter
                 type: 'provider',
                 provider: this._authProvider,
                 scopes: scope ? [scope] : [],
-                userId
+                userId,
             });
         }
         return handler;

@@ -29,7 +29,7 @@ let HelixEntitlementApi = class HelixEntitlementApi extends BaseApi_1.BaseApi {
     constructor() {
         super(...arguments);
         /** @internal */ this._getDropsEntitlementByIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'entitlements/drops'
+            url: 'entitlements/drops',
         }, 'id', 'id', this._client, (data) => new HelixDropsEntitlement_1.HelixDropsEntitlement(data, this._client));
     }
     /**
@@ -48,8 +48,8 @@ let HelixEntitlementApi = class HelixEntitlementApi extends BaseApi_1.BaseApi {
             forceType: filter.user && alwaysApp ? 'app' : undefined,
             query: {
                 ...(0, entitlement_external_1.createDropsEntitlementQuery)(filter, alwaysApp),
-                ...(0, HelixPagination_1.createPaginationQuery)(filter)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(filter),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(response, HelixDropsEntitlement_1.HelixDropsEntitlement, this._client);
     }
@@ -66,7 +66,7 @@ let HelixEntitlementApi = class HelixEntitlementApi extends BaseApi_1.BaseApi {
             url: 'entitlements/drops',
             userId: (0, shared_utils_1.mapOptional)(filter.user, common_1.extractUserId),
             forceType: filter.user && alwaysApp ? 'app' : undefined,
-            query: (0, entitlement_external_1.createDropsEntitlementQuery)(filter, alwaysApp)
+            query: (0, entitlement_external_1.createDropsEntitlementQuery)(filter, alwaysApp),
         }, this._client, data => new HelixDropsEntitlement_1.HelixDropsEntitlement(data, this._client));
     }
     /**
@@ -79,8 +79,8 @@ let HelixEntitlementApi = class HelixEntitlementApi extends BaseApi_1.BaseApi {
             type: 'helix',
             url: 'entitlements/drops',
             query: {
-                id: ids
-            }
+                id: ids,
+            },
         });
         return response.data.map(data => new HelixDropsEntitlement_1.HelixDropsEntitlement(data, this._client));
     }
@@ -115,7 +115,7 @@ let HelixEntitlementApi = class HelixEntitlementApi extends BaseApi_1.BaseApi {
             type: 'helix',
             url: 'entitlements/drops',
             method: 'PATCH',
-            jsonBody: (0, entitlement_external_1.createDropsEntitlementUpdateBody)(ids, fulfillmentStatus)
+            jsonBody: (0, entitlement_external_1.createDropsEntitlementUpdateBody)(ids, fulfillmentStatus),
         });
         return new Map(response.data.flatMap(entry => entry.ids.map(id => [id, entry.status])));
     }

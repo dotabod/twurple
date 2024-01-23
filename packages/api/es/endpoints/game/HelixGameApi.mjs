@@ -26,15 +26,15 @@ let HelixGameApi = class HelixGameApi extends BaseApi {
         super(...arguments);
         /** @internal */
         this._getGameByIdBatcher = new HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'id', 'id', this._client, (data) => new HelixGame(data, this._client));
         /** @internal */
         this._getGameByNameBatcher = new HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'name', 'name', this._client, (data) => new HelixGame(data, this._client));
         /** @internal */
         this._getGameByIgdbIdBatcher = new HelixRequestBatcher({
-            url: 'games'
+            url: 'games',
         }, 'igdb_id', 'igdb_id', this._client, (data) => new HelixGame(data, this._client));
     }
     /**
@@ -126,7 +126,7 @@ let HelixGameApi = class HelixGameApi extends BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'games/top',
-            query: createPaginationQuery(pagination)
+            query: createPaginationQuery(pagination),
         });
         return createPaginatedResult(result, HelixGame, this._client);
     }
@@ -135,7 +135,7 @@ let HelixGameApi = class HelixGameApi extends BaseApi {
      */
     getTopGamesPaginated() {
         return new HelixPaginatedRequest({
-            url: 'games/top'
+            url: 'games/top',
         }, this._client, data => new HelixGame(data, this._client));
     }
     /** @internal */
@@ -147,8 +147,8 @@ let HelixGameApi = class HelixGameApi extends BaseApi {
             type: 'helix',
             url: 'games',
             query: {
-                [filterType]: filterValues
-            }
+                [filterType]: filterValues,
+            },
         });
         return result.data.map(entry => new HelixGame(entry, this._client));
     }

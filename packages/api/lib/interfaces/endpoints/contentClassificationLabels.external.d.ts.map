@@ -1,0 +1,1 @@
+{"version":3,"file":"contentClassificationLabels.external.d.ts","sourceRoot":"","sources":["../../../src/interfaces/endpoints/contentClassificationLabels.external.ts"],"names":[],"mappings":"AAAA,eAAe;AACf,MAAM,WAAW,mCAAmC;IACnD,EAAE,EAAE,MAAM,CAAC;IACX,WAAW,EAAE,MAAM,CAAC;IACpB,IAAI,EAAE,MAAM,CAAC;CACb"}

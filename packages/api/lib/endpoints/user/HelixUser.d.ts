@@ -1,5 +1,4 @@
-import type { HelixUserType, UserIdResolvable, UserIdResolvableType, UserNameResolveableType } from '@twurple/common';
-import { DataObject } from '@twurple/common';
+import { DataObject, type HelixUserType, type UserIdResolvable, type UserIdResolvableType, type UserNameResolveableType } from '@twurple/common';
 import { type HelixBroadcasterType, type HelixUserData } from '../../interfaces/endpoints/user.external';
 import type { HelixPaginatedResultWithTotal } from '../../utils/pagination/HelixPaginatedResult';
 import { type HelixChannelFollower } from '../channel/HelixChannelFollower';

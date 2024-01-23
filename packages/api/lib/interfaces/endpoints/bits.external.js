@@ -8,7 +8,7 @@ function createBitsLeaderboardQuery(params = {}) {
         count: count.toString(),
         period,
         started_at: startDate === null || startDate === void 0 ? void 0 : startDate.toISOString(),
-        user_id: contextUserId
+        user_id: contextUserId,
     };
 }
 exports.createBitsLeaderboardQuery = createBitsLeaderboardQuery;

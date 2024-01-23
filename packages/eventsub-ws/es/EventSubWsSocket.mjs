@@ -11,7 +11,7 @@ export class EventSubWsSocket {
         this._readyToSubscribe = false;
         this._logger = createLogger({
             name: `twurple:eventsub:ws:${_userId}`,
-            ...loggerOptions
+            ...loggerOptions,
         });
         this._initialUrl = initialUrl;
         this._keepaliveTimeout = null;
@@ -19,10 +19,10 @@ export class EventSubWsSocket {
         this._connection = new PersistentConnection(WebSocketConnection, () => {
             var _a;
             return ({
-                url: (_a = this._reconnectUrl) !== null && _a !== void 0 ? _a : this._initialUrl
+                url: (_a = this._reconnectUrl) !== null && _a !== void 0 ? _a : this._initialUrl,
             });
         }, {
-            overlapManualReconnect: true
+            overlapManualReconnect: true,
         });
         this._connection.onConnect(() => {
             this._listener._notifySocketConnect(this);
@@ -73,7 +73,7 @@ export class EventSubWsSocket {
                 }
                 case 'notification': {
                     this._restartKeepaliveTimer();
-                    const id = payload.subscription.id;
+                    const { id } = payload.subscription;
                     const subscription = this._listener._getCorrectSubscriptionByTwitchId(id);
                     if (!subscription) {
                         this._logger.error(`Notification from unknown event received: ${id}`);
@@ -91,7 +91,7 @@ export class EventSubWsSocket {
                     break;
                 }
                 case 'revocation': {
-                    const id = payload.subscription.id;
+                    const { id } = payload.subscription;
                     const subscription = this._listener._getCorrectSubscriptionByTwitchId(id);
                     if (!subscription) {
                         this._logger.error(`Revocation from unknown event received: ${id}`);

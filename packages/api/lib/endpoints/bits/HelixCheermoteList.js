@@ -24,14 +24,14 @@ let HelixCheermoteList = class HelixCheermoteList extends common_1.DataObject {
     getCheermoteDisplayInfo(name, bits, format) {
         name = name.toLowerCase();
         const { background, state, scale } = format;
-        const tiers = this[common_1.rawDataSymbol][name].tiers;
+        const { tiers } = this[common_1.rawDataSymbol][name];
         const correctTier = tiers.sort((a, b) => b.min_bits - a.min_bits).find(tier => tier.min_bits <= bits);
         if (!correctTier) {
             throw new common_1.HellFreezesOverError(`Cheermote "${name}" does not have an applicable tier for ${bits} bits`);
         }
         return {
             url: correctTier.images[background][state][scale],
-            color: correctTier.color
+            color: correctTier.color,
         };
     }
     /**

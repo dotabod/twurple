@@ -39,7 +39,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             url: 'channel_points/custom_rewards',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: (0, channelPoints_external_1.createCustomRewardsQuery)(broadcaster, onlyManageable)
+            query: (0, channelPoints_external_1.createCustomRewardsQuery)(broadcaster, onlyManageable),
         });
         return result.data.map(data => new HelixCustomReward_1.HelixCustomReward(data, this._client));
     }
@@ -58,7 +58,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             url: 'channel_points/custom_rewards',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, rewardIds)
+            query: (0, generic_external_1.createGetByIdsQuery)(broadcaster, rewardIds),
         });
         return result.data.map(data => new HelixCustomReward_1.HelixCustomReward(data, this._client));
     }
@@ -88,7 +88,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:redemptions'],
             query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
-            jsonBody: (0, channelPoints_external_1.createCustomRewardBody)(data)
+            jsonBody: (0, channelPoints_external_1.createCustomRewardBody)(data),
         });
         return new HelixCustomReward_1.HelixCustomReward(result.data[0], this._client);
     }
@@ -107,7 +107,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:redemptions'],
             query: (0, channelPoints_external_1.createCustomRewardChangeQuery)(broadcaster, rewardId),
-            jsonBody: (0, channelPoints_external_1.createCustomRewardBody)(data)
+            jsonBody: (0, channelPoints_external_1.createCustomRewardBody)(data),
         });
         return new HelixCustomReward_1.HelixCustomReward(result.data[0], this._client);
     }
@@ -124,7 +124,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             method: 'DELETE',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:manage:redemptions'],
-            query: (0, channelPoints_external_1.createCustomRewardChangeQuery)(broadcaster, rewardId)
+            query: (0, channelPoints_external_1.createCustomRewardChangeQuery)(broadcaster, rewardId),
         });
     }
     /**
@@ -143,7 +143,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             url: 'channel_points/custom_rewards/redemptions',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: (0, channelPoints_external_1.createRewardRedemptionsByIdsQuery)(broadcaster, rewardId, redemptionIds)
+            query: (0, channelPoints_external_1.createRewardRedemptionsByIdsQuery)(broadcaster, rewardId, redemptionIds),
         });
         return result.data.map(data => new HelixCustomRewardRedemption_1.HelixCustomRewardRedemption(data, this._client));
     }
@@ -176,8 +176,8 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
             query: {
                 ...(0, channelPoints_external_1.createRedemptionsForBroadcasterQuery)(broadcaster, rewardId, status, filter),
-                ...(0, HelixPagination_1.createPaginationQuery)(filter)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(filter),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixCustomRewardRedemption_1.HelixCustomRewardRedemption, this._client);
     }
@@ -196,7 +196,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             url: 'channel_points/custom_rewards/redemptions',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: (0, channelPoints_external_1.createRedemptionsForBroadcasterQuery)(broadcaster, rewardId, status, filter)
+            query: (0, channelPoints_external_1.createRedemptionsForBroadcasterQuery)(broadcaster, rewardId, status, filter),
         }, this._client, data => new HelixCustomRewardRedemption_1.HelixCustomRewardRedemption(data, this._client), 50);
     }
     /**
@@ -219,8 +219,8 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi_1.BaseAp
             scopes: ['channel:manage:redemptions'],
             query: (0, channelPoints_external_1.createRewardRedemptionsByIdsQuery)(broadcaster, rewardId, redemptionIds),
             jsonBody: {
-                status
-            }
+                status,
+            },
         });
         return result.data.map(data => new HelixCustomRewardRedemption_1.HelixCustomRewardRedemption(data, this._client));
     }

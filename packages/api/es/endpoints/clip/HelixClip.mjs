@@ -1,6 +1,9 @@
 import { __decorate } from "tslib";
 import { Enumerable } from '@d-fischer/shared-utils';
 import { checkRelationAssertion, DataObject, rawDataSymbol, rtfm } from '@twurple/common';
+/**
+ * A clip from a Twitch stream.
+ */
 let HelixClip = class HelixClip extends DataObject {
     /** @internal */
     constructor(data, client) {
@@ -131,6 +134,12 @@ let HelixClip = class HelixClip extends DataObject {
      */
     get vodOffset() {
         return this[rawDataSymbol].vod_offset;
+    }
+    /**
+     * Whether the clip is featured.
+     */
+    get isFeatured() {
+        return this[rawDataSymbol].is_featured;
     }
 };
 __decorate([

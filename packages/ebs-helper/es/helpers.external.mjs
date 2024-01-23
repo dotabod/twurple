@@ -4,20 +4,20 @@ import { extractUserId } from '@twurple/common';
 export function getExtensionQuery(config, version) {
     return {
         extension_id: config.clientId,
-        extension_version: version
+        extension_version: version,
     };
 }
 /** @internal */
 export function getExtensionSecretsQuery(config) {
     return {
-        extension_id: config.clientId
+        extension_id: config.clientId,
     };
 }
 /** @internal */
 export function getExtensionSecretCreateQuery(config, delay) {
     return {
         extension_id: config.clientId,
-        delay: delay === null || delay === void 0 ? void 0 : delay.toString()
+        delay: delay === null || delay === void 0 ? void 0 : delay.toString(),
     };
 }
 /** @internal */
@@ -25,7 +25,7 @@ export function createExtensionRequiredConfigurationBody(config, version, config
     return {
         extension_id: config.clientId,
         extension_version: version,
-        required_configuration: configVersion
+        required_configuration: configVersion,
     };
 }
 /** @internal */
@@ -33,7 +33,7 @@ export function createConfigurationSegmentQuery(config, segment, broadcaster) {
     return {
         extension_id: config.clientId,
         segment,
-        broadcaster_id: mapOptional(broadcaster, extractUserId)
+        broadcaster_id: mapOptional(broadcaster, extractUserId),
     };
 }
 /** @internal */
@@ -43,7 +43,7 @@ export function createConfigurationSegmentBody(config, segment, broadcaster, con
         segment,
         broadcaster_id: mapOptional(broadcaster, extractUserId),
         content,
-        version
+        version,
     };
 }
 /** @internal */
@@ -55,7 +55,7 @@ export function createChatMessageBody(config, extensionVersion, text) {
     return {
         extension_id: config.clientId,
         extension_version: extensionVersion,
-        text
+        text,
     };
 }
 /** @internal */
@@ -67,7 +67,7 @@ export function createPubSubGlobalMessageBody(message) {
     return {
         is_global_broadcast: true,
         target: ['global'],
-        message
+        message,
     };
 }
 /** @internal */
@@ -79,6 +79,6 @@ export function createPubSubMessageBody(targets, broadcaster, message) {
     return {
         target: targets,
         broadcaster_id: extractUserId(broadcaster),
-        message
+        message,
     };
 }

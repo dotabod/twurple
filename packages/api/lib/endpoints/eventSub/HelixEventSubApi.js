@@ -44,12 +44,12 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'eventsub/subscriptions',
-            query: (0, HelixPagination_1.createPaginationQuery)(pagination)
+            query: (0, HelixPagination_1.createPaginationQuery)(pagination),
         });
         return {
             ...(0, HelixPaginatedResult_1.createPaginatedResultWithTotal)(result, HelixEventSubSubscription_1.HelixEventSubSubscription, this._client),
             totalCost: result.total_cost,
-            maxTotalCost: result.max_total_cost
+            maxTotalCost: result.max_total_cost,
         };
     }
     /**
@@ -72,13 +72,13 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             url: 'eventsub/subscriptions',
             query: {
                 ...(0, HelixPagination_1.createPaginationQuery)(pagination),
-                status
-            }
+                status,
+            },
         });
         return {
             ...(0, HelixPaginatedResult_1.createPaginatedResultWithTotal)(result, HelixEventSubSubscription_1.HelixEventSubSubscription, this._client),
             totalCost: result.total_cost,
-            maxTotalCost: result.max_total_cost
+            maxTotalCost: result.max_total_cost,
         };
     }
     /**
@@ -103,13 +103,13 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             url: 'eventsub/subscriptions',
             query: {
                 ...(0, HelixPagination_1.createPaginationQuery)(pagination),
-                type
-            }
+                type,
+            },
         });
         return {
             ...(0, HelixPaginatedResult_1.createPaginatedResultWithTotal)(result, HelixEventSubSubscription_1.HelixEventSubSubscription, this._client),
             totalCost: result.total_cost,
-            maxTotalCost: result.max_total_cost
+            maxTotalCost: result.max_total_cost,
         };
     }
     /**
@@ -135,13 +135,13 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(user),
             query: {
                 ...(0, generic_external_1.createSingleKeyQuery)('user_id', (0, common_1.extractUserId)(user)),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
+            },
         });
         return {
             ...(0, HelixPaginatedResult_1.createPaginatedResultWithTotal)(result, HelixEventSubSubscription_1.HelixEventSubSubscription, this._client),
             totalCost: result.total_cost,
-            maxTotalCost: result.max_total_cost
+            maxTotalCost: result.max_total_cost,
         };
     }
     /**
@@ -178,7 +178,7 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             type,
             version,
             condition,
-            transport
+            transport,
         };
         if (isBatched) {
             jsonBody.is_batching_enabled = true;
@@ -190,7 +190,7 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             scopes,
             userId: (0, shared_utils_1.mapOptional)(user, common_1.extractUserId),
             forceType: usesAppAuth ? 'app' : 'user',
-            jsonBody
+            jsonBody,
         });
         return new HelixEventSubSubscription_1.HelixEventSubSubscription(result.data[0], this._client);
     }
@@ -205,8 +205,8 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
             url: 'eventsub/subscriptions',
             method: 'DELETE',
             query: {
-                id
-            }
+                id,
+            },
         });
     }
     /**
@@ -634,6 +634,42 @@ let HelixEventSubApi = class HelixEventSubApi extends BaseApi_1.BaseApi {
     async subscribeToChannelShoutoutReceiveEvents(broadcaster, transport) {
         const broadcasterId = (0, common_1.extractUserId)(broadcaster);
         return await this.createSubscription('channel.shoutout.receive', '1', (0, eventSub_external_1.createEventSubModeratorCondition)(broadcasterId, this._getUserContextIdWithDefault(broadcasterId)), transport, broadcasterId, ['moderator:read:shoutouts', 'moderator:manage:shoutouts'], true);
+    }
+    /**
+     * Subscribe to events that represent an ad break beginning in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to ad break begin events.
+     * @param transport The transport options.
+     */
+    async subscribeToChannelAdBreakBeginEvents(broadcaster, transport) {
+        return await this.createSubscription('channel.ad_break.begin', '1', (0, eventSub_external_1.createEventSubBroadcasterCondition)(broadcaster), transport, broadcaster, ['channel:read:ads']);
+    }
+    /**
+     * Subscribe to events that represent a channel's chat being cleared.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to chat clear events.
+     * @param transport The transport options.
+     */
+    async subscribeToChannelChatClearEvents(broadcaster, transport) {
+        return await this.createSubscription('channel.chat.clear', '1', (0, eventSub_external_1.createEventSubBroadcasterCondition)(broadcaster), transport, broadcaster, ['user:read:chat']);
+    }
+    /**
+     * Subscribe to events that represent a user's chat messages being cleared in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to user chat message clear events.
+     * @param transport The transport options.
+     */
+    async subscribeToChannelChatClearUserMessagesEvents(broadcaster, transport) {
+        return await this.createSubscription('channel.chat.clear_user_messages', '1', (0, eventSub_external_1.createEventSubBroadcasterCondition)(broadcaster), transport, broadcaster, ['user:read:chat']);
+    }
+    /**
+     * Subscribe to events that represent a chat message being deleted in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to chat message delete events.
+     * @param transport The transport options.
+     */
+    async subscribeToChannelChatMessageDeleteEvents(broadcaster, transport) {
+        return await this.createSubscription('channel.chat.message_delete', '1', (0, eventSub_external_1.createEventSubBroadcasterCondition)(broadcaster), transport, broadcaster, ['user:read:chat']);
     }
     /**
      * Subscribe to events that represent an extension Bits transaction.

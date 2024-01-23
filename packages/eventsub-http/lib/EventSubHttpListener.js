@@ -42,7 +42,7 @@ let EventSubHttpListener = class EventSubHttpListener extends EventSubHttpBase_1
                     this._logger.warn(`Access to unknown URL/method attempted: ${req.method} ${req.url}`);
                 }
                 (0, httpanda_1.defaultOnError)(e, req, res, next);
-            }
+            },
         });
         // needs to be first in chain but run last, for proper logging of status
         this._server.use((req, res, next) => {
@@ -54,9 +54,7 @@ let EventSubHttpListener = class EventSubHttpListener extends EventSubHttpBase_1
         let requestPathPrefix = undefined;
         if (this._adapter.usePathPrefixInHandlers) {
             requestPathPrefix = this._adapter.pathPrefix;
-            if (requestPathPrefix) {
-                requestPathPrefix = `/${requestPathPrefix.replace(/^\/|\/$/g, '')}`;
-            }
+            requestPathPrefix && (requestPathPrefix = `/${requestPathPrefix.replace(/^\/|\/$/g, '')}`);
         }
         const healthHandler = this._createHandleHealthRequest();
         const dropLegacyHandler = this._createDropLegacyRequest();

@@ -27,7 +27,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi {
         super(...arguments);
         /** @internal */
         this._getVideoByIdBatcher = new HelixRequestBatcher({
-            url: 'videos'
+            url: 'videos',
         }, 'id', 'id', this._client, (data) => new HelixVideo(data, this._client));
     }
     /**
@@ -116,8 +116,8 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi {
             scopes: ['channel:manage:videos'],
             userId: extractUserId(broadcaster),
             query: {
-                id: ids
-            }
+                id: ids,
+            },
         });
     }
     /** @internal */
@@ -131,8 +131,8 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi {
             userId: filterType === 'user_id' ? filterValues[0] : undefined,
             query: {
                 ...HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return createPaginatedResult(result, HelixVideo, this._client);
     }
@@ -141,7 +141,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi {
         return new HelixPaginatedRequest({
             url: 'videos',
             userId: filterType === 'user_id' ? filterValues[0] : undefined,
-            query: HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter)
+            query: HelixVideoApi_1._makeVideosQuery(filterType, filterValues, filter),
         }, this._client, data => new HelixVideo(data, this._client));
     }
     /** @internal */
@@ -152,7 +152,7 @@ let HelixVideoApi = HelixVideoApi_1 = class HelixVideoApi extends BaseApi {
             language,
             period,
             sort: orderBy,
-            type
+            type,
         };
     }
 };

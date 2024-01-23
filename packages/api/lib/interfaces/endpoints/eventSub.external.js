@@ -5,7 +5,7 @@ const common_1 = require("@twurple/common");
 /** @internal */
 function createEventSubBroadcasterCondition(broadcaster) {
     return {
-        broadcaster_user_id: (0, common_1.extractUserId)(broadcaster)
+        broadcaster_user_id: (0, common_1.extractUserId)(broadcaster),
     };
 }
 exports.createEventSubBroadcasterCondition = createEventSubBroadcasterCondition;
@@ -18,7 +18,7 @@ exports.createEventSubRewardCondition = createEventSubRewardCondition;
 function createEventSubModeratorCondition(broadcasterId, moderatorId) {
     return {
         broadcaster_user_id: broadcasterId,
-        moderator_user_id: moderatorId
+        moderator_user_id: moderatorId,
     };
 }
 exports.createEventSubModeratorCondition = createEventSubModeratorCondition;
@@ -27,7 +27,7 @@ function createEventSubDropEntitlementGrantCondition(filter) {
     return {
         organization_id: filter.organizationId,
         category_id: filter.categoryId,
-        campaign_id: filter.campaignId
+        campaign_id: filter.campaignId,
     };
 }
 exports.createEventSubDropEntitlementGrantCondition = createEventSubDropEntitlementGrantCondition;

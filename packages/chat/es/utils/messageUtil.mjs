@@ -38,7 +38,7 @@ function getTwitchMessageTypes() {
         ['ROOMSTATE', RoomState],
         ['RECONNECT', Reconnect],
         ['USERNOTICE', UserNotice],
-        ['CLEARMSG', ClearMsg]
+        ['CLEARMSG', ClearMsg],
     ])));
 }
 /**

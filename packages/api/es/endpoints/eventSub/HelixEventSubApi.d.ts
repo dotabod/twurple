@@ -1,7 +1,7 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixEventSubSubscriptionStatus } from '../../interfaces/endpoints/eventSub.external';
 import { type HelixEventSubDropEntitlementGrantFilter, type HelixEventSubTransportOptions, type HelixPaginatedEventSubSubscriptionsResult } from '../../interfaces/endpoints/eventSub.input';
-import type { HelixPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixEventSubSubscription } from './HelixEventSubSubscription';
 import { HelixPaginatedEventSubSubscriptionsRequest } from './HelixPaginatedEventSubSubscriptionsRequest';
@@ -433,6 +433,34 @@ export declare class HelixEventSubApi extends BaseApi {
      * @param transport The transport options.
      */
     subscribeToChannelShoutoutReceiveEvents(broadcaster: UserIdResolvable, transport: HelixEventSubTransportOptions): Promise<HelixEventSubSubscription>;
+    /**
+     * Subscribe to events that represent an ad break beginning in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to ad break begin events.
+     * @param transport The transport options.
+     */
+    subscribeToChannelAdBreakBeginEvents(broadcaster: UserIdResolvable, transport: HelixEventSubTransportOptions): Promise<HelixEventSubSubscription>;
+    /**
+     * Subscribe to events that represent a channel's chat being cleared.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to chat clear events.
+     * @param transport The transport options.
+     */
+    subscribeToChannelChatClearEvents(broadcaster: UserIdResolvable, transport: HelixEventSubTransportOptions): Promise<HelixEventSubSubscription>;
+    /**
+     * Subscribe to events that represent a user's chat messages being cleared in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to user chat message clear events.
+     * @param transport The transport options.
+     */
+    subscribeToChannelChatClearUserMessagesEvents(broadcaster: UserIdResolvable, transport: HelixEventSubTransportOptions): Promise<HelixEventSubSubscription>;
+    /**
+     * Subscribe to events that represent a chat message being deleted in a channel.
+     *
+     * @param broadcaster The broadcaster for which you want to listen to chat message delete events.
+     * @param transport The transport options.
+     */
+    subscribeToChannelChatMessageDeleteEvents(broadcaster: UserIdResolvable, transport: HelixEventSubTransportOptions): Promise<HelixEventSubSubscription>;
     /**
      * Subscribe to events that represent an extension Bits transaction.
      *

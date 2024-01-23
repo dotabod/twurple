@@ -22,7 +22,7 @@ async function getExtension(config, version) {
     const jwt = await (0, jwt_1.createExternalJwt)(config);
     const result = await (0, api_call_1.callTwitchApi)({
         url: 'extensions',
-        query: (0, helpers_external_1.getExtensionQuery)(config, version)
+        query: (0, helpers_external_1.getExtensionQuery)(config, version),
     }, config.clientId, jwt);
     return (0, shared_utils_1.mapNullable)(result.data[0], data => new common_1.HelixExtension(data));
 }
@@ -38,7 +38,7 @@ async function getExtensionSecrets(config) {
     const jwt = await (0, jwt_1.createExternalJwt)(config);
     const result = await (0, api_call_1.callTwitchApi)({
         url: 'extensions/jwt/secrets',
-        query: (0, helpers_external_1.getExtensionSecretsQuery)(config)
+        query: (0, helpers_external_1.getExtensionSecretsQuery)(config),
     }, config.clientId, jwt);
     return new HelixExtensionSecretList_1.HelixExtensionSecretList(result.data[0]);
 }
@@ -56,7 +56,7 @@ async function createExtensionSecret(config, delay) {
     const result = await (0, api_call_1.callTwitchApi)({
         url: 'extensions/jwt/secrets',
         method: 'POST',
-        query: (0, helpers_external_1.getExtensionSecretCreateQuery)(config, delay)
+        query: (0, helpers_external_1.getExtensionSecretCreateQuery)(config, delay),
     }, config.clientId, jwt);
     return new HelixExtensionSecretList_1.HelixExtensionSecretList(result.data[0]);
 }
@@ -76,7 +76,7 @@ async function setExtensionRequiredConfiguration(config, broadcaster, version, c
     await (0, api_call_1.callTwitchApi)({
         url: 'extensions/required_configuration',
         query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
-        jsonBody: (0, helpers_external_1.createExtensionRequiredConfigurationBody)(config, version, configVersion)
+        jsonBody: (0, helpers_external_1.createExtensionRequiredConfigurationBody)(config, version, configVersion),
     }, config.clientId, jwt);
 }
 exports.setExtensionRequiredConfiguration = setExtensionRequiredConfiguration;
@@ -85,7 +85,7 @@ async function getAnyConfigurationSegment(config, segment, broadcaster) {
     const jwt = await (0, jwt_1.createExternalJwt)(config);
     const result = await (0, api_call_1.callTwitchApi)({
         url: 'extensions/configurations',
-        query: (0, helpers_external_1.createConfigurationSegmentQuery)(config, segment, broadcaster)
+        query: (0, helpers_external_1.createConfigurationSegmentQuery)(config, segment, broadcaster),
     }, config.clientId, jwt);
     return (0, shared_utils_1.mapNullable)(result.data[0], data => new HelixExtensionConfigurationSegment_1.HelixExtensionConfigurationSegment(data));
 }
@@ -130,7 +130,7 @@ async function setAnyConfigurationSegment(config, segment, broadcaster, content,
     await (0, api_call_1.callTwitchApi)({
         url: 'extensions/configurations',
         method: 'PUT',
-        jsonBody: (0, helpers_external_1.createConfigurationSegmentBody)(config, segment, broadcaster, content, version)
+        jsonBody: (0, helpers_external_1.createConfigurationSegmentBody)(config, segment, broadcaster, content, version),
     }, config.clientId, jwt);
 }
 /**
@@ -190,7 +190,7 @@ async function sendExtensionChatMessage(config, broadcaster, extensionVersion, t
         url: 'extensions/chat',
         method: 'POST',
         query: (0, api_call_1.createBroadcasterQuery)(broadcaster),
-        jsonBody: (0, helpers_external_1.createChatMessageBody)(config, extensionVersion, text)
+        jsonBody: (0, helpers_external_1.createChatMessageBody)(config, extensionVersion, text),
     }, config.clientId, jwt);
 }
 exports.sendExtensionChatMessage = sendExtensionChatMessage;
@@ -198,12 +198,12 @@ exports.sendExtensionChatMessage = sendExtensionChatMessage;
 async function sendAnyExtensionPubSubMessage(config, targets, message, broadcaster) {
     const jwt = await (0, jwt_1.createExternalJwt)({
         ...config,
-        additionalData: (0, helpers_external_1.createPubSubMessageJwtData)(broadcaster, targets)
+        additionalData: (0, helpers_external_1.createPubSubMessageJwtData)(broadcaster, targets),
     });
     await (0, api_call_1.callTwitchApi)({
         url: 'extensions/pubsub',
         method: 'POST',
-        jsonBody: (0, helpers_external_1.createPubSubMessageBody)(targets, broadcaster, message)
+        jsonBody: (0, helpers_external_1.createPubSubMessageBody)(targets, broadcaster, message),
     }, config.clientId, jwt);
 }
 /**
@@ -217,12 +217,12 @@ async function sendAnyExtensionPubSubMessage(config, targets, message, broadcast
 async function sendExtensionPubSubGlobalMessage(config, message) {
     const jwt = await (0, jwt_1.createExternalJwt)({
         ...config,
-        additionalData: (0, helpers_external_1.createPubSubGlobalMessageJwtData)()
+        additionalData: (0, helpers_external_1.createPubSubGlobalMessageJwtData)(),
     });
     await (0, api_call_1.callTwitchApi)({
         url: 'extensions/pubsub',
         method: 'POST',
-        jsonBody: (0, helpers_external_1.createPubSubGlobalMessageBody)(message)
+        jsonBody: (0, helpers_external_1.createPubSubGlobalMessageBody)(message),
     }, config.clientId, jwt);
 }
 exports.sendExtensionPubSubGlobalMessage = sendExtensionPubSubGlobalMessage;

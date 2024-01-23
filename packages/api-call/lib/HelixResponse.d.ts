@@ -4,7 +4,7 @@ export interface HelixResponse<T> {
 }
 /** @private */
 export interface HelixPaginatedResponse<T> extends HelixResponse<T> {
-    pagination?: {
+    pagination?: string | {
         cursor?: string;
     };
 }

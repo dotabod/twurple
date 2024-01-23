@@ -43,7 +43,7 @@ let DirectConnectionAdapter = class DirectConnectionAdapter extends ConnectionAd
     createHttpServer() {
         return (this._httpsServer = https.createServer({
             key: this._ssl.key,
-            cert: this._ssl.cert
+            cert: this._ssl.cert,
         }));
     }
     /** @protected */

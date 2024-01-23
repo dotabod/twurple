@@ -1,4 +1,4 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixChatChatterData, type HelixChatUserColor } from '../../interfaces/endpoints/chat.external';
 import { type HelixSendChatAnnouncementParams, type HelixUpdateChatSettingsParams } from '../../interfaces/endpoints/chat.input';
 import { HelixPaginatedRequestWithTotal } from '../../utils/pagination/HelixPaginatedRequestWithTotal';

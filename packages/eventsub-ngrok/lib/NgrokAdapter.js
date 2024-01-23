@@ -32,9 +32,8 @@ class NgrokAdapter extends eventsub_http_1.ConnectionAdapter {
     }
     /** @protected */
     async getHostName() {
-        if (!this._hostNamePromise) {
-            this._hostNamePromise = (0, ngrok_1.connect)({ addr: this._listenerPort }).then(url => url.replace(/^https?:\/\/|\/$/g, ''));
-        }
+        var _a;
+        (_a = this._hostNamePromise) !== null && _a !== void 0 ? _a : (this._hostNamePromise = (0, ngrok_1.connect)({ addr: this._listenerPort }).then(url => url.replace(/^https?:\/\/|\/$/g, '')));
         return await this._hostNamePromise;
     }
 }

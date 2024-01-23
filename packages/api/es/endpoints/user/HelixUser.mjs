@@ -1,6 +1,6 @@
 import { __decorate } from "tslib";
 import { Enumerable } from '@d-fischer/shared-utils';
-import { DataObject, rawDataSymbol, rtfm } from '@twurple/common';
+import { DataObject, rawDataSymbol, rtfm, } from '@twurple/common';
 /**
  * A Twitch user.
  */

@@ -3,14 +3,14 @@ import { extractUserId } from '@twurple/common';
 export function createCustomRewardsQuery(broadcaster, onlyManageable) {
     return {
         broadcaster_id: extractUserId(broadcaster),
-        only_manageable_rewards: onlyManageable === null || onlyManageable === void 0 ? void 0 : onlyManageable.toString()
+        only_manageable_rewards: onlyManageable === null || onlyManageable === void 0 ? void 0 : onlyManageable.toString(),
     };
 }
 /** @internal */
 export function createCustomRewardChangeQuery(broadcaster, rewardId) {
     return {
         broadcaster_id: extractUserId(broadcaster),
-        id: rewardId
+        id: rewardId,
     };
 }
 /** @internal */
@@ -23,7 +23,7 @@ export function createCustomRewardBody(data) {
         background_color: data.backgroundColor,
         is_enabled: data.isEnabled,
         is_user_input_required: data.userInputRequired,
-        should_redemptions_skip_request_queue: data.autoFulfill
+        should_redemptions_skip_request_queue: data.autoFulfill,
     };
     if (data.maxRedemptionsPerStream !== undefined) {
         result.is_max_per_stream_enabled = !!data.maxRedemptionsPerStream;
@@ -47,7 +47,7 @@ export function createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redempt
     return {
         broadcaster_id: extractUserId(broadcaster),
         reward_id: rewardId,
-        id: redemptionIds
+        id: redemptionIds,
     };
 }
 /** @internal */
@@ -56,6 +56,6 @@ export function createRedemptionsForBroadcasterQuery(broadcaster, rewardId, stat
         broadcaster_id: extractUserId(broadcaster),
         reward_id: rewardId,
         status,
-        sort: filter.newestFirst ? 'NEWEST' : 'OLDEST'
+        sort: filter.newestFirst ? 'NEWEST' : 'OLDEST',
     };
 }

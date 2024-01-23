@@ -80,8 +80,8 @@ export class HelixRequestBatcher {
             ...this._callOptions,
             query: {
                 ...this._callOptions.query,
-                [this._queryParamName]: ids
-            }
+                [this._queryParamName]: ids,
+            },
         });
     }
 }

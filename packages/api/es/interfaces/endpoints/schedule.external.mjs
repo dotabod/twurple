@@ -5,7 +5,7 @@ export function createScheduleQuery(broadcaster, filter) {
     return {
         broadcaster_id: extractUserId(broadcaster),
         start_time: filter === null || filter === void 0 ? void 0 : filter.startDate,
-        utc_offset: (_a = filter === null || filter === void 0 ? void 0 : filter.utcOffset) === null || _a === void 0 ? void 0 : _a.toString()
+        utc_offset: (_a = filter === null || filter === void 0 ? void 0 : filter.utcOffset) === null || _a === void 0 ? void 0 : _a.toString(),
     };
 }
 /** @internal */
@@ -16,15 +16,13 @@ export function createScheduleSettingsUpdateQuery(broadcaster, settings) {
             is_vacation_enabled: 'true',
             vacation_start_time: settings.vacation.startDate,
             vacation_end_time: settings.vacation.endDate,
-            timezone: settings.vacation.timezone
+            timezone: settings.vacation.timezone,
         };
     }
-    else {
-        return {
-            broadcaster_id: extractUserId(broadcaster),
-            is_vacation_enabled: 'false'
-        };
-    }
+    return {
+        broadcaster_id: extractUserId(broadcaster),
+        is_vacation_enabled: 'false',
+    };
 }
 /** @internal */
 export function createScheduleSegmentBody(data) {
@@ -34,14 +32,14 @@ export function createScheduleSegmentBody(data) {
         is_recurring: data.isRecurring,
         duration: data.duration,
         category_id: data.categoryId,
-        title: data.title
+        title: data.title,
     };
 }
 /** @internal */
 export function createScheduleSegmentModifyQuery(broadcaster, segmentId) {
     return {
         broadcaster_id: extractUserId(broadcaster),
-        id: segmentId
+        id: segmentId,
     };
 }
 /** @internal */
@@ -52,6 +50,6 @@ export function createScheduleSegmentUpdateBody(data) {
         is_canceled: data.isCanceled,
         duration: data.duration,
         category_id: data.categoryId,
-        title: data.title
+        title: data.title,
     };
 }

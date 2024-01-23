@@ -7,5 +7,5 @@ import { GlobalUserState } from "./messageTypes/GlobalUserState.mjs";
  */
 export const TwitchTagsCapability = {
     name: 'twitch.tv/tags',
-    messageTypes: [GlobalUserState, ClearMsg]
+    messageTypes: [GlobalUserState, ClearMsg],
 };

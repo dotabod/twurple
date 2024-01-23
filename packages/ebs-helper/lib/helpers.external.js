@@ -7,14 +7,14 @@ const common_1 = require("@twurple/common");
 function getExtensionQuery(config, version) {
     return {
         extension_id: config.clientId,
-        extension_version: version
+        extension_version: version,
     };
 }
 exports.getExtensionQuery = getExtensionQuery;
 /** @internal */
 function getExtensionSecretsQuery(config) {
     return {
-        extension_id: config.clientId
+        extension_id: config.clientId,
     };
 }
 exports.getExtensionSecretsQuery = getExtensionSecretsQuery;
@@ -22,7 +22,7 @@ exports.getExtensionSecretsQuery = getExtensionSecretsQuery;
 function getExtensionSecretCreateQuery(config, delay) {
     return {
         extension_id: config.clientId,
-        delay: delay === null || delay === void 0 ? void 0 : delay.toString()
+        delay: delay === null || delay === void 0 ? void 0 : delay.toString(),
     };
 }
 exports.getExtensionSecretCreateQuery = getExtensionSecretCreateQuery;
@@ -31,7 +31,7 @@ function createExtensionRequiredConfigurationBody(config, version, configVersion
     return {
         extension_id: config.clientId,
         extension_version: version,
-        required_configuration: configVersion
+        required_configuration: configVersion,
     };
 }
 exports.createExtensionRequiredConfigurationBody = createExtensionRequiredConfigurationBody;
@@ -40,7 +40,7 @@ function createConfigurationSegmentQuery(config, segment, broadcaster) {
     return {
         extension_id: config.clientId,
         segment,
-        broadcaster_id: (0, shared_utils_1.mapOptional)(broadcaster, common_1.extractUserId)
+        broadcaster_id: (0, shared_utils_1.mapOptional)(broadcaster, common_1.extractUserId),
     };
 }
 exports.createConfigurationSegmentQuery = createConfigurationSegmentQuery;
@@ -51,7 +51,7 @@ function createConfigurationSegmentBody(config, segment, broadcaster, content, v
         segment,
         broadcaster_id: (0, shared_utils_1.mapOptional)(broadcaster, common_1.extractUserId),
         content,
-        version
+        version,
     };
 }
 exports.createConfigurationSegmentBody = createConfigurationSegmentBody;
@@ -65,7 +65,7 @@ function createChatMessageBody(config, extensionVersion, text) {
     return {
         extension_id: config.clientId,
         extension_version: extensionVersion,
-        text
+        text,
     };
 }
 exports.createChatMessageBody = createChatMessageBody;
@@ -79,7 +79,7 @@ function createPubSubGlobalMessageBody(message) {
     return {
         is_global_broadcast: true,
         target: ['global'],
-        message
+        message,
     };
 }
 exports.createPubSubGlobalMessageBody = createPubSubGlobalMessageBody;
@@ -93,7 +93,7 @@ function createPubSubMessageBody(targets, broadcaster, message) {
     return {
         target: targets,
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        message
+        message,
     };
 }
 exports.createPubSubMessageBody = createPubSubMessageBody;

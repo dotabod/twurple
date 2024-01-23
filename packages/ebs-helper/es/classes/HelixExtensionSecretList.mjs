@@ -1,5 +1,5 @@
 import { DataObject, rawDataSymbol } from '@twurple/common';
-import { errors, jwtVerify, base64url } from 'jose';
+import { base64url, errors, jwtVerify } from 'jose';
 export class HelixExtensionSecretList extends DataObject {
     get latestSecret() {
         var _a, _b;
@@ -22,7 +22,7 @@ export class HelixExtensionSecretList extends DataObject {
         for (const secret of this.currentSecrets) {
             try {
                 const { payload } = await jwtVerify(token, base64url.decode(secret), {
-                    algorithms: ['HS256']
+                    algorithms: ['HS256'],
                 });
                 return payload;
             }

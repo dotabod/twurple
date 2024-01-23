@@ -3,8 +3,8 @@ import { Cacheable, CachedGetter } from '@d-fischer/cache-decorators';
 import { ResponseBasedRateLimiter } from '@d-fischer/rate-limiter';
 import { promiseWithResolvers } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
-import { callTwitchApi, callTwitchApiRaw, handleTwitchApiResponseError, HttpStatusCodeError, transformTwitchApiResponse } from '@twurple/api-call';
-import { accessTokenIsExpired, InvalidTokenError, TokenInfo } from '@twurple/auth';
+import { callTwitchApi, callTwitchApiRaw, handleTwitchApiResponseError, HttpStatusCodeError, transformTwitchApiResponse, } from '@twurple/api-call';
+import { accessTokenIsExpired, InvalidTokenError, TokenInfo, } from '@twurple/auth';
 import { HellFreezesOverError, rtfm } from '@twurple/common';
 import * as retry from 'retry';
 import { HelixBitsApi } from "../endpoints/bits/HelixBitsApi.mjs";
@@ -13,6 +13,7 @@ import { HelixChannelPointsApi } from "../endpoints/channelPoints/HelixChannelPo
 import { HelixCharityApi } from "../endpoints/charity/HelixCharityApi.mjs";
 import { HelixChatApi } from "../endpoints/chat/HelixChatApi.mjs";
 import { HelixClipApi } from "../endpoints/clip/HelixClipApi.mjs";
+import { HelixContentClassificationLabelApi } from "../endpoints/contentClassificationLabels/HelixContentClassificationLabelApi.mjs";
 import { HelixEntitlementApi } from "../endpoints/entitlements/HelixEntitlementApi.mjs";
 import { HelixEventSubApi } from "../endpoints/eventSub/HelixEventSubApi.mjs";
 import { HelixExtensionsApi } from "../endpoints/extensions/HelixExtensionsApi.mjs";
@@ -164,6 +165,12 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
         return new HelixClipApi(this);
     }
     /**
+     * The Helix content classification label API methods.
+     */
+    get contentClassificationLabels() {
+        return new HelixContentClassificationLabelApi(this);
+    }
+    /**
      * The Helix entitlement API methods.
      */
     get entitlements() {
@@ -284,6 +291,10 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
     get _authProvider() {
         return this._config.authProvider;
     }
+    /** @private */
+    get _mockServerPort() {
+        return this._config.mockServerPort;
+    }
     /** @internal */
     get _batchDelay() {
         var _a;
@@ -297,7 +308,7 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
     async _callApiUsingInitialToken(options, accessToken, wasRefreshed = false) {
         var _a;
         const { authProvider } = this._config;
-        const authorizationType = authProvider.authorizationType;
+        const { authorizationType } = authProvider;
         let response = await this._callApiInternal(options, authProvider.clientId, accessToken.accessToken, authorizationType);
         if (response.status === 401 && !wasRefreshed) {
             if (accessToken.userId) {
@@ -306,11 +317,9 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
                     response = await this._callApiInternal(options, authProvider.clientId, token.accessToken, authorizationType);
                 }
             }
-            else {
-                if (authProvider.getAppAccessToken) {
-                    const token = await authProvider.getAppAccessToken(true);
-                    response = await this._callApiInternal(options, authProvider.clientId, token.accessToken, authorizationType);
-                }
+            else if (authProvider.getAppAccessToken) {
+                const token = await authProvider.getAppAccessToken(true);
+                response = await this._callApiInternal(options, authProvider.clientId, token.accessToken, authorizationType);
             }
         }
         this.emit(this.onRequest, new ApiReportedRequest(options, response.status, (_a = accessToken.userId) !== null && _a !== void 0 ? _a : null));
@@ -319,7 +328,7 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
     }
     async _callApiInternal(options, clientId, accessToken, authorizationType) {
         var _a, _b, _c;
-        const { fetchOptions } = this._config;
+        const { fetchOptions, mockServerPort } = this._config;
         const type = (_a = options.type) !== null && _a !== void 0 ? _a : 'helix';
         this._logger.debug(`Calling ${type} API: ${(_b = options.method) !== null && _b !== void 0 ? _b : 'GET'} ${options.url}`);
         this._logger.trace(`Query: ${JSON.stringify(options.query)}`);
@@ -329,7 +338,7 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
         const op = retry.operation({
             retries: 3,
             minTimeout: 500,
-            factor: 2
+            factor: 2,
         });
         const { promise, resolve, reject } = promiseWithResolvers();
         op.attempt(async () => {
@@ -340,9 +349,10 @@ let BaseApiClient = class BaseApiClient extends EventEmitter {
                         clientId,
                         accessToken,
                         authorizationType,
-                        fetchOptions
+                        fetchOptions,
+                        mockServerPort,
                     })
-                    : await callTwitchApiRaw(options, clientId, accessToken, authorizationType, fetchOptions);
+                    : await callTwitchApiRaw(options, clientId, accessToken, authorizationType, fetchOptions, mockServerPort);
                 if (!response.ok && response.status >= 500 && response.status < 600) {
                     await handleTwitchApiResponseError(response, options);
                 }
@@ -378,6 +388,9 @@ __decorate([
 __decorate([
     CachedGetter()
 ], BaseApiClient.prototype, "clips", null);
+__decorate([
+    CachedGetter()
+], BaseApiClient.prototype, "contentClassificationLabels", null);
 __decorate([
     CachedGetter()
 ], BaseApiClient.prototype, "entitlements", null);

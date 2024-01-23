@@ -40,9 +40,7 @@ let EventSubMiddleware = class EventSubMiddleware extends EventSubHttpBase_1.Eve
         let requestPathPrefix = undefined;
         if (this._usePathPrefixInHandlers) {
             requestPathPrefix = this._pathPrefix;
-            if (requestPathPrefix) {
-                requestPathPrefix = `/${requestPathPrefix.replace(/^\/|\/$/g, '')}`;
-            }
+            requestPathPrefix && (requestPathPrefix = `/${requestPathPrefix.replace(/^\/|\/$/g, '')}`);
         }
         const requestHandler = this._createHandleRequest();
         const dropLegacyHandler = this._createDropLegacyRequest();

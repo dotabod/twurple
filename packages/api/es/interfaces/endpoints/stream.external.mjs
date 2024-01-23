@@ -6,19 +6,19 @@ export function createStreamQuery(filter) {
         language: filter.language,
         type: filter.type,
         user_id: filter.userId,
-        user_login: filter.userName
+        user_login: filter.userName,
     };
 }
 /** @internal */
 export function createStreamMarkerBody(broadcaster, description) {
     return {
         user_id: extractUserId(broadcaster),
-        description
+        description,
     };
 }
 /** @internal */
 export function createVideoQuery(id) {
     return {
-        video_id: id
+        video_id: id,
     };
 }

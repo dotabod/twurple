@@ -3,6 +3,9 @@ import { type HelixClipData } from '../../interfaces/endpoints/clip.external';
 import type { HelixGame } from '../game/HelixGame';
 import type { HelixUser } from '../user/HelixUser';
 import type { HelixVideo } from '../video/HelixVideo';
+/**
+ * A clip from a Twitch stream.
+ */
 export declare class HelixClip extends DataObject<HelixClipData> {
     /**
      * The clip ID.
@@ -87,4 +90,8 @@ export declare class HelixClip extends DataObject<HelixClipData> {
      * in which case it may take a few minutes to associate with the VOD.
      */
     get vodOffset(): number | null;
+    /**
+     * Whether the clip is featured.
+     */
+    get isFeatured(): boolean;
 }

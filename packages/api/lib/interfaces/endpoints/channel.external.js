@@ -11,7 +11,9 @@ function createChannelUpdateBody(data) {
         broadcaster_language: data.language,
         title: data.title,
         delay: (_a = data.delay) === null || _a === void 0 ? void 0 : _a.toString(),
-        tags: data.tags
+        tags: data.tags,
+        content_classification_labels: data.contentClassificationLabels,
+        is_branded_content: data.isBrandedContent,
     };
 }
 exports.createChannelUpdateBody = createChannelUpdateBody;
@@ -19,7 +21,7 @@ exports.createChannelUpdateBody = createChannelUpdateBody;
 function createChannelCommercialBody(broadcaster, length) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        length: length
+        length,
     };
 }
 exports.createChannelCommercialBody = createChannelCommercialBody;
@@ -27,7 +29,7 @@ exports.createChannelCommercialBody = createChannelCommercialBody;
 function createChannelVipUpdateQuery(broadcaster, user) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        user_id: (0, common_1.extractUserId)(user)
+        user_id: (0, common_1.extractUserId)(user),
     };
 }
 exports.createChannelVipUpdateQuery = createChannelVipUpdateQuery;
@@ -35,7 +37,7 @@ exports.createChannelVipUpdateQuery = createChannelVipUpdateQuery;
 function createChannelFollowerQuery(broadcaster, user) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
-        user_id: (0, shared_utils_1.mapOptional)(user, common_1.extractUserId)
+        user_id: (0, shared_utils_1.mapOptional)(user, common_1.extractUserId),
     };
 }
 exports.createChannelFollowerQuery = createChannelFollowerQuery;
@@ -43,7 +45,7 @@ exports.createChannelFollowerQuery = createChannelFollowerQuery;
 function createFollowedChannelQuery(user, broadcaster) {
     return {
         broadcaster_id: (0, shared_utils_1.mapOptional)(broadcaster, common_1.extractUserId),
-        user_id: (0, common_1.extractUserId)(user)
+        user_id: (0, common_1.extractUserId)(user),
     };
 }
 exports.createFollowedChannelQuery = createFollowedChannelQuery;

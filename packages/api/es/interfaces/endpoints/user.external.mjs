@@ -4,12 +4,12 @@ export function createUserBlockCreateQuery(target, additionalInfo) {
     return {
         target_user_id: extractUserId(target),
         source_context: additionalInfo.sourceContext,
-        reason: additionalInfo.reason
+        reason: additionalInfo.reason,
     };
 }
 /** @internal */
 export function createUserBlockDeleteQuery(target) {
     return {
-        target_user_id: extractUserId(target)
+        target_user_id: extractUserId(target),
     };
 }

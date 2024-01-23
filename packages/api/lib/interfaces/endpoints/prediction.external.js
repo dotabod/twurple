@@ -8,7 +8,7 @@ function createPredictionBody(broadcaster, data) {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
         title: data.title,
         outcomes: data.outcomes.map(title => ({ title })),
-        prediction_window: data.autoLockAfter
+        prediction_window: data.autoLockAfter,
     };
 }
 exports.createPredictionBody = createPredictionBody;
@@ -18,7 +18,7 @@ function createEndPredictionBody(broadcaster, id, status, outcomeId) {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
         id,
         status,
-        winning_outcome_id: outcomeId
+        winning_outcome_id: outcomeId,
     };
 }
 exports.createEndPredictionBody = createEndPredictionBody;

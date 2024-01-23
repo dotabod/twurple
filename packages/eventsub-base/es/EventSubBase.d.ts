@@ -1,11 +1,15 @@
-import type { Logger, LoggerOptions } from '@d-fischer/logger';
+import { type Logger, type LoggerOptions } from '@d-fischer/logger';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
-import type { ApiClient, HelixEventSubDropEntitlementGrantFilter, HelixEventSubSubscription, HelixEventSubTransportOptions, UserIdResolvable } from '@twurple/api';
+import { type ApiClient, type HelixEventSubDropEntitlementGrantFilter, type HelixEventSubSubscription, type HelixEventSubTransportOptions, type UserIdResolvable } from '@twurple/api';
+import type { EventSubChannelAdBreakBeginEvent } from './events/EventSubChannelAdBreakBeginEvent';
 import type { EventSubChannelBanEvent } from './events/EventSubChannelBanEvent';
 import type { EventSubChannelCharityCampaignProgressEvent } from './events/EventSubChannelCharityCampaignProgressEvent';
 import type { EventSubChannelCharityCampaignStartEvent } from './events/EventSubChannelCharityCampaignStartEvent';
 import type { EventSubChannelCharityCampaignStopEvent } from './events/EventSubChannelCharityCampaignStopEvent';
 import type { EventSubChannelCharityDonationEvent } from './events/EventSubChannelCharityDonationEvent';
+import type { EventSubChannelChatClearEvent } from './events/EventSubChannelChatClearEvent';
+import type { EventSubChannelChatClearUserMessagesEvent } from './events/EventSubChannelChatClearUserMessagesEvent';
+import type { EventSubChannelChatMessageDeleteEvent } from './events/EventSubChannelChatMessageDeleteEvent';
 import type { EventSubChannelCheerEvent } from './events/EventSubChannelCheerEvent';
 import type { EventSubChannelFollowEvent } from './events/EventSubChannelFollowEvent';
 import type { EventSubChannelGoalBeginEvent } from './events/EventSubChannelGoalBeginEvent';
@@ -82,8 +86,9 @@ export declare abstract class EventSubBase extends EventEmitter {
      * @eventListener
      *
      * @param subscription The subscription that was successfully created.
+     * @param apiSubscription The subscription data from the API.
      */
-    readonly onSubscriptionCreateSuccess: import("@d-fischer/typed-event-emitter").EventBinder<[subscription: EventSubSubscription<unknown>]>;
+    readonly onSubscriptionCreateSuccess: import("@d-fischer/typed-event-emitter").EventBinder<[subscription: EventSubSubscription<unknown>, apiSubscription: HelixEventSubSubscription]>;
     /**
      * Fires when the client fails to create a subscription.
      *
@@ -447,6 +452,34 @@ export declare abstract class EventSubBase extends EventEmitter {
      * @param handler The function that will be called for any new notifications.
      */
     onChannelShoutoutReceive(broadcaster: UserIdResolvable, moderator: UserIdResolvable, handler: (event: EventSubChannelShoutoutReceiveEvent) => void): EventSubSubscription;
+    /**
+     * Subscribes to events that represent an ad break beginning.
+     *
+     * @param user The user for which to get notifications about ad breaks in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelAdBreakBegin(user: UserIdResolvable, handler: (data: EventSubChannelAdBreakBeginEvent) => void): EventSubSubscription;
+    /**
+     * Subscribes to events that represent an channel's chat being cleared.
+     *
+     * @param user The user for which to get notifications about chat being cleared in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatClear(user: UserIdResolvable, handler: (data: EventSubChannelChatClearEvent) => void): EventSubSubscription;
+    /**
+     * Subscribes to events that represent a user's chat messages being cleared in a channel.
+     *
+     * @param user The user for which to get notifications about a user's chat messages being cleared in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatClearUserMessages(user: UserIdResolvable, handler: (data: EventSubChannelChatClearUserMessagesEvent) => void): EventSubSubscription;
+    /**
+     * Subscribes to events that represent a chat message being deleted in a channel.
+     *
+     * @param user The user for which to get notifications about a chat message being deleted in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatMessageDelete(user: UserIdResolvable, handler: (data: EventSubChannelChatMessageDeleteEvent) => void): EventSubSubscription;
     /**
      * Subscribes to events that represent a drop entitlement being granted.
      *

@@ -5,7 +5,7 @@ export function createPredictionBody(broadcaster, data) {
         broadcaster_id: extractUserId(broadcaster),
         title: data.title,
         outcomes: data.outcomes.map(title => ({ title })),
-        prediction_window: data.autoLockAfter
+        prediction_window: data.autoLockAfter,
     };
 }
 /** @internal */
@@ -14,6 +14,6 @@ export function createEndPredictionBody(broadcaster, id, status, outcomeId) {
         broadcaster_id: extractUserId(broadcaster),
         id,
         status,
-        winning_outcome_id: outcomeId
+        winning_outcome_id: outcomeId,
     };
 }

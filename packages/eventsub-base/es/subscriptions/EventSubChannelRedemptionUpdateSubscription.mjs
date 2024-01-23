@@ -26,9 +26,7 @@ let EventSubChannelRedemptionUpdateSubscription = class EventSubChannelRedemptio
         if (this._rewardId) {
             return await this._client._apiClient.eventSub.subscribeToChannelRedemptionUpdateEventsForReward(this._userId, this._rewardId, await this._getTransportOptions());
         }
-        else {
-            return await this._client._apiClient.eventSub.subscribeToChannelRedemptionUpdateEvents(this._userId, await this._getTransportOptions());
-        }
+        return await this._client._apiClient.eventSub.subscribeToChannelRedemptionUpdateEvents(this._userId, await this._getTransportOptions());
     }
 };
 EventSubChannelRedemptionUpdateSubscription = __decorate([

@@ -31,7 +31,7 @@ class ConnectionAdapter {
      * @protected
      */
     get listenerPort() {
-        return;
+        return undefined;
     }
     /**
      * The path prefix an external connection needs to reach this server.

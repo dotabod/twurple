@@ -5,7 +5,7 @@ export function createExchangeCodeQuery(clientId, clientSecret, code, redirectUr
         client_id: clientId,
         client_secret: clientSecret,
         code,
-        redirect_uri: redirectUri
+        redirect_uri: redirectUri,
     };
 }
 /** @internal */
@@ -13,7 +13,7 @@ export function createGetAppTokenQuery(clientId, clientSecret) {
     return {
         grant_type: 'client_credentials',
         client_id: clientId,
-        client_secret: clientSecret
+        client_secret: clientSecret,
     };
 }
 /** @internal */
@@ -22,13 +22,13 @@ export function createRefreshTokenQuery(clientId, clientSecret, refreshToken) {
         grant_type: 'refresh_token',
         client_id: clientId,
         client_secret: clientSecret,
-        refresh_token: refreshToken
+        refresh_token: refreshToken,
     };
 }
 /** @internal */
 export function createRevokeTokenQuery(clientId, accessToken) {
     return {
         client_id: clientId,
-        token: accessToken
+        token: accessToken,
     };
 }

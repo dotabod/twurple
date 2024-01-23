@@ -2,13 +2,13 @@ import { __decorate } from "tslib";
 import { Enumerable } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
 import { extractUserId, HellFreezesOverError, rtfm } from '@twurple/common';
-import { accessTokenIsExpired } from "../AccessToken.mjs";
+import { accessTokenIsExpired, } from "../AccessToken.mjs";
 import { CachedRefreshFailureError } from "../errors/CachedRefreshFailureError.mjs";
 import { IntermediateUserRemovalError } from "../errors/IntermediateUserRemovalError.mjs";
 import { InvalidTokenError } from "../errors/InvalidTokenError.mjs";
 import { InvalidTokenTypeError } from "../errors/InvalidTokenTypeError.mjs";
 import { UnknownIntentError } from "../errors/UnknownIntentError.mjs";
-import { compareScopeSets, exchangeCode, getAppToken, getTokenInfo, loadAndCompareTokenInfo, refreshUserToken } from "../helpers.mjs";
+import { compareScopeSets, exchangeCode, getAppToken, getTokenInfo, loadAndCompareTokenInfo, refreshUserToken, } from "../helpers.mjs";
 import { TokenFetcher } from "../TokenFetcher.mjs";
 /**
  * An auth provider with the ability to make use of refresh tokens,
@@ -65,7 +65,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
         this._cachedRefreshFailures.delete(userId);
         this._userAccessTokens.set(userId, {
             ...initialToken,
-            userId
+            userId,
         });
         if (!this._userTokenFetchers.has(userId)) {
             this._userTokenFetchers.set(userId, new TokenFetcher(async (scopes) => await this._fetchUserToken(userId, scopes)));
@@ -115,7 +115,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
             ? tokenToAdd
             : {
                 ...tokenToAdd,
-                scope: tokenInfo.scopes
+                scope: tokenInfo.scopes,
             };
         this.addUser(tokenInfo.userId, token, intents);
         return tokenInfo.userId;
@@ -236,12 +236,12 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
         this._checkIntermediateUserRemoval(userId);
         this._userAccessTokens.set(userId, {
             ...tokenData,
-            userId
+            userId,
         });
         this.emit(this.onRefresh, userId, tokenData);
         return {
             ...tokenData,
-            userId
+            userId,
         };
     }
     /**
@@ -309,7 +309,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
         }
         return {
             ...newToken,
-            userId
+            userId,
         };
     }
     /**
@@ -328,7 +328,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
                 }
                 return {
                     ...token,
-                    userId
+                    userId,
                 };
             }
         }
@@ -367,7 +367,7 @@ let RefreshingAuthProvider = class RefreshingAuthProvider extends EventEmitter {
                 const [scope = []] = await loadAndCompareTokenInfo(this._clientId, previousToken.accessToken, userId, previousToken.scope, scopeSets);
                 const newToken = {
                     ...previousToken,
-                    scope
+                    scope,
                 };
                 this._checkIntermediateUserRemoval(userId);
                 this._userAccessTokens.set(userId, newToken);

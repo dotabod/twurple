@@ -11,8 +11,8 @@ export { GlobalUserState } from "./caps/twitchTags/messageTypes/GlobalUserState.
 export { extractMessageId } from "./ChatMessageAttributes.mjs";
 export { ChatUser } from "./ChatUser.mjs";
 export { LogLevel } from '@d-fischer/logger';
-export { buildEmoteImageUrl } from "./emotes/buildEmoteImageUrl.mjs";
-export { findCheermotePositions, fillTextPositions, parseChatMessage, parseEmotePositions } from "./emotes/messagePartParser.mjs";
+export { buildEmoteImageUrl, } from "./emotes/buildEmoteImageUrl.mjs";
+export { findCheermotePositions, fillTextPositions, parseChatMessage, parseEmotePositions, } from "./emotes/messagePartParser.mjs";
 export { parseTwitchMessage, extractMessageText } from "./utils/messageUtil.mjs";
 export { parseEmoteOffsets } from "./utils/emoteUtil.mjs";
 export { toChannelName, toUserName } from "./utils/userUtil.mjs";

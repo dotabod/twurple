@@ -52,4 +52,12 @@ export declare class HelixChannel extends DataObject<HelixChannelData> {
      * The tags applied to the channel.
      */
     get tags(): string[];
+    /**
+     * The content classification labels applied to the channel.
+     */
+    get contentClassificationLabels(): string[];
+    /**
+     * Whether the channel currently displays branded content (as specified by the broadcaster).
+     */
+    get isBrandedContent(): boolean;
 }

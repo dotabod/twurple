@@ -11,7 +11,7 @@ function createPollBody(broadcaster, data) {
         choices: data.choices.map(title => ({ title })),
         duration: data.duration,
         channel_points_voting_enabled: data.channelPointsPerVote != null,
-        channel_points_per_vote: (_a = data.channelPointsPerVote) !== null && _a !== void 0 ? _a : 0
+        channel_points_per_vote: (_a = data.channelPointsPerVote) !== null && _a !== void 0 ? _a : 0,
     };
 }
 exports.createPollBody = createPollBody;
@@ -20,7 +20,7 @@ function createPollEndBody(broadcaster, id, showResult) {
     return {
         broadcaster_id: (0, common_1.extractUserId)(broadcaster),
         id,
-        status: showResult ? 'TERMINATED' : 'ARCHIVED'
+        status: showResult ? 'TERMINATED' : 'ARCHIVED',
     };
 }
 exports.createPollEndBody = createPollEndBody;

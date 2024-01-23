@@ -22,7 +22,7 @@ export class DecoratedClient extends BaseClient {
                         try {
                             const { accessToken } = await getValidTokenFromProviderForIntent(authProvider, intent, [
                                 'chat:read',
-                                'chat:edit'
+                                'chat:edit',
                             ]);
                             return accessToken.accessToken;
                         }
@@ -31,8 +31,8 @@ export class DecoratedClient extends BaseClient {
                         }
                     }
                     throw new Error('Could not find a token for any given intent', { cause: lastTokenError });
-                }
-            }
+                },
+            },
         });
     }
 }

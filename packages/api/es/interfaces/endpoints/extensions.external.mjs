@@ -2,7 +2,7 @@
 export function createReleasedExtensionFilter(extensionId, version) {
     return {
         extension_id: extensionId,
-        extension_version: version
+        extension_version: version,
     };
 }
 /** @internal */
@@ -11,18 +11,18 @@ export function createExtensionProductBody(data) {
         sku: data.sku,
         cost: {
             amount: data.cost,
-            type: 'bits'
+            type: 'bits',
         },
         display_name: data.displayName,
         in_development: data.inDevelopment,
         expiration: data.expirationDate,
-        is_broadcast: data.broadcast
+        is_broadcast: data.broadcast,
     };
 }
 /** @internal */
 export function createExtensionTransactionQuery(extensionId, filter) {
     return {
         extension_id: extensionId,
-        id: filter.transactionIds
+        id: filter.transactionIds,
     };
 }

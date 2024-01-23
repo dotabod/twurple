@@ -3,7 +3,7 @@ class ClearChat extends Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
             channel: { type: 'channel' },
-            user: { trailing: true, optional: true }
+            user: { trailing: true, optional: true },
         });
     }
     get date() {

@@ -1,6 +1,6 @@
 import { __decorate } from "tslib";
 import { rtfm } from '@twurple/common';
-import { createScheduleQuery } from "../../interfaces/endpoints/schedule.external.mjs";
+import { createScheduleQuery, } from "../../interfaces/endpoints/schedule.external.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { HelixScheduleSegment } from "./HelixScheduleSegment.mjs";
 /**
@@ -11,7 +11,7 @@ let HelixPaginatedScheduleSegmentRequest = class HelixPaginatedScheduleSegmentRe
     constructor(broadcaster, client, filter) {
         super({
             url: 'schedule',
-            query: createScheduleQuery(broadcaster, filter)
+            query: createScheduleQuery(broadcaster, filter),
         }, client, data => new HelixScheduleSegment(data, client), 25);
     }
     // sadly, this hack is necessary to work around the weird data model of schedules
@@ -22,7 +22,7 @@ let HelixPaginatedScheduleSegmentRequest = class HelixPaginatedScheduleSegmentRe
         const origData = (await super._fetchData(additionalOptions));
         return {
             data: (_a = origData.data.segments) !== null && _a !== void 0 ? _a : [],
-            pagination: origData.pagination
+            pagination: origData.pagination,
         };
     }
 };

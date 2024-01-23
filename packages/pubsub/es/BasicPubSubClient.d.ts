@@ -1,9 +1,9 @@
 /// <reference types="ws" />
-import type { WebSocketClientOptions } from '@d-fischer/connection';
-import type { LoggerOptions } from '@d-fischer/logger';
-import type { ResolvableValue } from '@d-fischer/shared-utils';
+import { type WebSocketClientOptions } from '@d-fischer/connection';
+import { type LoggerOptions } from '@d-fischer/logger';
+import { type ResolvableValue } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
-import type { AuthProvider } from '@twurple/auth';
+import { type AuthProvider } from '@twurple/auth';
 /** @private */
 interface StaticTokenResolvable {
     type: 'static';

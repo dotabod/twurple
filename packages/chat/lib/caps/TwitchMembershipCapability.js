@@ -8,5 +8,5 @@ exports.TwitchMembershipCapability = void 0;
  * @internal
  */
 exports.TwitchMembershipCapability = {
-    name: 'twitch.tv/membership'
+    name: 'twitch.tv/membership',
 };

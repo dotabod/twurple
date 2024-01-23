@@ -8,7 +8,7 @@ class UserNotice extends ircv3_1.Message {
     constructor(command, contents, config) {
         super(command, contents, config, {
             channel: { type: 'channel' },
-            text: { trailing: true, optional: true }
+            text: { trailing: true, optional: true },
         });
     }
     get id() {

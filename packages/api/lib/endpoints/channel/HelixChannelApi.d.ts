@@ -1,4 +1,4 @@
-import type { CommercialLength, UserIdResolvable } from '@twurple/common';
+import { type CommercialLength, type UserIdResolvable } from '@twurple/common';
 import { type HelixChannelFollowerData, type HelixFollowedChannelData } from '../../interfaces/endpoints/channel.external';
 import { type HelixChannelUpdate } from '../../interfaces/endpoints/channel.input';
 import { type HelixUserRelationData } from '../../interfaces/endpoints/generic.external';
@@ -6,12 +6,14 @@ import { HelixUserRelation } from '../../relations/HelixUserRelation';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
 import { HelixPaginatedRequestWithTotal } from '../../utils/pagination/HelixPaginatedRequestWithTotal';
 import { type HelixPaginatedResult, type HelixPaginatedResultWithTotal } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixChannel } from './HelixChannel';
 import { HelixChannelEditor } from './HelixChannelEditor';
 import { HelixChannelFollower } from './HelixChannelFollower';
 import { HelixFollowedChannel } from './HelixFollowedChannel';
+import { HelixAdSchedule } from './HelixAdSchedule';
+import { HelixSnoozeNextAdResult } from './HelixSnoozeNextAdResult';
 /**
  * The Helix API methods that deal with channels.
  *
@@ -167,5 +169,17 @@ export declare class HelixChannelApi extends BaseApi {
      * @returns
      */
     getFollowedChannelsPaginated(user: UserIdResolvable, broadcaster?: UserIdResolvable): HelixPaginatedRequestWithTotal<HelixFollowedChannelData, HelixFollowedChannel>;
+    /**
+     * Gets information about the broadcaster's ad schedule.
+     *
+     * @param broadcaster The broadcaster to get ad schedule information about.
+     */
+    getAdSchedule(broadcaster: UserIdResolvable): Promise<HelixAdSchedule>;
+    /**
+     * Snoozes the broadcaster's next ad, if a snooze is available.
+     *
+     * @param broadcaster The broadcaster to get ad schedule information about.
+     */
+    snoozeNextAd(broadcaster: UserIdResolvable): Promise<HelixSnoozeNextAdResult>;
 }
 //# sourceMappingURL=HelixChannelApi.d.ts.map

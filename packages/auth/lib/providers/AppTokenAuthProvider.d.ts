@@ -1,4 +1,4 @@
-import type { AccessToken } from '../AccessToken';
+import { type AccessToken } from '../AccessToken';
 import { type AuthProvider } from './AuthProvider';
 /**
  * An auth provider that gets tokens using client credentials.

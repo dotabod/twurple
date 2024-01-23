@@ -3,6 +3,6 @@ import { extractUserId } from '@twurple/common';
 export function createRaidStartQuery(from, to) {
     return {
         from_broadcaster_id: extractUserId(from),
-        to_broadcaster_id: extractUserId(to)
+        to_broadcaster_id: extractUserId(to),
     };
 }

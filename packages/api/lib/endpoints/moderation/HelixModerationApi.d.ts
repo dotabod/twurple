@@ -1,9 +1,9 @@
-import type { UserIdResolvable } from '@twurple/common';
+import { type UserIdResolvable } from '@twurple/common';
 import { type HelixBanData, type HelixModeratorData } from '../../interfaces/endpoints/moderation.external';
 import { type HelixAutoModSettingsUpdate, type HelixBanFilter, type HelixBanUserRequest, type HelixCheckAutoModStatusData, type HelixModeratorFilter } from '../../interfaces/endpoints/moderation.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
+import { type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixAutoModSettings } from './HelixAutoModSettings';
 import { HelixAutoModStatus } from './HelixAutoModStatus';

@@ -1,7 +1,7 @@
 import { callTwitchApi, HttpStatusCodeError } from '@twurple/api-call';
 import { InvalidTokenError } from "./errors/InvalidTokenError.mjs";
 import { InvalidTokenTypeError } from "./errors/InvalidTokenTypeError.mjs";
-import { createExchangeCodeQuery, createGetAppTokenQuery, createRefreshTokenQuery, createRevokeTokenQuery } from "./helpers.external.mjs";
+import { createExchangeCodeQuery, createGetAppTokenQuery, createRefreshTokenQuery, createRevokeTokenQuery, } from "./helpers.external.mjs";
 import { TokenInfo } from "./TokenInfo.mjs";
 /** @internal */
 function createAccessTokenFromData(data) {
@@ -11,7 +11,7 @@ function createAccessTokenFromData(data) {
         refreshToken: data.refresh_token || null,
         scope: (_a = data.scope) !== null && _a !== void 0 ? _a : [],
         expiresIn: (_b = data.expires_in) !== null && _b !== void 0 ? _b : null,
-        obtainmentTimestamp: Date.now()
+        obtainmentTimestamp: Date.now(),
     };
 }
 /**
@@ -29,7 +29,7 @@ export async function exchangeCode(clientId, clientSecret, code, redirectUri) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: createExchangeCodeQuery(clientId, clientSecret, code, redirectUri)
+        query: createExchangeCodeQuery(clientId, clientSecret, code, redirectUri),
     }));
 }
 /**
@@ -43,7 +43,7 @@ export async function getAppToken(clientId, clientSecret) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: createGetAppTokenQuery(clientId, clientSecret)
+        query: createGetAppTokenQuery(clientId, clientSecret),
     }));
 }
 /**
@@ -58,7 +58,7 @@ export async function refreshUserToken(clientId, clientSecret, refreshToken) {
         type: 'auth',
         url: 'token',
         method: 'POST',
-        query: createRefreshTokenQuery(clientId, clientSecret, refreshToken)
+        query: createRefreshTokenQuery(clientId, clientSecret, refreshToken),
     }));
 }
 /**
@@ -72,7 +72,7 @@ export async function revokeToken(clientId, accessToken) {
         type: 'auth',
         url: 'revoke',
         method: 'POST',
-        query: createRevokeTokenQuery(clientId, accessToken)
+        query: createRevokeTokenQuery(clientId, accessToken),
     });
 }
 /**
@@ -193,7 +193,7 @@ const scopeEquivalencies = new Map([
     ['user_follows_edit', ['user:edit:follows']],
     ['user_read', ['user:read:email']],
     ['user_subscriptions', ['user:read:subscriptions']],
-    ['user:edit:broadcast', ['channel:manage:broadcast', 'channel:manage:extensions']]
+    ['user:edit:broadcast', ['channel:manage:broadcast', 'channel:manage:extensions']],
 ]);
 /**
  * Compares scopes for a non-upgradable {@link AuthProvider} instance.
@@ -235,6 +235,7 @@ export function compareScopeSets(scopesToCompare, requestedScopeSets) {
  * @param requestedScopeSets The scope sets you requested.
  */
 export async function loadAndCompareTokenInfo(clientId, token, userId, loadedScopes, requestedScopeSets) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if ((requestedScopeSets === null || requestedScopeSets === void 0 ? void 0 : requestedScopeSets.length) || !userId) {
         const userInfo = await getTokenInfo(token, clientId);
         if (!userInfo.userId) {

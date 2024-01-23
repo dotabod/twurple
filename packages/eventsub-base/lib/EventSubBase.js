@@ -7,11 +7,15 @@ const shared_utils_1 = require("@d-fischer/shared-utils");
 const typed_event_emitter_1 = require("@d-fischer/typed-event-emitter");
 const api_1 = require("@twurple/api");
 const common_1 = require("@twurple/common");
+const EventSubChannelAdBreakBeginSubscription_1 = require("./subscriptions/EventSubChannelAdBreakBeginSubscription");
 const EventSubChannelBanSubscription_1 = require("./subscriptions/EventSubChannelBanSubscription");
 const EventSubChannelCharityCampaignProgressSubscription_1 = require("./subscriptions/EventSubChannelCharityCampaignProgressSubscription");
 const EventSubChannelCharityCampaignStartSubscription_1 = require("./subscriptions/EventSubChannelCharityCampaignStartSubscription");
 const EventSubChannelCharityCampaignStopSubscription_1 = require("./subscriptions/EventSubChannelCharityCampaignStopSubscription");
 const EventSubChannelCharityDonationSubscription_1 = require("./subscriptions/EventSubChannelCharityDonationSubscription");
+const EventSubChannelChatClearSubscription_1 = require("./subscriptions/EventSubChannelChatClearSubscription");
+const EventSubChannelChatClearUserMessagesSubscription_1 = require("./subscriptions/EventSubChannelChatClearUserMessagesSubscription");
+const EventSubChannelChatMessageDeleteSubscription_1 = require("./subscriptions/EventSubChannelChatMessageDeleteSubscription");
 const EventSubChannelCheerSubscription_1 = require("./subscriptions/EventSubChannelCheerSubscription");
 const EventSubChannelFollowSubscription_1 = require("./subscriptions/EventSubChannelFollowSubscription");
 const EventSubChannelGoalBeginSubscription_1 = require("./subscriptions/EventSubChannelGoalBeginSubscription");
@@ -78,6 +82,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
          * @eventListener
          *
          * @param subscription The subscription that was successfully created.
+         * @param apiSubscription The subscription data from the API.
          */
         this.onSubscriptionCreateSuccess = this.registerEvent();
         /**
@@ -109,7 +114,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
         this._apiClient = config.apiClient;
         this._logger = (0, logger_1.createLogger)({
             name: 'twurple:eventsub',
-            ...config.logger
+            ...config.logger,
         });
     }
     /** @private */
@@ -128,7 +133,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
     _registerTwitchSubscription(subscription, data) {
         this._twitchSubscriptions.set(subscription.id, data);
         this._subscriptionsByTwitchId.set(data.id, subscription);
-        this.emit(this.onSubscriptionCreateSuccess, subscription);
+        this.emit(this.onSubscriptionCreateSuccess, subscription, data);
     }
     /** @private */
     _notifySubscriptionCreateError(subscription, error) {
@@ -607,6 +612,46 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
         return this._genericSubscribe(EventSubChannelShoutoutReceiveSubscription_1.EventSubChannelShoutoutReceiveSubscription, handler, this, broadcasterId, moderatorId);
     }
     /**
+     * Subscribes to events that represent an ad break beginning.
+     *
+     * @param user The user for which to get notifications about ad breaks in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelAdBreakBegin(user, handler) {
+        const userId = this._extractUserIdWithNumericWarning(user, 'subscribeToChannelAdBreakBeginEvents');
+        return this._genericSubscribe(EventSubChannelAdBreakBeginSubscription_1.EventSubChannelAdBreakBeginSubscription, handler, this, userId);
+    }
+    /**
+     * Subscribes to events that represent an channel's chat being cleared.
+     *
+     * @param user The user for which to get notifications about chat being cleared in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatClear(user, handler) {
+        const userId = this._extractUserIdWithNumericWarning(user, 'subscribeToChannelChatClearEvents');
+        return this._genericSubscribe(EventSubChannelChatClearSubscription_1.EventSubChannelChatClearSubscription, handler, this, userId);
+    }
+    /**
+     * Subscribes to events that represent a user's chat messages being cleared in a channel.
+     *
+     * @param user The user for which to get notifications about a user's chat messages being cleared in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatClearUserMessages(user, handler) {
+        const userId = this._extractUserIdWithNumericWarning(user, 'subscribeToChannelChatClearUserMessagesEvents');
+        return this._genericSubscribe(EventSubChannelChatClearUserMessagesSubscription_1.EventSubChannelChatClearUserMessagesSubscription, handler, this, userId);
+    }
+    /**
+     * Subscribes to events that represent a chat message being deleted in a channel.
+     *
+     * @param user The user for which to get notifications about a chat message being deleted in their channel.
+     * @param handler The function that will be called for any new notifications.
+     */
+    onChannelChatMessageDelete(user, handler) {
+        const userId = this._extractUserIdWithNumericWarning(user, 'subscribeToChannelChatMessageDeleteEvents');
+        return this._genericSubscribe(EventSubChannelChatMessageDeleteSubscription_1.EventSubChannelChatMessageDeleteSubscription, handler, this, userId);
+    }
+    /**
      * Subscribes to events that represent a drop entitlement being granted.
      *
      * @param filter The filter to apply for the events.
@@ -621,7 +666,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
      * @param handler  The function that will be called for any new notifications.
      */
     onExtensionBitsTransactionCreate(handler) {
-        const clientId = this._apiClient._authProvider.clientId;
+        const { clientId } = this._apiClient._authProvider;
         return this._genericSubscribe(EventSubExtensionBitsTransactionCreateSubscription_1.EventSubExtensionBitsTransactionCreateSubscription, handler, this, clientId);
     }
     /**
@@ -630,7 +675,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
      * @param handler The function that will be called for any new notifications.
      */
     onUserAuthorizationGrant(handler) {
-        const clientId = this._apiClient._authProvider.clientId;
+        const { clientId } = this._apiClient._authProvider;
         return this._genericSubscribe(EventSubUserAuthorizationGrantSubscription_1.EventSubUserAuthorizationGrantSubscription, handler, this, clientId);
     }
     /**
@@ -639,7 +684,7 @@ let EventSubBase = class EventSubBase extends typed_event_emitter_1.EventEmitter
      * @param handler The function that will be called for any new notifications.
      */
     onUserAuthorizationRevoke(handler) {
-        const clientId = this._apiClient._authProvider.clientId;
+        const { clientId } = this._apiClient._authProvider;
         return this._genericSubscribe(EventSubUserAuthorizationRevokeSubscription_1.EventSubUserAuthorizationRevokeSubscription, handler, this, clientId);
     }
     /**

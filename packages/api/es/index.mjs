@@ -27,6 +27,8 @@ export { HelixEmoteFromSet } from "./endpoints/chat/HelixEmoteFromSet.mjs";
 export { HelixPrivilegedChatSettings } from "./endpoints/chat/HelixPrivilegedChatSettings.mjs";
 export { HelixClipApi } from "./endpoints/clip/HelixClipApi.mjs";
 export { HelixClip } from "./endpoints/clip/HelixClip.mjs";
+export { HelixContentClassificationLabelApi } from "./endpoints/contentClassificationLabels/HelixContentClassificationLabelApi.mjs";
+export { HelixContentClassificationLabel } from "./endpoints/contentClassificationLabels/HelixContentClassificationLabel.mjs";
 export { HelixEntitlementApi } from "./endpoints/entitlements/HelixEntitlementApi.mjs";
 export { HelixDropsEntitlement } from "./endpoints/entitlements/HelixDropsEntitlement.mjs";
 export { HelixEventSubApi } from "./endpoints/eventSub/HelixEventSubApi.mjs";

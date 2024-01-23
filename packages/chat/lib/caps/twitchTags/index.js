@@ -10,5 +10,5 @@ const GlobalUserState_1 = require("./messageTypes/GlobalUserState");
  */
 exports.TwitchTagsCapability = {
     name: 'twitch.tv/tags',
-    messageTypes: [GlobalUserState_1.GlobalUserState, ClearMsg_1.ClearMsg]
+    messageTypes: [GlobalUserState_1.GlobalUserState, ClearMsg_1.ClearMsg],
 };

@@ -9,7 +9,7 @@ function createStreamQuery(filter) {
         language: filter.language,
         type: filter.type,
         user_id: filter.userId,
-        user_login: filter.userName
+        user_login: filter.userName,
     };
 }
 exports.createStreamQuery = createStreamQuery;
@@ -17,14 +17,14 @@ exports.createStreamQuery = createStreamQuery;
 function createStreamMarkerBody(broadcaster, description) {
     return {
         user_id: (0, common_1.extractUserId)(broadcaster),
-        description
+        description,
     };
 }
 exports.createStreamMarkerBody = createStreamMarkerBody;
 /** @internal */
 function createVideoQuery(id) {
     return {
-        video_id: id
+        video_id: id,
     };
 }
 exports.createVideoQuery = createVideoQuery;

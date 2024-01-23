@@ -32,14 +32,14 @@ let ApiClient = class ApiClient extends BaseApiClient_1.BaseApiClient {
         super(config, (0, logger_1.createLogger)({ name: 'twurple:api:client', ...config.logger }), detect_node_1.isNode
             ? new rate_limiter_1.PartitionedRateLimiter({
                 getPartitionKey: req => { var _a; return (_a = req.userId) !== null && _a !== void 0 ? _a : null; },
-                createChild: () => new HelixRateLimiter_1.HelixRateLimiter({ logger: rateLimitLoggerOptions })
+                createChild: () => new HelixRateLimiter_1.HelixRateLimiter({ logger: rateLimitLoggerOptions }),
             })
             : new rate_limiter_1.PartitionedTimeBasedRateLimiter({
                 logger: rateLimitLoggerOptions,
                 bucketSize: 800,
                 timeFrame: 64000,
-                doRequest: async ({ options, clientId, accessToken, authorizationType, fetchOptions }) => await (0, api_call_1.callTwitchApiRaw)(options, clientId, accessToken, authorizationType, fetchOptions),
-                getPartitionKey: req => { var _a; return (_a = req.userId) !== null && _a !== void 0 ? _a : null; }
+                doRequest: async ({ options, clientId, accessToken, authorizationType, fetchOptions, mockServerPort, }) => await (0, api_call_1.callTwitchApiRaw)(options, clientId, accessToken, authorizationType, fetchOptions, mockServerPort),
+                getPartitionKey: req => { var _a; return (_a = req.userId) !== null && _a !== void 0 ? _a : null; },
             }));
     }
     /**

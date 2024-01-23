@@ -1,7 +1,7 @@
 import { __decorate } from "tslib";
 import { createBroadcasterQuery } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
-import { createCustomRewardBody, createCustomRewardChangeQuery, createCustomRewardsQuery, createRedemptionsForBroadcasterQuery, createRewardRedemptionsByIdsQuery } from "../../interfaces/endpoints/channelPoints.external.mjs";
+import { createCustomRewardBody, createCustomRewardChangeQuery, createCustomRewardsQuery, createRedemptionsForBroadcasterQuery, createRewardRedemptionsByIdsQuery, } from "../../interfaces/endpoints/channelPoints.external.mjs";
 import { createGetByIdsQuery } from "../../interfaces/endpoints/generic.external.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { createPaginatedResult } from "../../utils/pagination/HelixPaginatedResult.mjs";
@@ -36,7 +36,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             url: 'channel_points/custom_rewards',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: createCustomRewardsQuery(broadcaster, onlyManageable)
+            query: createCustomRewardsQuery(broadcaster, onlyManageable),
         });
         return result.data.map(data => new HelixCustomReward(data, this._client));
     }
@@ -55,7 +55,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             url: 'channel_points/custom_rewards',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: createGetByIdsQuery(broadcaster, rewardIds)
+            query: createGetByIdsQuery(broadcaster, rewardIds),
         });
         return result.data.map(data => new HelixCustomReward(data, this._client));
     }
@@ -85,7 +85,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:redemptions'],
             query: createBroadcasterQuery(broadcaster),
-            jsonBody: createCustomRewardBody(data)
+            jsonBody: createCustomRewardBody(data),
         });
         return new HelixCustomReward(result.data[0], this._client);
     }
@@ -104,7 +104,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:redemptions'],
             query: createCustomRewardChangeQuery(broadcaster, rewardId),
-            jsonBody: createCustomRewardBody(data)
+            jsonBody: createCustomRewardBody(data),
         });
         return new HelixCustomReward(result.data[0], this._client);
     }
@@ -121,7 +121,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             method: 'DELETE',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:redemptions'],
-            query: createCustomRewardChangeQuery(broadcaster, rewardId)
+            query: createCustomRewardChangeQuery(broadcaster, rewardId),
         });
     }
     /**
@@ -140,7 +140,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             url: 'channel_points/custom_rewards/redemptions',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds)
+            query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds),
         });
         return result.data.map(data => new HelixCustomRewardRedemption(data, this._client));
     }
@@ -173,8 +173,8 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
             query: {
                 ...createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter),
-                ...createPaginationQuery(filter)
-            }
+                ...createPaginationQuery(filter),
+            },
         });
         return createPaginatedResult(result, HelixCustomRewardRedemption, this._client);
     }
@@ -193,7 +193,7 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             url: 'channel_points/custom_rewards/redemptions',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-            query: createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter)
+            query: createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter),
         }, this._client, data => new HelixCustomRewardRedemption(data, this._client), 50);
     }
     /**
@@ -216,8 +216,8 @@ let HelixChannelPointsApi = class HelixChannelPointsApi extends BaseApi {
             scopes: ['channel:manage:redemptions'],
             query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds),
             jsonBody: {
-                status
-            }
+                status,
+            },
         });
         return result.data.map(data => new HelixCustomRewardRedemption(data, this._client));
     }

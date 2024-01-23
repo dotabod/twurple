@@ -1,7 +1,7 @@
 import { __decorate } from "tslib";
 import { HellFreezesOverError } from '@twurple/api';
 import { rtfm } from '@twurple/common';
-import { EventSubBase } from '@twurple/eventsub-base';
+import { EventSubBase, } from '@twurple/eventsub-base';
 import { EventSubWsSocket } from "./EventSubWsSocket.mjs";
 /**
  * A WebSocket listener for the Twitch EventSub event distribution mechanism.
@@ -38,7 +38,10 @@ let EventSubWsListener = class EventSubWsListener extends EventSubBase {
          * @param error The error that caused the disconnection, or `undefined` for a clean disconnect.
          */
         this.onUserSocketDisconnect = this.registerEvent();
-        this._initialUrl = (_a = config.url) !== null && _a !== void 0 ? _a : 'wss://eventsub.wss.twitch.tv/ws';
+        this._initialUrl = this._apiClient._mockServerPort
+            ? // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                `ws://127.0.0.1:${this._apiClient._mockServerPort}/ws`
+            : (_a = config.url) !== null && _a !== void 0 ? _a : 'wss://eventsub.wss.twitch.tv/ws';
         this._loggerOptions = config.logger;
     }
     /**
@@ -62,13 +65,32 @@ let EventSubWsListener = class EventSubWsListener extends EventSubBase {
         this._sockets.clear();
     }
     /** @private */
-    async _getCliTestCommandForSubscription() {
-        throw new Error("Testing WebSocket subscriptions currently isn't supported by the CLI");
+    async _getCliTestCommandForSubscription(subscription) {
+        if (!this._apiClient._mockServerPort) {
+            throw new Error(`You must use the mock server from the Twitch CLI to be able to test WebSocket events.
+
+To do so, specify the \`mockServerPort\` option in your \`ApiClient\`.`);
+        }
+        const { authUserId } = subscription;
+        if (!authUserId) {
+            throw new Error('Can not test a WebSocket subscription for a topic without user authentication');
+        }
+        if (!subscription._twitchId) {
+            throw new Error('Subscription must be registered with the mock server before being able to use this method');
+        }
+        const socket = this._sockets.get(authUserId);
+        if (!socket) {
+            throw new HellFreezesOverError(`Can not get appropriate socket for user ${authUserId}`);
+        }
+        if (!socket.sessionId) {
+            throw new HellFreezesOverError(`Socket for user ${authUserId} does not have a session ID yet`);
+        }
+        return `twitch event trigger ${subscription._cliName} -T websocket --session ${socket.sessionId} -u ${subscription._twitchId}`;
     }
     /** @private */
     _isReadyToSubscribe(subscription) {
         var _a;
-        const authUserId = subscription.authUserId;
+        const { authUserId } = subscription;
         if (!authUserId) {
             throw new Error('Can not create a WebSocket subscription for a topic without user authentication');
         }
@@ -77,7 +99,7 @@ let EventSubWsListener = class EventSubWsListener extends EventSubBase {
     }
     /** @private */
     async _getTransportOptionsForSubscription(subscription) {
-        const authUserId = subscription.authUserId;
+        const { authUserId } = subscription;
         if (!authUserId) {
             throw new Error('Can not create a WebSocket subscription for a topic without user authentication');
         }
@@ -88,7 +110,7 @@ let EventSubWsListener = class EventSubWsListener extends EventSubBase {
         return {
             method: 'websocket',
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            session_id: socket.sessionId
+            session_id: socket.sessionId,
         };
     }
     /** @private */
@@ -109,7 +131,7 @@ let EventSubWsListener = class EventSubWsListener extends EventSubBase {
     }
     _genericSubscribe(clazz, handler, client, ...params) {
         const subscription = super._genericSubscribe(clazz, handler, client, ...params);
-        const authUserId = subscription.authUserId;
+        const { authUserId } = subscription;
         if (!authUserId) {
             throw new HellFreezesOverError('WS subscription created without user ID');
         }

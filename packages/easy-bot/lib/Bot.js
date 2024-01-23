@@ -46,7 +46,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      * @param config The configuration for the bot.
      */
     constructor(config) {
-        const { authProvider, authMethod, channel: configChannel, channels, debug, commands, emitCommandMessageEvents, prefix, chatClientOptions } = config;
+        const { authProvider, authMethod, channel: configChannel, channels, debug, commands, emitCommandMessageEvents, prefix, chatClientOptions, } = config;
         super();
         this._commands = new Map();
         this._botUserIdPromise = null;
@@ -312,13 +312,13 @@ class Bot extends typed_event_emitter_1.EventEmitter {
         const minLevel = debug ? logger_1.LogLevel.DEBUG : logger_1.LogLevel.ERROR;
         this.api = new api_1.ApiClient({
             authProvider: this._authProvider,
-            logger: { minLevel }
+            logger: { minLevel },
         });
         this.chat = new chat_1.ChatClient({
             logger: { minLevel },
             ...chatClientOptions,
             authProvider: this._authProvider,
-            channels: resolvableChannels
+            channels: resolvableChannels,
         });
         this.chat.onMessage(async (channel, user, text, msg) => {
             const match = this._findMatch(msg);
@@ -386,7 +386,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
     async announceById(channel, text, color) {
         await this.api.asUser(await this._getPreferredUserIdForModAction(channel), async (ctx) => await ctx.chat.sendAnnouncement(channel, {
             message: text,
-            color
+            color,
         }));
     }
     /**
@@ -411,7 +411,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
     async banByIds(channel, user, reason) {
         await this.api.asUser(await this._getPreferredUserIdForModAction(channel), async (ctx) => await ctx.moderation.banUser(channel, {
             user,
-            reason
+            reason,
         }));
     }
     /**
@@ -519,7 +519,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async enableEmoteOnlyById(channel) {
         await this._updateChannelSettings(channel, {
-            emoteOnlyModeEnabled: true
+            emoteOnlyModeEnabled: true,
         });
     }
     /**
@@ -538,7 +538,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async disableEmoteOnlyById(channel) {
         await this._updateChannelSettings(channel, {
-            emoteOnlyModeEnabled: false
+            emoteOnlyModeEnabled: false,
         });
     }
     /**
@@ -560,7 +560,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
     async enableFollowersOnlyById(channel, minFollowTime = 0) {
         await this._updateChannelSettings(channel, {
             followerOnlyModeEnabled: true,
-            followerOnlyModeDelay: minFollowTime
+            followerOnlyModeDelay: minFollowTime,
         });
     }
     /**
@@ -579,7 +579,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async disableFollowersOnlyById(channel) {
         await this._updateChannelSettings(channel, {
-            followerOnlyModeEnabled: false
+            followerOnlyModeEnabled: false,
         });
     }
     /**
@@ -638,7 +638,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async enableUniqueChatById(channel) {
         await this._updateChannelSettings(channel, {
-            uniqueChatModeEnabled: true
+            uniqueChatModeEnabled: true,
         });
     }
     /**
@@ -657,7 +657,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async disableUniqueChatById(channel) {
         await this._updateChannelSettings(channel, {
-            uniqueChatModeEnabled: false
+            uniqueChatModeEnabled: false,
         });
     }
     /**
@@ -679,7 +679,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
     async enableSlowModeById(channel, delayBetweenMessages = 30) {
         await this._updateChannelSettings(channel, {
             slowModeEnabled: true,
-            slowModeDelay: delayBetweenMessages
+            slowModeDelay: delayBetweenMessages,
         });
     }
     /**
@@ -698,7 +698,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async disableSlowModeById(channel) {
         await this._updateChannelSettings(channel, {
-            slowModeEnabled: false
+            slowModeEnabled: false,
         });
     }
     /**
@@ -717,7 +717,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async enableSubsOnlyById(channel) {
         await this._updateChannelSettings(channel, {
-            subscriberOnlyModeEnabled: true
+            subscriberOnlyModeEnabled: true,
         });
     }
     /**
@@ -736,7 +736,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
      */
     async disableSubsOnlyById(channel) {
         await this._updateChannelSettings(channel, {
-            subscriberOnlyModeEnabled: false
+            subscriberOnlyModeEnabled: false,
         });
     }
     /**
@@ -770,7 +770,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
         await this.api.asUser(await this._getPreferredUserIdForModAction(channel), async (ctx) => await ctx.moderation.banUser(channel, {
             user,
             reason,
-            duration
+            duration,
         }));
     }
     /**
@@ -944,7 +944,7 @@ class Bot extends typed_event_emitter_1.EventEmitter {
             if (params !== null) {
                 return {
                     command,
-                    params
+                    params,
                 };
             }
         }

@@ -32,7 +32,7 @@ let StaticAuthProvider = class StaticAuthProvider {
                     refreshToken: null,
                     scope: scopes !== null && scopes !== void 0 ? scopes : [],
                     expiresIn: null,
-                    obtainmentTimestamp: Date.now()
+                    obtainmentTimestamp: Date.now(),
                 }
                 : accessToken;
         this._scopes = scopes;

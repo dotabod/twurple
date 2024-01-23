@@ -1,20 +1,22 @@
 import { __decorate } from "tslib";
 import { Enumerable, mapNullable } from '@d-fischer/shared-utils';
-import { createBroadcasterQuery } from '@twurple/api-call';
+import { createBroadcasterQuery, } from '@twurple/api-call';
 import { extractUserId, rtfm } from '@twurple/common';
-import { createChannelCommercialBody, createChannelFollowerQuery, createChannelUpdateBody, createChannelVipUpdateQuery, createFollowedChannelQuery } from "../../interfaces/endpoints/channel.external.mjs";
-import { createChannelUsersCheckQuery, createSingleKeyQuery } from "../../interfaces/endpoints/generic.external.mjs";
+import { createChannelCommercialBody, createChannelFollowerQuery, createChannelUpdateBody, createChannelVipUpdateQuery, createFollowedChannelQuery, } from "../../interfaces/endpoints/channel.external.mjs";
+import { createChannelUsersCheckQuery, createSingleKeyQuery, } from "../../interfaces/endpoints/generic.external.mjs";
 import { HelixUserRelation } from "../../relations/HelixUserRelation.mjs";
 import { HelixRequestBatcher } from "../../utils/HelixRequestBatcher.mjs";
 import { HelixPaginatedRequest } from "../../utils/pagination/HelixPaginatedRequest.mjs";
 import { HelixPaginatedRequestWithTotal } from "../../utils/pagination/HelixPaginatedRequestWithTotal.mjs";
-import { createPaginatedResult, createPaginatedResultWithTotal } from "../../utils/pagination/HelixPaginatedResult.mjs";
+import { createPaginatedResult, createPaginatedResultWithTotal, } from "../../utils/pagination/HelixPaginatedResult.mjs";
 import { createPaginationQuery } from "../../utils/pagination/HelixPagination.mjs";
 import { BaseApi } from "../BaseApi.mjs";
 import { HelixChannel } from "./HelixChannel.mjs";
 import { HelixChannelEditor } from "./HelixChannelEditor.mjs";
 import { HelixChannelFollower } from "./HelixChannelFollower.mjs";
 import { HelixFollowedChannel } from "./HelixFollowedChannel.mjs";
+import { HelixAdSchedule } from "./HelixAdSchedule.mjs";
+import { HelixSnoozeNextAdResult } from "./HelixSnoozeNextAdResult.mjs";
 /**
  * The Helix API methods that deal with channels.
  *
@@ -34,7 +36,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
         super(...arguments);
         /** @internal */
         this._getChannelByIdBatcher = new HelixRequestBatcher({
-            url: 'channels'
+            url: 'channels',
         }, 'broadcaster_id', 'broadcaster_id', this._client, (data) => new HelixChannel(data, this._client));
     }
     /**
@@ -48,7 +50,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             type: 'helix',
             url: 'channels',
             userId,
-            query: createBroadcasterQuery(userId)
+            query: createBroadcasterQuery(userId),
         });
         return mapNullable(result.data[0], data => new HelixChannel(data, this._client));
     }
@@ -70,7 +72,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'channels',
-            query: createSingleKeyQuery('broadcaster_id', userIds)
+            query: createSingleKeyQuery('broadcaster_id', userIds),
         });
         return result.data.map(data => new HelixChannel(data, this._client));
     }
@@ -88,7 +90,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             userId: extractUserId(user),
             scopes: ['channel:manage:broadcast'],
             query: createBroadcasterQuery(user),
-            jsonBody: createChannelUpdateBody(data)
+            jsonBody: createChannelUpdateBody(data),
         });
     }
     /**
@@ -104,7 +106,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             method: 'POST',
             userId: extractUserId(broadcaster),
             scopes: ['channel:edit:commercial'],
-            jsonBody: createChannelCommercialBody(broadcaster, length)
+            jsonBody: createChannelCommercialBody(broadcaster, length),
         });
     }
     /**
@@ -118,7 +120,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             url: 'channels/editors',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:editors'],
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         });
         return result.data.map(data => new HelixChannelEditor(data, this._client));
     }
@@ -138,8 +140,8 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             scopes: ['channel:read:vips', 'channel:manage:vips'],
             query: {
                 ...createBroadcasterQuery(broadcaster),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResult(response, HelixUserRelation, this._client);
     }
@@ -153,7 +155,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             url: 'channels/vips',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:vips', 'channel:manage:vips'],
-            query: createBroadcasterQuery(broadcaster)
+            query: createBroadcasterQuery(broadcaster),
         }, this._client, data => new HelixUserRelation(data, this._client));
     }
     /**
@@ -168,7 +170,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             url: 'channels/vips',
             userId: extractUserId(broadcaster),
             scopes: ['channel:read:vips', 'channel:manage:vips'],
-            query: createChannelUsersCheckQuery(broadcaster, users)
+            query: createChannelUsersCheckQuery(broadcaster, users),
         });
         return response.data.map(data => new HelixUserRelation(data, this._client));
     }
@@ -196,7 +198,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             method: 'POST',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:vips'],
-            query: createChannelVipUpdateQuery(broadcaster, user)
+            query: createChannelVipUpdateQuery(broadcaster, user),
         });
     }
     /**
@@ -212,7 +214,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             method: 'DELETE',
             userId: extractUserId(broadcaster),
             scopes: ['channel:manage:vips'],
-            query: createChannelVipUpdateQuery(broadcaster, user)
+            query: createChannelVipUpdateQuery(broadcaster, user),
         });
     }
     /**
@@ -228,8 +230,8 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             userId: extractUserId(broadcaster),
             query: {
                 ...createChannelFollowerQuery(broadcaster),
-                ...createPaginationQuery({ limit: 1 })
-            }
+                ...createPaginationQuery({ limit: 1 }),
+            },
         });
         return result.total;
     }
@@ -259,8 +261,8 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             scopes: ['moderator:read:followers'],
             query: {
                 ...createChannelFollowerQuery(broadcaster, user),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResultWithTotal(result, HelixChannelFollower, this._client);
     }
@@ -282,7 +284,7 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             userId: extractUserId(broadcaster),
             canOverrideScopedUserContext: true,
             scopes: ['moderator:read:followers'],
-            query: createChannelFollowerQuery(broadcaster)
+            query: createChannelFollowerQuery(broadcaster),
         }, this._client, data => new HelixChannelFollower(data, this._client));
     }
     /**
@@ -306,8 +308,8 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             scopes: ['user:read:follows'],
             query: {
                 ...createFollowedChannelQuery(user, broadcaster),
-                ...createPaginationQuery(pagination)
-            }
+                ...createPaginationQuery(pagination),
+            },
         });
         return createPaginatedResultWithTotal(result, HelixFollowedChannel, this._client);
     }
@@ -327,8 +329,40 @@ let HelixChannelApi = class HelixChannelApi extends BaseApi {
             method: 'GET',
             userId: extractUserId(user),
             scopes: ['user:read:follows'],
-            query: createFollowedChannelQuery(user, broadcaster)
+            query: createFollowedChannelQuery(user, broadcaster),
         }, this._client, data => new HelixFollowedChannel(data, this._client));
+    }
+    /**
+     * Gets information about the broadcaster's ad schedule.
+     *
+     * @param broadcaster The broadcaster to get ad schedule information about.
+     */
+    async getAdSchedule(broadcaster) {
+        const response = await this._client.callApi({
+            type: 'helix',
+            url: 'channels/ads',
+            method: 'GET',
+            userId: extractUserId(broadcaster),
+            scopes: ['channel:read:ads'],
+            query: createBroadcasterQuery(broadcaster),
+        });
+        return new HelixAdSchedule(response.data[0]);
+    }
+    /**
+     * Snoozes the broadcaster's next ad, if a snooze is available.
+     *
+     * @param broadcaster The broadcaster to get ad schedule information about.
+     */
+    async snoozeNextAd(broadcaster) {
+        const response = await this._client.callApi({
+            type: 'helix',
+            url: 'channels/ads/schedule/snooze',
+            method: 'POST',
+            userId: extractUserId(broadcaster),
+            scopes: ['channel:manage:ads'],
+            query: createBroadcasterQuery(broadcaster),
+        });
+        return new HelixSnoozeNextAdResult(response.data[0]);
     }
 };
 __decorate([

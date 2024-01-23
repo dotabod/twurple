@@ -36,11 +36,11 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
         super(...arguments);
         /** @internal */
         this._getUserByIdBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'users'
+            url: 'users',
         }, 'id', 'id', this._client, (data) => new HelixUser_1.HelixUser(data, this._client));
         /** @internal */
         this._getUserByNameBatcher = new HelixRequestBatcher_1.HelixRequestBatcher({
-            url: 'users'
+            url: 'users',
         }, 'login', 'login', this._client, (data) => new HelixUser_1.HelixUser(data, this._client));
     }
     /**
@@ -71,8 +71,8 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             url: 'users',
             userId,
             query: {
-                id: userId
-            }
+                id: userId,
+            },
         });
         return (0, shared_utils_1.mapNullable)(result.data[0], data => new HelixUser_1.HelixUser(data, this._client));
     }
@@ -114,7 +114,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             url: 'users',
             forceType: 'user',
             userId: (0, common_1.extractUserId)(user),
-            scopes: withEmail ? ['user:read:email'] : undefined
+            scopes: withEmail ? ['user:read:email'] : undefined,
         });
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!((_a = result.data) === null || _a === void 0 ? void 0 : _a.length)) {
@@ -136,8 +136,8 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:edit'],
             query: {
-                description: data.description
-            }
+                description: data.description,
+            },
         });
         return new HelixPrivilegedUser_1.HelixPrivilegedUser(result.data[0], this._client);
     }
@@ -157,8 +157,8 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             scopes: ['user:read:blocked_users'],
             query: {
                 ...(0, api_call_1.createBroadcasterQuery)(user),
-                ...(0, HelixPagination_1.createPaginationQuery)(pagination)
-            }
+                ...(0, HelixPagination_1.createPaginationQuery)(pagination),
+            },
         });
         return (0, HelixPaginatedResult_1.createPaginatedResult)(result, HelixUserBlock_1.HelixUserBlock, this._client);
     }
@@ -172,7 +172,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             url: 'users/blocks',
             userId: (0, common_1.extractUserId)(user),
             scopes: ['user:read:blocked_users'],
-            query: (0, api_call_1.createBroadcasterQuery)(user)
+            query: (0, api_call_1.createBroadcasterQuery)(user),
         }, this._client, data => new HelixUserBlock_1.HelixUserBlock(data, this._client));
     }
     /**
@@ -191,7 +191,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             method: 'PUT',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['user:manage:blocked_users'],
-            query: (0, user_external_1.createUserBlockCreateQuery)(target, additionalInfo)
+            query: (0, user_external_1.createUserBlockCreateQuery)(target, additionalInfo),
         });
     }
     /**
@@ -207,7 +207,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             method: 'DELETE',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['user:manage:blocked_users'],
-            query: (0, user_external_1.createUserBlockDeleteQuery)(target)
+            query: (0, user_external_1.createUserBlockDeleteQuery)(target),
         });
     }
     /**
@@ -221,7 +221,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             type: 'helix',
             url: 'users/extensions/list',
             userId: (0, common_1.extractUserId)(broadcaster),
-            scopes: withInactive ? ['user:edit:broadcast'] : ['user:read:broadcast', 'user:edit:broadcast']
+            scopes: withInactive ? ['user:edit:broadcast'] : ['user:read:broadcast', 'user:edit:broadcast'],
         });
         return result.data.map(data => new HelixUserExtension_1.HelixUserExtension(data));
     }
@@ -238,7 +238,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             url: 'users/extensions',
             userId,
             scopes: withDev ? ['user:read:broadcast', 'user:edit:broadcast'] : undefined,
-            query: (0, generic_external_1.createSingleKeyQuery)('user_id', userId)
+            query: (0, generic_external_1.createSingleKeyQuery)('user_id', userId),
         });
         return new HelixInstalledExtensionList_1.HelixInstalledExtensionList(result.data);
     }
@@ -258,7 +258,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
             method: 'PUT',
             userId: (0, common_1.extractUserId)(broadcaster),
             scopes: ['user:edit:broadcast'],
-            jsonBody: { data }
+            jsonBody: { data },
         });
         return new HelixInstalledExtensionList_1.HelixInstalledExtensionList(result.data);
     }
@@ -270,7 +270,7 @@ let HelixUserApi = class HelixUserApi extends BaseApi_1.BaseApi {
         const result = await this._client.callApi({
             type: 'helix',
             url: 'users',
-            query
+            query,
         });
         return result.data.map(userData => new HelixUser_1.HelixUser(userData, this._client));
     }

@@ -16,6 +16,7 @@ export interface HelixClipData {
     thumbnail_url: string;
     duration: number;
     vod_offset: number | null;
+    is_featured: boolean;
 }
 /** @private */
 export type HelixClipFilterType = 'broadcaster_id' | 'game_id' | 'id';

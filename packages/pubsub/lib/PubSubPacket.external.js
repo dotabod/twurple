@@ -7,8 +7,8 @@ function createListenPacket(topics, accessToken) {
         type: 'LISTEN',
         data: {
             topics,
-            auth_token: accessToken
-        }
+            auth_token: accessToken,
+        },
     };
 }
 exports.createListenPacket = createListenPacket;

@@ -17,7 +17,7 @@ let HelixPaginatedEventSubSubscriptionsRequest = class HelixPaginatedEventSubSub
         super({
             url: 'eventsub/subscriptions',
             userId,
-            query
+            query,
         }, client, data => new HelixEventSubSubscription_1.HelixEventSubSubscription(data, client));
     }
     /**
