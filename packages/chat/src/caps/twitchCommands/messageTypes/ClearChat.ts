@@ -1,5 +1,4 @@
-import type { MessageInternalConfig, MessageInternalContents } from 'ircv3';
-import { Message } from 'ircv3';
+import { Message, type MessageInternalConfig, type MessageInternalContents } from 'ircv3';
 
 interface ClearChatFields {
 	channel: string;
@@ -12,7 +11,7 @@ export class ClearChat extends Message<ClearChatFields> {
 	constructor(command: string, contents?: MessageInternalContents, config?: MessageInternalConfig) {
 		super(command, contents, config, {
 			channel: { type: 'channel' },
-			user: { trailing: true, optional: true }
+			user: { trailing: true, optional: true },
 		});
 	}
 

@@ -1,7 +1,5 @@
-import type { HelixPaginatedResponse, HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixPaginatedResponse, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import {
 	createCustomRewardBody,
 	createCustomRewardChangeQuery,
@@ -11,18 +9,17 @@ import {
 	type HelixCustomRewardData,
 	type HelixCustomRewardRedemptionData,
 	type HelixCustomRewardRedemptionStatus,
-	type HelixCustomRewardRedemptionTargetStatus
+	type HelixCustomRewardRedemptionTargetStatus,
 } from '../../interfaces/endpoints/channelPoints.external';
 import {
 	type HelixCreateCustomRewardData,
 	type HelixCustomRewardRedemptionFilter,
 	type HelixPaginatedCustomRewardRedemptionFilter,
-	type HelixUpdateCustomRewardData
+	type HelixUpdateCustomRewardData,
 } from '../../interfaces/endpoints/channelPoints.input';
 import { createGetByIdsQuery } from '../../interfaces/endpoints/generic.external';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
 import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixCustomReward } from './HelixCustomReward';
@@ -56,7 +53,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			url: 'channel_points/custom_rewards',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-			query: createCustomRewardsQuery(broadcaster, onlyManageable)
+			query: createCustomRewardsQuery(broadcaster, onlyManageable),
 		});
 
 		return result.data.map(data => new HelixCustomReward(data, this._client));
@@ -77,7 +74,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			url: 'channel_points/custom_rewards',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-			query: createGetByIdsQuery(broadcaster, rewardIds)
+			query: createGetByIdsQuery(broadcaster, rewardIds),
 		});
 
 		return result.data.map(data => new HelixCustomReward(data, this._client));
@@ -104,7 +101,7 @@ export class HelixChannelPointsApi extends BaseApi {
 	 */
 	async createCustomReward(
 		broadcaster: UserIdResolvable,
-		data: HelixCreateCustomRewardData
+		data: HelixCreateCustomRewardData,
 	): Promise<HelixCustomReward> {
 		const result = await this._client.callApi<HelixResponse<HelixCustomRewardData>>({
 			type: 'helix',
@@ -113,7 +110,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:redemptions'],
 			query: createBroadcasterQuery(broadcaster),
-			jsonBody: createCustomRewardBody(data)
+			jsonBody: createCustomRewardBody(data),
 		});
 
 		return new HelixCustomReward(result.data[0], this._client);
@@ -129,7 +126,7 @@ export class HelixChannelPointsApi extends BaseApi {
 	async updateCustomReward(
 		broadcaster: UserIdResolvable,
 		rewardId: string,
-		data: HelixUpdateCustomRewardData
+		data: HelixUpdateCustomRewardData,
 	): Promise<HelixCustomReward> {
 		const result = await this._client.callApi<HelixResponse<HelixCustomRewardData>>({
 			type: 'helix',
@@ -138,7 +135,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:redemptions'],
 			query: createCustomRewardChangeQuery(broadcaster, rewardId),
-			jsonBody: createCustomRewardBody(data)
+			jsonBody: createCustomRewardBody(data),
 		});
 
 		return new HelixCustomReward(result.data[0], this._client);
@@ -157,7 +154,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			method: 'DELETE',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:redemptions'],
-			query: createCustomRewardChangeQuery(broadcaster, rewardId)
+			query: createCustomRewardChangeQuery(broadcaster, rewardId),
 		});
 	}
 
@@ -171,7 +168,7 @@ export class HelixChannelPointsApi extends BaseApi {
 	async getRedemptionsByIds(
 		broadcaster: UserIdResolvable,
 		rewardId: string,
-		redemptionIds: string[]
+		redemptionIds: string[],
 	): Promise<HelixCustomRewardRedemption[]> {
 		if (!redemptionIds.length) {
 			return [];
@@ -181,7 +178,7 @@ export class HelixChannelPointsApi extends BaseApi {
 			url: 'channel_points/custom_rewards/redemptions',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-			query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds)
+			query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds),
 		});
 
 		return result.data.map(data => new HelixCustomRewardRedemption(data, this._client));
@@ -197,7 +194,7 @@ export class HelixChannelPointsApi extends BaseApi {
 	async getRedemptionById(
 		broadcaster: UserIdResolvable,
 		rewardId: string,
-		redemptionId: string
+		redemptionId: string,
 	): Promise<HelixCustomRewardRedemption | null> {
 		const redemptions = await this.getRedemptionsByIds(broadcaster, rewardId, [redemptionId]);
 		return redemptions.length ? redemptions[0] : null;
@@ -217,7 +214,7 @@ export class HelixChannelPointsApi extends BaseApi {
 		broadcaster: UserIdResolvable,
 		rewardId: string,
 		status: HelixCustomRewardRedemptionStatus,
-		filter: HelixPaginatedCustomRewardRedemptionFilter
+		filter: HelixPaginatedCustomRewardRedemptionFilter,
 	): Promise<HelixPaginatedResult<HelixCustomRewardRedemption>> {
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixCustomRewardRedemptionData>>({
 			type: 'helix',
@@ -226,8 +223,8 @@ export class HelixChannelPointsApi extends BaseApi {
 			scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
 			query: {
 				...createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter),
-				...createPaginationQuery(filter)
-			}
+				...createPaginationQuery(filter),
+			},
 		});
 
 		return createPaginatedResult(result, HelixCustomRewardRedemption, this._client);
@@ -247,18 +244,18 @@ export class HelixChannelPointsApi extends BaseApi {
 		broadcaster: UserIdResolvable,
 		rewardId: string,
 		status: HelixCustomRewardRedemptionStatus,
-		filter: HelixCustomRewardRedemptionFilter
+		filter: HelixCustomRewardRedemptionFilter,
 	): HelixPaginatedRequest<HelixCustomRewardRedemptionData, HelixCustomRewardRedemption> {
 		return new HelixPaginatedRequest(
 			{
 				url: 'channel_points/custom_rewards/redemptions',
 				userId: extractUserId(broadcaster),
 				scopes: ['channel:read:redemptions', 'channel:manage:redemptions'],
-				query: createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter)
+				query: createRedemptionsForBroadcasterQuery(broadcaster, rewardId, status, filter),
 			},
 			this._client,
 			data => new HelixCustomRewardRedemption(data, this._client),
-			50
+			50,
 		);
 	}
 
@@ -274,7 +271,7 @@ export class HelixChannelPointsApi extends BaseApi {
 		broadcaster: UserIdResolvable,
 		rewardId: string,
 		redemptionIds: string[],
-		status: HelixCustomRewardRedemptionTargetStatus
+		status: HelixCustomRewardRedemptionTargetStatus,
 	): Promise<HelixCustomRewardRedemption[]> {
 		if (!redemptionIds.length) {
 			return [];
@@ -287,8 +284,8 @@ export class HelixChannelPointsApi extends BaseApi {
 			scopes: ['channel:manage:redemptions'],
 			query: createRewardRedemptionsByIdsQuery(broadcaster, rewardId, redemptionIds),
 			jsonBody: {
-				status
-			}
+				status,
+			},
 		});
 
 		return result.data.map(data => new HelixCustomRewardRedemption(data, this._client));

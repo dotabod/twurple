@@ -1,8 +1,7 @@
 import { Cacheable, CachedGetter } from '@d-fischer/cache-decorators';
 import { type Response } from '@d-fischer/cross-fetch';
 import type { Logger } from '@d-fischer/logger';
-import type { RateLimiter, RateLimiterStats } from '@d-fischer/rate-limiter';
-import { ResponseBasedRateLimiter } from '@d-fischer/rate-limiter';
+import { type RateLimiter, type RateLimiterStats, ResponseBasedRateLimiter } from '@d-fischer/rate-limiter';
 import { promiseWithResolvers } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
 import {
@@ -11,11 +10,17 @@ import {
 	handleTwitchApiResponseError,
 	HttpStatusCodeError,
 	transformTwitchApiResponse,
-	type TwitchApiCallOptions
+	type TwitchApiCallOptions,
 } from '@twurple/api-call';
 
-import type { AccessTokenMaybeWithUserId, AuthProvider, TokenInfoData } from '@twurple/auth';
-import { accessTokenIsExpired, InvalidTokenError, TokenInfo } from '@twurple/auth';
+import {
+	accessTokenIsExpired,
+	type AccessTokenMaybeWithUserId,
+	type AuthProvider,
+	InvalidTokenError,
+	TokenInfo,
+	type TokenInfoData,
+} from '@twurple/auth';
 import { HellFreezesOverError, rtfm, type UserIdResolvable } from '@twurple/common';
 import * as retry from 'retry';
 import { HelixBitsApi } from '../endpoints/bits/HelixBitsApi';
@@ -24,6 +29,7 @@ import { HelixChannelPointsApi } from '../endpoints/channelPoints/HelixChannelPo
 import { HelixCharityApi } from '../endpoints/charity/HelixCharityApi';
 import { HelixChatApi } from '../endpoints/chat/HelixChatApi';
 import { HelixClipApi } from '../endpoints/clip/HelixClipApi';
+import { HelixContentClassificationLabelApi } from '../endpoints/contentClassificationLabels/HelixContentClassificationLabelApi';
 import { HelixEntitlementApi } from '../endpoints/entitlements/HelixEntitlementApi';
 import { HelixEventSubApi } from '../endpoints/eventSub/HelixEventSubApi';
 import { HelixExtensionsApi } from '../endpoints/extensions/HelixExtensionsApi';
@@ -105,7 +111,7 @@ export class BaseApiClient extends EventEmitter {
 				authProvider.clientId,
 				undefined,
 				undefined,
-				this._config.fetchOptions
+				this._config.fetchOptions,
 			);
 		}
 
@@ -116,7 +122,7 @@ export class BaseApiClient extends EventEmitter {
 				case 'app': {
 					if (!authProvider.getAppAccessToken) {
 						throw new Error(
-							'Tried to make an API call that requires an app access token but your auth provider does not support that'
+							'Tried to make an API call that requires an app access token but your auth provider does not support that',
 						);
 					}
 					const accessToken = await authProvider.getAppAccessToken();
@@ -149,7 +155,7 @@ export class BaseApiClient extends EventEmitter {
 
 			if (!accessToken) {
 				throw new Error(
-					`Tried to make an API call with a user context for user ID ${contextUserId} but no token was found`
+					`Tried to make an API call with a user context for user ID ${contextUserId} but no token was found`,
 				);
 			}
 
@@ -221,6 +227,14 @@ export class BaseApiClient extends EventEmitter {
 	@CachedGetter()
 	get clips(): HelixClipApi {
 		return new HelixClipApi(this);
+	}
+
+	/**
+	 * The Helix content classification label API methods.
+	 */
+	@CachedGetter()
+	get contentClassificationLabels(): HelixContentClassificationLabelApi {
+		return new HelixContentClassificationLabelApi(this);
 	}
 
 	/**
@@ -383,6 +397,11 @@ export class BaseApiClient extends EventEmitter {
 		return this._config.authProvider;
 	}
 
+	/** @private */
+	get _mockServerPort(): number | undefined {
+		return this._config.mockServerPort;
+	}
+
 	/** @internal */
 	get _batchDelay(): number {
 		return this._config.batchDelay ?? 0;
@@ -397,16 +416,16 @@ export class BaseApiClient extends EventEmitter {
 	private async _callApiUsingInitialToken<T = unknown>(
 		options: TwitchApiCallOptions,
 		accessToken: AccessTokenMaybeWithUserId,
-		wasRefreshed = false
+		wasRefreshed = false,
 	): Promise<T> {
 		const { authProvider } = this._config;
 
-		const authorizationType = authProvider.authorizationType;
+		const { authorizationType } = authProvider;
 		let response = await this._callApiInternal(
 			options,
 			authProvider.clientId,
 			accessToken.accessToken,
-			authorizationType
+			authorizationType,
 		);
 		if (response.status === 401 && !wasRefreshed) {
 			if (accessToken.userId) {
@@ -416,19 +435,17 @@ export class BaseApiClient extends EventEmitter {
 						options,
 						authProvider.clientId,
 						token.accessToken,
-						authorizationType
+						authorizationType,
 					);
 				}
-			} else {
-				if (authProvider.getAppAccessToken) {
-					const token = await authProvider.getAppAccessToken(true);
-					response = await this._callApiInternal(
-						options,
-						authProvider.clientId,
-						token.accessToken,
-						authorizationType
-					);
-				}
+			} else if (authProvider.getAppAccessToken) {
+				const token = await authProvider.getAppAccessToken(true);
+				response = await this._callApiInternal(
+					options,
+					authProvider.clientId,
+					token.accessToken,
+					authorizationType,
+				);
 			}
 		}
 
@@ -443,9 +460,9 @@ export class BaseApiClient extends EventEmitter {
 		options: TwitchApiCallOptions,
 		clientId?: string,
 		accessToken?: string,
-		authorizationType?: string
+		authorizationType?: string,
 	) {
-		const { fetchOptions } = this._config;
+		const { fetchOptions, mockServerPort } = this._config;
 		const type = options.type ?? 'helix';
 		this._logger.debug(`Calling ${type} API: ${options.method ?? 'GET'} ${options.url}`);
 		this._logger.trace(`Query: ${JSON.stringify(options.query)}`);
@@ -455,7 +472,7 @@ export class BaseApiClient extends EventEmitter {
 		const op = retry.operation({
 			retries: 3,
 			minTimeout: 500,
-			factor: 2
+			factor: 2,
 		});
 
 		const { promise, resolve, reject } = promiseWithResolvers<Response>();
@@ -468,9 +485,17 @@ export class BaseApiClient extends EventEmitter {
 								clientId,
 								accessToken,
 								authorizationType,
-								fetchOptions
+								fetchOptions,
+								mockServerPort,
 						  })
-						: await callTwitchApiRaw(options, clientId, accessToken, authorizationType, fetchOptions);
+						: await callTwitchApiRaw(
+								options,
+								clientId,
+								accessToken,
+								authorizationType,
+								fetchOptions,
+								mockServerPort,
+						  );
 
 				if (!response.ok && response.status >= 500 && response.status < 600) {
 					await handleTwitchApiResponseError(response, options);

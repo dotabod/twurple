@@ -1,7 +1,5 @@
-import type { HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import {
 	createChatColorUpdateQuery,
 	createChatSettingsUpdateBody,
@@ -14,17 +12,17 @@ import {
 	type HelixChatUserColor,
 	type HelixEmoteData,
 	type HelixEmoteFromSetData,
-	type HelixPrivilegedChatSettingsData
+	type HelixPrivilegedChatSettingsData,
 } from '../../interfaces/endpoints/chat.external';
 import {
 	type HelixSendChatAnnouncementParams,
-	type HelixUpdateChatSettingsParams
+	type HelixUpdateChatSettingsParams,
 } from '../../interfaces/endpoints/chat.input';
 import { createModeratorActionQuery, createSingleKeyQuery } from '../../interfaces/endpoints/generic.external';
 import { HelixPaginatedRequestWithTotal } from '../../utils/pagination/HelixPaginatedRequestWithTotal';
 import {
 	createPaginatedResultWithTotal,
-	type HelixPaginatedResultWithTotal
+	type HelixPaginatedResultWithTotal,
 } from '../../utils/pagination/HelixPaginatedResult';
 import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
@@ -66,7 +64,7 @@ export class HelixChatApi extends BaseApi {
 	 */
 	async getChatters(
 		broadcaster: UserIdResolvable,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResultWithTotal<HelixChatChatter>> {
 		const broadcasterId = extractUserId(broadcaster);
 		const result = await this._client.callApi<HelixPaginatedResultWithTotal<HelixChatChatterData>>({
@@ -77,8 +75,8 @@ export class HelixChatApi extends BaseApi {
 			scopes: ['moderator:read:chatters'],
 			query: {
 				...this._createModeratorActionQuery(broadcasterId),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResultWithTotal(result, HelixChatChatter, this._client);
@@ -96,7 +94,7 @@ export class HelixChatApi extends BaseApi {
 	 * @expandParams
 	 */
 	getChattersPaginated(
-		broadcaster: UserIdResolvable
+		broadcaster: UserIdResolvable,
 	): HelixPaginatedRequestWithTotal<HelixChatChatterData, HelixChatChatter> {
 		const broadcasterId = extractUserId(broadcaster);
 		return new HelixPaginatedRequestWithTotal<HelixChatChatterData, HelixChatChatter>(
@@ -105,10 +103,10 @@ export class HelixChatApi extends BaseApi {
 				userId: broadcasterId,
 				canOverrideScopedUserContext: true,
 				scopes: ['moderator:read:chatters'],
-				query: this._createModeratorActionQuery(broadcasterId)
+				query: this._createModeratorActionQuery(broadcasterId),
 			},
 			this._client,
-			data => new HelixChatChatter(data, this._client)
+			data => new HelixChatChatter(data, this._client),
 		);
 	}
 
@@ -118,7 +116,7 @@ export class HelixChatApi extends BaseApi {
 	async getGlobalBadges(): Promise<HelixChatBadgeSet[]> {
 		const result = await this._client.callApi<HelixResponse<HelixChatBadgeSetData>>({
 			type: 'helix',
-			url: 'chat/badges/global'
+			url: 'chat/badges/global',
 		});
 
 		return result.data.map(data => new HelixChatBadgeSet(data));
@@ -134,7 +132,7 @@ export class HelixChatApi extends BaseApi {
 			type: 'helix',
 			url: 'chat/badges',
 			userId: extractUserId(broadcaster),
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return result.data.map(data => new HelixChatBadgeSet(data));
@@ -146,7 +144,7 @@ export class HelixChatApi extends BaseApi {
 	async getGlobalEmotes(): Promise<HelixEmote[]> {
 		const result = await this._client.callApi<HelixResponse<HelixEmoteData>>({
 			type: 'helix',
-			url: 'chat/emotes/global'
+			url: 'chat/emotes/global',
 		});
 
 		return result.data.map(data => new HelixEmote(data));
@@ -162,7 +160,7 @@ export class HelixChatApi extends BaseApi {
 			type: 'helix',
 			url: 'chat/emotes',
 			userId: extractUserId(broadcaster),
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return result.data.map(data => new HelixChannelEmote(data, this._client));
@@ -177,7 +175,7 @@ export class HelixChatApi extends BaseApi {
 		const result = await this._client.callApi<HelixResponse<HelixEmoteFromSetData>>({
 			type: 'helix',
 			url: 'chat/emotes/set',
-			query: createSingleKeyQuery('emote_set_id', setIds)
+			query: createSingleKeyQuery('emote_set_id', setIds),
 		});
 
 		return result.data.map(data => new HelixEmoteFromSet(data, this._client));
@@ -193,7 +191,7 @@ export class HelixChatApi extends BaseApi {
 			type: 'helix',
 			url: 'chat/settings',
 			userId: extractUserId(broadcaster),
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return new HelixChatSettings(result.data[0]);
@@ -216,7 +214,7 @@ export class HelixChatApi extends BaseApi {
 			userId: broadcasterId,
 			canOverrideScopedUserContext: true,
 			scopes: ['moderator:read:chat_settings'],
-			query: this._createModeratorActionQuery(broadcasterId)
+			query: this._createModeratorActionQuery(broadcasterId),
 		});
 
 		return new HelixPrivilegedChatSettings(result.data[0]);
@@ -236,7 +234,7 @@ export class HelixChatApi extends BaseApi {
 	 */
 	async updateSettings(
 		broadcaster: UserIdResolvable,
-		settings: HelixUpdateChatSettingsParams
+		settings: HelixUpdateChatSettingsParams,
 	): Promise<HelixPrivilegedChatSettings> {
 		const broadcasterId = extractUserId(broadcaster);
 		const result = await this._client.callApi<HelixResponse<HelixPrivilegedChatSettingsData>>({
@@ -247,7 +245,7 @@ export class HelixChatApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			scopes: ['moderator:manage:chat_settings'],
 			query: this._createModeratorActionQuery(broadcasterId),
-			jsonBody: createChatSettingsUpdateBody(settings)
+			jsonBody: createChatSettingsUpdateBody(settings),
 		});
 
 		return new HelixPrivilegedChatSettings(result.data[0]);
@@ -265,7 +263,7 @@ export class HelixChatApi extends BaseApi {
 	 */
 	async sendAnnouncement(
 		broadcaster: UserIdResolvable,
-		announcement: HelixSendChatAnnouncementParams
+		announcement: HelixSendChatAnnouncementParams,
 	): Promise<void> {
 		const broadcasterId = extractUserId(broadcaster);
 		await this._client.callApi({
@@ -278,8 +276,8 @@ export class HelixChatApi extends BaseApi {
 			query: this._createModeratorActionQuery(broadcasterId),
 			jsonBody: {
 				message: announcement.message,
-				color: announcement.color
-			}
+				color: announcement.color,
+			},
 		});
 	}
 
@@ -296,7 +294,7 @@ export class HelixChatApi extends BaseApi {
 		const response = await this._client.callApi<HelixResponse<HelixChatColorDefinitionData>>({
 			type: 'helix',
 			url: 'chat/color',
-			query: createSingleKeyQuery('user_id', users.map(extractUserId))
+			query: createSingleKeyQuery('user_id', users.map(extractUserId)),
 		});
 
 		return new Map(response.data.map(data => [data.user_id, data.color || null] as const));
@@ -314,7 +312,7 @@ export class HelixChatApi extends BaseApi {
 			type: 'helix',
 			url: 'chat/color',
 			userId: extractUserId(user),
-			query: createSingleKeyQuery('user_id', extractUserId(user))
+			query: createSingleKeyQuery('user_id', extractUserId(user)),
 		});
 
 		if (!response.data.length) {
@@ -339,7 +337,7 @@ export class HelixChatApi extends BaseApi {
 			method: 'PUT',
 			userId: extractUserId(user),
 			scopes: ['user:manage:chat_color'],
-			query: createChatColorUpdateQuery(user, color)
+			query: createChatColorUpdateQuery(user, color),
 		});
 	}
 
@@ -363,7 +361,7 @@ export class HelixChatApi extends BaseApi {
 			userId: fromId,
 			canOverrideScopedUserContext: true,
 			scopes: ['moderator:manage:shoutouts'],
-			query: createShoutoutQuery(from, to, this._getUserContextIdWithDefault(fromId))
+			query: createShoutoutQuery(from, to, this._getUserContextIdWithDefault(fromId)),
 		});
 	}
 

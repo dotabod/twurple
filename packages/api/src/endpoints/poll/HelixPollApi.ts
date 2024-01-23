@@ -1,15 +1,11 @@
-import type { HelixPaginatedResponse, HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixPaginatedResponse, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { createGetByIdsQuery } from '../../interfaces/endpoints/generic.external';
 import { createPollBody, createPollEndBody, type HelixPollData } from '../../interfaces/endpoints/poll.external';
 import { type HelixCreatePollData } from '../../interfaces/endpoints/poll.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
-import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixPoll } from './HelixPoll';
 
@@ -39,7 +35,7 @@ export class HelixPollApi extends BaseApi {
 	 */
 	async getPolls(
 		broadcaster: UserIdResolvable,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResult<HelixPoll>> {
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixPollData>>({
 			type: 'helix',
@@ -48,8 +44,8 @@ export class HelixPollApi extends BaseApi {
 			scopes: ['channel:read:polls'],
 			query: {
 				...createBroadcasterQuery(broadcaster),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResult(result, HelixPoll, this._client);
@@ -66,11 +62,11 @@ export class HelixPollApi extends BaseApi {
 				url: 'polls',
 				userId: extractUserId(broadcaster),
 				scopes: ['channel:read:polls'],
-				query: createBroadcasterQuery(broadcaster)
+				query: createBroadcasterQuery(broadcaster),
 			},
 			this._client,
 			data => new HelixPoll(data, this._client),
-			20
+			20,
 		);
 	}
 
@@ -90,7 +86,7 @@ export class HelixPollApi extends BaseApi {
 			url: 'polls',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:polls'],
-			query: createGetByIdsQuery(broadcaster, ids)
+			query: createGetByIdsQuery(broadcaster, ids),
 		});
 
 		return result.data.map(data => new HelixPoll(data, this._client));
@@ -122,7 +118,7 @@ export class HelixPollApi extends BaseApi {
 			method: 'POST',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:polls'],
-			jsonBody: createPollBody(broadcaster, data)
+			jsonBody: createPollBody(broadcaster, data),
 		});
 
 		return new HelixPoll(result.data[0], this._client);
@@ -142,7 +138,7 @@ export class HelixPollApi extends BaseApi {
 			method: 'PATCH',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:polls'],
-			jsonBody: createPollEndBody(broadcaster, id, showResult)
+			jsonBody: createPollEndBody(broadcaster, id, showResult),
 		});
 
 		return new HelixPoll(result.data[0], this._client);

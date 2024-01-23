@@ -1,16 +1,21 @@
-import type { Connection, WebSocketClientOptions } from '@d-fischer/connection';
-import { PersistentConnection, WebSocketConnection } from '@d-fischer/connection';
-import type { Logger, LoggerOptions } from '@d-fischer/logger';
-import { createLogger } from '@d-fischer/logger';
-import type { ResolvableValue } from '@d-fischer/shared-utils';
-import { Enumerable, promiseWithResolvers } from '@d-fischer/shared-utils';
+import {
+	type Connection,
+	PersistentConnection,
+	type WebSocketClientOptions,
+	WebSocketConnection,
+} from '@d-fischer/connection';
+import { createLogger, type Logger, type LoggerOptions } from '@d-fischer/logger';
+import { Enumerable, promiseWithResolvers, type ResolvableValue } from '@d-fischer/shared-utils';
 import { EventEmitter } from '@d-fischer/typed-event-emitter';
-import type { AuthProvider } from '@twurple/auth';
-import { getValidTokenFromProviderForUser } from '@twurple/auth';
+import { type AuthProvider, getValidTokenFromProviderForUser } from '@twurple/auth';
 import { HellFreezesOverError, rtfm } from '@twurple/common';
 import type { PubSubMessageData } from './messages/PubSubMessage';
-import type { PubSubIncomingPacket, PubSubNoncedOutgoingPacket, PubSubOutgoingPacket } from './PubSubPacket.external';
-import { createListenPacket } from './PubSubPacket.external';
+import {
+	createListenPacket,
+	type PubSubIncomingPacket,
+	type PubSubNoncedOutgoingPacket,
+	type PubSubOutgoingPacket,
+} from './PubSubPacket.external';
 
 /** @private */
 interface StaticTokenResolvable {
@@ -131,13 +136,13 @@ export class BasicPubSubClient extends EventEmitter {
 		super();
 		this._logger = createLogger({
 			name: 'twurple:pubsub:basic',
-			...options?.logger
+			...options?.logger,
 		});
 
 		this._connection = new PersistentConnection(
 			WebSocketConnection,
 			{ hostName: 'pubsub-edge.twitch.tv', port: 443, secure: true },
-			{ logger: this._logger, additionalOptions: { wsOptions: options?.wsOptions } }
+			{ logger: this._logger, additionalOptions: { wsOptions: options?.wsOptions } },
 		);
 
 		this._connection.onConnect(async () => {
@@ -165,12 +170,10 @@ export class BasicPubSubClient extends EventEmitter {
 			this.removeInternalListener();
 			if (manually) {
 				this._logger.info('Disconnected');
+			} else if (reason) {
+				this._logger.error(`Disconnected unexpectedly: ${reason.message}`);
 			} else {
-				if (reason) {
-					this._logger.error(`Disconnected unexpectedly: ${reason.message}`);
-				} else {
-					this._logger.error('Disconnected unexpectedly');
-				}
+				this._logger.error('Disconnected unexpectedly');
 			}
 			this.emit(this.onDisconnect, manually, reason);
 		});
@@ -218,7 +221,7 @@ export class BasicPubSubClient extends EventEmitter {
 				this._logger.error(
 					`Error during unlisten of topics ${topicsArray.join(', ')}: ${
 						(e as Error | undefined)?.message ?? (e as string)
-					}`
+					}`,
 				);
 			});
 		}
@@ -277,8 +280,8 @@ export class BasicPubSubClient extends EventEmitter {
 		await this._sendNonced({
 			type: 'UNLISTEN',
 			data: {
-				topics
-			}
+				topics,
+			},
 		});
 	}
 
@@ -290,13 +293,13 @@ export class BasicPubSubClient extends EventEmitter {
 			case 'string': {
 				return {
 					type: 'static',
-					token: resolvable
+					token: resolvable,
 				};
 			}
 			case 'function': {
 				return {
 					type: 'function',
-					function: resolvable
+					function: resolvable,
 				};
 			}
 			default: {
@@ -320,7 +323,7 @@ export class BasicPubSubClient extends EventEmitter {
 			}
 			default: {
 				throw new HellFreezesOverError(
-					`Passed unknown type to resolveToken: ${(resolvable as TokenResolvable).type}`
+					`Passed unknown type to resolveToken: ${(resolvable as TokenResolvable).type}`,
 				);
 			}
 		}
@@ -350,7 +353,7 @@ export class BasicPubSubClient extends EventEmitter {
 
 						return topicsByToken;
 					}),
-				Promise.resolve(new Map<string | undefined, string[]>())
+				Promise.resolve(new Map<string | undefined, string[]>()),
 			)
 			.then(topicsByToken => {
 				for (const [token, topics] of topicsByToken) {
@@ -407,7 +410,7 @@ export class BasicPubSubClient extends EventEmitter {
 			}
 			default: {
 				this._logger.warn(
-					`PubSub connection received unexpected message type: ${(data as PubSubIncomingPacket).type}`
+					`PubSub connection received unexpected message type: ${(data as PubSubIncomingPacket).type}`,
 				);
 			}
 		}

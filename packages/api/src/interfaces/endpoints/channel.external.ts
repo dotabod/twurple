@@ -13,6 +13,8 @@ export interface HelixChannelData {
 	title: string;
 	delay: number;
 	tags: string[];
+	content_classification_labels: string[];
+	is_branded_content: boolean;
 }
 
 /** @private */
@@ -54,7 +56,9 @@ export function createChannelUpdateBody(data: HelixChannelUpdate) {
 		broadcaster_language: data.language,
 		title: data.title,
 		delay: data.delay?.toString(),
-		tags: data.tags
+		tags: data.tags,
+		content_classification_labels: data.contentClassificationLabels,
+		is_branded_content: data.isBrandedContent,
 	};
 }
 
@@ -62,7 +66,7 @@ export function createChannelUpdateBody(data: HelixChannelUpdate) {
 export function createChannelCommercialBody(broadcaster: UserIdResolvable, length: CommercialLength) {
 	return {
 		broadcaster_id: extractUserId(broadcaster),
-		length: length
+		length,
 	};
 }
 
@@ -70,7 +74,7 @@ export function createChannelCommercialBody(broadcaster: UserIdResolvable, lengt
 export function createChannelVipUpdateQuery(broadcaster: UserIdResolvable, user: UserIdResolvable) {
 	return {
 		broadcaster_id: extractUserId(broadcaster),
-		user_id: extractUserId(user)
+		user_id: extractUserId(user),
 	};
 }
 
@@ -78,7 +82,7 @@ export function createChannelVipUpdateQuery(broadcaster: UserIdResolvable, user:
 export function createChannelFollowerQuery(broadcaster: UserIdResolvable, user?: UserIdResolvable) {
 	return {
 		broadcaster_id: extractUserId(broadcaster),
-		user_id: mapOptional(user, extractUserId)
+		user_id: mapOptional(user, extractUserId),
 	};
 }
 
@@ -86,6 +90,6 @@ export function createChannelFollowerQuery(broadcaster: UserIdResolvable, user?:
 export function createFollowedChannelQuery(user: UserIdResolvable, broadcaster?: UserIdResolvable) {
 	return {
 		broadcaster_id: mapOptional(broadcaster, extractUserId),
-		user_id: extractUserId(user)
+		user_id: extractUserId(user),
 	};
 }

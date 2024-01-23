@@ -1,7 +1,5 @@
-import type { HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery, HttpStatusCodeError } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixResponse, HttpStatusCodeError } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { type HelixTeamData, type HelixTeamWithUsersData } from '../../interfaces/endpoints/team.external';
 import { BaseApi } from '../BaseApi';
 import { HelixTeam } from './HelixTeam';
@@ -33,7 +31,7 @@ export class HelixTeamApi extends BaseApi {
 			type: 'helix',
 			url: 'teams/channel',
 			userId: extractUserId(broadcaster),
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return result.data?.map(data => new HelixTeam(data, this._client)) ?? [];
@@ -52,8 +50,8 @@ export class HelixTeamApi extends BaseApi {
 				type: 'helix',
 				url: 'teams',
 				query: {
-					id
-				}
+					id,
+				},
 			});
 
 			return new HelixTeamWithUsers(result.data[0], this._client);
@@ -79,8 +77,8 @@ export class HelixTeamApi extends BaseApi {
 				type: 'helix',
 				url: 'teams',
 				query: {
-					name
-				}
+					name,
+				},
 			});
 
 			return new HelixTeamWithUsers(result.data[0], this._client);

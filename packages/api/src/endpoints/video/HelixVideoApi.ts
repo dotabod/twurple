@@ -1,13 +1,11 @@
 import { Enumerable } from '@d-fischer/shared-utils';
 import type { HelixPaginatedResponse } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { type HelixVideoData } from '../../interfaces/endpoints/video.external';
 import { type HelixPaginatedVideoFilter, type HelixVideoFilter } from '../../interfaces/endpoints/video.input';
 import { HelixRequestBatcher } from '../../utils/HelixRequestBatcher';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
 import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixVideo } from './HelixVideo';
@@ -34,12 +32,12 @@ export class HelixVideoApi extends BaseApi {
 	/** @internal */
 	@Enumerable(false) private readonly _getVideoByIdBatcher = new HelixRequestBatcher(
 		{
-			url: 'videos'
+			url: 'videos',
 		},
 		'id',
 		'id',
 		this._client,
-		(data: HelixVideoData) => new HelixVideo(data, this._client)
+		(data: HelixVideoData) => new HelixVideo(data, this._client),
 	);
 
 	/**
@@ -82,7 +80,7 @@ export class HelixVideoApi extends BaseApi {
 	 */
 	async getVideosByUser(
 		user: UserIdResolvable,
-		filter: HelixPaginatedVideoFilter = {}
+		filter: HelixPaginatedVideoFilter = {},
 	): Promise<HelixPaginatedResult<HelixVideo>> {
 		const userId = extractUserId(user);
 		return await this._getVideos('user_id', [userId], filter);
@@ -98,7 +96,7 @@ export class HelixVideoApi extends BaseApi {
 	 */
 	getVideosByUserPaginated(
 		user: UserIdResolvable,
-		filter: HelixVideoFilter = {}
+		filter: HelixVideoFilter = {},
 	): HelixPaginatedRequest<HelixVideoData, HelixVideo> {
 		const userId = extractUserId(user);
 		return this._getVideosPaginated('user_id', [userId], filter);
@@ -114,7 +112,7 @@ export class HelixVideoApi extends BaseApi {
 	 */
 	async getVideosByGame(
 		gameId: string,
-		filter: HelixPaginatedVideoFilter = {}
+		filter: HelixPaginatedVideoFilter = {},
 	): Promise<HelixPaginatedResult<HelixVideo>> {
 		return await this._getVideos('game_id', [gameId], filter);
 	}
@@ -129,7 +127,7 @@ export class HelixVideoApi extends BaseApi {
 	 */
 	getVideosByGamePaginated(
 		gameId: string,
-		filter: HelixVideoFilter = {}
+		filter: HelixVideoFilter = {},
 	): HelixPaginatedRequest<HelixVideoData, HelixVideo> {
 		return this._getVideosPaginated('game_id', [gameId], filter);
 	}
@@ -148,8 +146,8 @@ export class HelixVideoApi extends BaseApi {
 			scopes: ['channel:manage:videos'],
 			userId: extractUserId(broadcaster),
 			query: {
-				id: ids
-			}
+				id: ids,
+			},
 		});
 	}
 
@@ -157,7 +155,7 @@ export class HelixVideoApi extends BaseApi {
 	private async _getVideos(
 		filterType: HelixVideoFilterType,
 		filterValues: string[],
-		filter: HelixPaginatedVideoFilter = {}
+		filter: HelixPaginatedVideoFilter = {},
 	): Promise<HelixPaginatedResult<HelixVideo>> {
 		if (!filterValues.length) {
 			return { data: [] };
@@ -168,8 +166,8 @@ export class HelixVideoApi extends BaseApi {
 			userId: filterType === 'user_id' ? filterValues[0] : undefined,
 			query: {
 				...HelixVideoApi._makeVideosQuery(filterType, filterValues, filter),
-				...createPaginationQuery(filter)
-			}
+				...createPaginationQuery(filter),
+			},
 		});
 
 		return createPaginatedResult(result, HelixVideo, this._client);
@@ -179,16 +177,16 @@ export class HelixVideoApi extends BaseApi {
 	private _getVideosPaginated(
 		filterType: HelixVideoFilterType,
 		filterValues: string[],
-		filter: HelixVideoFilter = {}
+		filter: HelixVideoFilter = {},
 	): HelixPaginatedRequest<HelixVideoData, HelixVideo> {
 		return new HelixPaginatedRequest(
 			{
 				url: 'videos',
 				userId: filterType === 'user_id' ? filterValues[0] : undefined,
-				query: HelixVideoApi._makeVideosQuery(filterType, filterValues, filter)
+				query: HelixVideoApi._makeVideosQuery(filterType, filterValues, filter),
 			},
 			this._client,
-			data => new HelixVideo(data, this._client)
+			data => new HelixVideo(data, this._client),
 		);
 	}
 
@@ -196,7 +194,7 @@ export class HelixVideoApi extends BaseApi {
 	private static _makeVideosQuery(
 		filterType: HelixVideoFilterType,
 		filterValues: string[],
-		filter: HelixVideoFilter = {}
+		filter: HelixVideoFilter = {},
 	) {
 		const { language, period, orderBy, type } = filter;
 		return {
@@ -204,7 +202,7 @@ export class HelixVideoApi extends BaseApi {
 			language,
 			period,
 			sort: orderBy,
-			type
+			type,
 		};
 	}
 }

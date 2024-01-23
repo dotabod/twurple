@@ -34,7 +34,7 @@ export class HelixPaginatedRequest<D, T> {
 		private readonly _callOptions: Omit<ContextApiCallOptions, 'type'>,
 		client: BaseApiClient,
 		private readonly _mapper: (data: D) => T | T[],
-		private readonly _limitPerPage: number = 100
+		private readonly _limitPerPage: number = 100,
 	) {
 		this._client = client;
 	}
@@ -123,7 +123,7 @@ export class HelixPaginatedRequest<D, T> {
 
 	/** @internal */
 	protected async _fetchData(
-		additionalOptions: Partial<TwitchApiCallOptions> = {}
+		additionalOptions: Partial<TwitchApiCallOptions> = {},
 	): Promise<HelixPaginatedResponse<D>> {
 		return await this._client.callApi<HelixPaginatedResponse<D>>({
 			type: 'helix',
@@ -133,14 +133,14 @@ export class HelixPaginatedRequest<D, T> {
 				...this._callOptions.query,
 				after: this._currentCursor,
 				first: this._limitPerPage.toString(),
-				...additionalOptions.query
-			}
+				...additionalOptions.query,
+			},
 		});
 	}
 
 	/** @internal */
 	private _processResult(result: HelixPaginatedResponse<D>): T[] {
-		this._currentCursor = result.pagination ? result.pagination.cursor : undefined;
+		this._currentCursor = typeof result.pagination === 'string' ? result.pagination : result.pagination?.cursor;
 		if (this._currentCursor === undefined) {
 			this._isFinished = true;
 		}

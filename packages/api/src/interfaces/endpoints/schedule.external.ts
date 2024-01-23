@@ -3,7 +3,7 @@ import {
 	type HelixCreateScheduleSegmentData,
 	type HelixScheduleFilter,
 	type HelixScheduleSettingsUpdate,
-	type HelixUpdateScheduleSegmentData
+	type HelixUpdateScheduleSegmentData,
 } from './schedule.input';
 
 /** @private */
@@ -51,14 +51,14 @@ export function createScheduleQuery(broadcaster: UserIdResolvable, filter?: Heli
 	return {
 		broadcaster_id: extractUserId(broadcaster),
 		start_time: filter?.startDate,
-		utc_offset: filter?.utcOffset?.toString()
+		utc_offset: filter?.utcOffset?.toString(),
 	};
 }
 
 /** @internal */
 export function createScheduleSettingsUpdateQuery(
 	broadcaster: UserIdResolvable,
-	settings: HelixScheduleSettingsUpdate
+	settings: HelixScheduleSettingsUpdate,
 ) {
 	if (settings.vacation) {
 		return {
@@ -66,14 +66,13 @@ export function createScheduleSettingsUpdateQuery(
 			is_vacation_enabled: 'true',
 			vacation_start_time: settings.vacation.startDate,
 			vacation_end_time: settings.vacation.endDate,
-			timezone: settings.vacation.timezone
-		};
-	} else {
-		return {
-			broadcaster_id: extractUserId(broadcaster),
-			is_vacation_enabled: 'false'
+			timezone: settings.vacation.timezone,
 		};
 	}
+	return {
+		broadcaster_id: extractUserId(broadcaster),
+		is_vacation_enabled: 'false',
+	};
 }
 
 /** @internal */
@@ -84,7 +83,7 @@ export function createScheduleSegmentBody(data: HelixCreateScheduleSegmentData) 
 		is_recurring: data.isRecurring,
 		duration: data.duration,
 		category_id: data.categoryId,
-		title: data.title
+		title: data.title,
 	};
 }
 
@@ -92,7 +91,7 @@ export function createScheduleSegmentBody(data: HelixCreateScheduleSegmentData) 
 export function createScheduleSegmentModifyQuery(broadcaster: UserIdResolvable, segmentId: string) {
 	return {
 		broadcaster_id: extractUserId(broadcaster),
-		id: segmentId
+		id: segmentId,
 	};
 }
 
@@ -104,6 +103,6 @@ export function createScheduleSegmentUpdateBody(data: HelixUpdateScheduleSegment
 		is_canceled: data.isCanceled,
 		duration: data.duration,
 		category_id: data.categoryId,
-		title: data.title
+		title: data.title,
 	};
 }

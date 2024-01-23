@@ -1,7 +1,5 @@
-import type { HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { createRaidStartQuery, type HelixRaidData } from '../../interfaces/endpoints/raid.external';
 import { BaseApi } from '../BaseApi';
 import { HelixRaid } from './HelixRaid';
@@ -35,7 +33,7 @@ export class HelixRaidApi extends BaseApi {
 			method: 'POST',
 			userId: extractUserId(from),
 			scopes: ['channel:manage:raids'],
-			query: createRaidStartQuery(from, to)
+			query: createRaidStartQuery(from, to),
 		});
 
 		return new HelixRaid(result.data[0]);
@@ -53,7 +51,7 @@ export class HelixRaidApi extends BaseApi {
 			method: 'DELETE',
 			userId: extractUserId(from),
 			scopes: ['channel:manage:raids'],
-			query: createBroadcasterQuery(from)
+			query: createBroadcasterQuery(from),
 		});
 	}
 }

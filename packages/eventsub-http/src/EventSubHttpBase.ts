@@ -1,13 +1,13 @@
 import getRawBody from '@d-fischer/raw-body';
 import { Enumerable } from '@d-fischer/shared-utils';
 import type { HelixEventSubSubscription, HelixEventSubWebHookTransportOptions } from '@twurple/api';
-import type {
-	EventSubBaseConfig,
-	EventSubNotificationPayload,
-	EventSubSubscription,
-	EventSubSubscriptionBody
+import {
+	EventSubBase,
+	type EventSubBaseConfig,
+	type EventSubNotificationPayload,
+	type EventSubSubscription,
+	type EventSubSubscriptionBody,
 } from '@twurple/eventsub-base';
-import { EventSubBase } from '@twurple/eventsub-base';
 import * as crypto from 'crypto';
 import type { Request, RequestHandler } from 'httpanda';
 
@@ -117,19 +117,19 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 
 	/** @private */
 	async _getTransportOptionsForSubscription(
-		subscription: EventSubSubscription
+		subscription: EventSubSubscription,
 	): Promise<HelixEventSubWebHookTransportOptions> {
 		return {
 			method: 'webhook',
 			callback: await this._buildHookUrl(subscription.id),
-			secret: this._createSecretForSubscription(subscription)
+			secret: this._createSecretForSubscription(subscription),
 		};
 	}
 
 	/** @private */
 	async _getCliTestCommandForSubscription(subscription: EventSubSubscription): Promise<string> {
 		return `twitch event trigger ${subscription._cliName} -F ${await this._buildHookUrl(
-			subscription.id
+			subscription.id,
 		)} -s ${this._createSecretForSubscription(subscription)}`;
 	}
 
@@ -159,7 +159,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 					}
 					return undefined;
 				})
-				.filter(<T>(x?: T): x is T => !!x)
+				.filter(<T>(x?: T): x is T => !!x),
 		);
 
 		for (const [subId, sub] of this._subscriptions) {
@@ -168,12 +168,12 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 	}
 
 	protected _createHandleRequest(): RequestHandler {
-		return async (req, res, next) => {
+		return async (req, res) => {
 			if (req.readableEnded) {
 				throw new Error(
 					'The request body was already consumed by something else.\n' +
 						"Please make sure you don't globally apply middlewares that consume the request body, " +
-						'such as express.json() or body-parser.'
+						'such as express.json() or body-parser.',
 				);
 			}
 
@@ -223,49 +223,57 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 				return;
 			}
 
-			if (type === 'webhook_callback_verification') {
-				const verificationBody = data as EventSubVerificationPayload;
-				this.emit(this.onVerify, true, subscription);
-				subscription._verify();
-				if (twitchSubscription) {
-					twitchSubscription._status = 'enabled';
-				}
-				res.setHeader('Content-Length', verificationBody.challenge.length);
-				res.setHeader('Content-Type', 'text/plain');
-				res.writeHead(200, undefined);
-				res.end(verificationBody.challenge);
-				this._logger.debug(`Successfully subscribed to event: ${id}`);
-			} else if (type === 'notification') {
-				if (new Date(timestamp).getTime() < Date.now() - 10 * 60 * 1000) {
-					this._logger.debug(`Old notification(s) prevented for event: ${id}`);
-				} else {
-					const payload = data as EventSubNotificationPayload;
-					if ('events' in payload) {
-						for (const event of payload.events) {
-							this._handleSingleEventPayload(subscription, event.data, event.id);
-						}
-					} else {
-						this._handleSingleEventPayload(subscription, payload.event, messageId);
+			switch (type) {
+				case 'webhook_callback_verification': {
+					const verificationBody = data as EventSubVerificationPayload;
+					this.emit(this.onVerify, true, subscription);
+					subscription._verify();
+					if (twitchSubscription) {
+						twitchSubscription._status = 'enabled';
 					}
+					res.setHeader('Content-Length', verificationBody.challenge.length);
+					res.setHeader('Content-Type', 'text/plain');
+					res.writeHead(200, undefined);
+					res.end(verificationBody.challenge);
+					this._logger.debug(`Successfully subscribed to event: ${id}`);
+					break;
 				}
-				res.setHeader('Content-Type', 'text/plain');
-				res.writeHead(202);
-				res.end('OK');
-			} else if (type === 'revocation') {
-				this._dropSubscription(subscription.id);
-				this._dropTwitchSubscription(subscription.id);
-				this.emit(this.onRevoke, subscription);
-				this._logger.debug(`Subscription revoked by Twitch for event: ${id}`);
-				res.setHeader('Content-Type', 'text/plain');
-				res.writeHead(202);
-				res.end('OK');
-			} else {
-				this._logger.warn(`Unknown action ${type} for event: ${id}`);
-				res.setHeader('Content-Type', 'text/plain');
-				res.writeHead(400);
-				res.end('Not OK');
+				case 'notification': {
+					if (new Date(timestamp).getTime() < Date.now() - 10 * 60 * 1000) {
+						this._logger.debug(`Old notification(s) prevented for event: ${id}`);
+					} else {
+						const payload = data as EventSubNotificationPayload;
+						if ('events' in payload) {
+							for (const event of payload.events) {
+								this._handleSingleEventPayload(subscription, event.data, event.id);
+							}
+						} else {
+							this._handleSingleEventPayload(subscription, payload.event, messageId);
+						}
+					}
+					res.setHeader('Content-Type', 'text/plain');
+					res.writeHead(202);
+					res.end('OK');
+					break;
+				}
+				case 'revocation': {
+					this._dropSubscription(subscription.id);
+					this._dropTwitchSubscription(subscription.id);
+					this.emit(this.onRevoke, subscription);
+					this._logger.debug(`Subscription revoked by Twitch for event: ${id}`);
+					res.setHeader('Content-Type', 'text/plain');
+					res.writeHead(202);
+					res.end('OK');
+					break;
+				}
+				default: {
+					this._logger.warn(`Unknown action ${type} for event: ${id}`);
+					res.setHeader('Content-Type', 'text/plain');
+					res.writeHead(400);
+					res.end('Not OK');
+					break;
+				}
 			}
-			next();
 		};
 	}
 
@@ -318,7 +326,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 				return false;
 			}
 
-			const host = req.headers.host;
+			const { host } = req.headers;
 			if (host === undefined) {
 				this._logger.debug(`Denied request from ${ip} because its host header is empty`);
 				return true;
@@ -327,7 +335,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 			const expectedHost = await this.getHostName();
 			if (host !== expectedHost) {
 				this._logger.debug(
-					`Denied request from ${ip} because its host header (${host}) doesn't match the expected value (${expectedHost})`
+					`Denied request from ${ip} because its host header (${host}) doesn't match the expected value (${expectedHost})`,
 				);
 				return true;
 			}
@@ -336,7 +344,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 	}
 
 	protected _findTwitchSubscriptionToContinue(
-		subscription: EventSubSubscription
+		subscription: EventSubSubscription,
 	): HelixEventSubSubscription | undefined {
 		return this._twitchSubscriptions.get(subscription.id);
 	}
@@ -355,7 +363,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 	private _handleSingleEventPayload(
 		subscription: EventSubSubscription,
 		payload: Record<string, unknown>,
-		messageId: string
+		messageId: string,
 	) {
 		if (this._seenEventIds.has(messageId)) {
 			this._logger.debug(`Duplicate notification prevented for event: ${subscription.id}`);
@@ -371,7 +379,7 @@ To use your legacy subscriptions without having to clean them up and resubscribi
 		messageId: string,
 		timestamp: string,
 		body: string,
-		algoAndSignature: string
+		algoAndSignature: string,
 	): boolean {
 		const [algorithm, signature] = algoAndSignature.split('=', 2);
 

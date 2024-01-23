@@ -1,15 +1,11 @@
-import type { HelixPaginatedResponse, HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixPaginatedResponse, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import {
 	type HelixCharityCampaignData,
-	type HelixCharityCampaignDonationData
+	type HelixCharityCampaignDonationData,
 } from '../../interfaces/endpoints/charity.external';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
-import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixCharityCampaign } from './HelixCharityCampaign';
 import { HelixCharityCampaignDonation } from './HelixCharityCampaignDonation';
@@ -43,7 +39,7 @@ export class HelixCharityApi extends BaseApi {
 			method: 'GET',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:charity'],
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return new HelixCharityCampaign(response.data[0], this._client);
@@ -59,7 +55,7 @@ export class HelixCharityApi extends BaseApi {
 	 */
 	async getCharityCampaignDonations(
 		broadcaster: UserIdResolvable,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResult<HelixCharityCampaignDonation>> {
 		const response = await this._client.callApi<HelixPaginatedResponse<HelixCharityCampaignDonationData>>({
 			type: 'helix',
@@ -68,8 +64,8 @@ export class HelixCharityApi extends BaseApi {
 			scopes: ['channel:read:charity'],
 			query: {
 				...createBroadcasterQuery(broadcaster),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResult(response, HelixCharityCampaignDonation, this._client);

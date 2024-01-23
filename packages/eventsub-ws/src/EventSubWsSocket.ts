@@ -6,7 +6,7 @@ import { type EventSubWsListener } from './EventSubWsListener';
 import {
 	type EventSubReconnectPayload,
 	type EventSubWelcomePayload,
-	type EventSubWsPacket
+	type EventSubWsPacket,
 } from './EventSubWsPacket.external';
 
 /** @internal */
@@ -27,11 +27,11 @@ export class EventSubWsSocket {
 		private readonly _listener: EventSubWsListener,
 		private readonly _userId: string,
 		initialUrl: string,
-		loggerOptions?: Partial<LoggerOptions>
+		loggerOptions?: Partial<LoggerOptions>,
 	) {
 		this._logger = createLogger({
 			name: `twurple:eventsub:ws:${_userId}`,
-			...loggerOptions
+			...loggerOptions,
 		});
 		this._initialUrl = initialUrl;
 		this._keepaliveTimeout = null;
@@ -40,11 +40,11 @@ export class EventSubWsSocket {
 		this._connection = new PersistentConnection(
 			WebSocketConnection,
 			() => ({
-				url: this._reconnectUrl ?? this._initialUrl
+				url: this._reconnectUrl ?? this._initialUrl,
 			}),
 			{
-				overlapManualReconnect: true
-			}
+				overlapManualReconnect: true,
+			},
 		);
 
 		this._connection.onConnect(() => {
@@ -65,7 +65,7 @@ export class EventSubWsSocket {
 			switch (metadata.message_type) {
 				case 'session_welcome': {
 					this._logger.info(
-						this._reconnectInProgress ? 'Reconnect: new connection established' : 'Connection established'
+						this._reconnectInProgress ? 'Reconnect: new connection established' : 'Connection established',
 					);
 					this._sessionId = (payload as EventSubWelcomePayload).session.id;
 					this._readyToSubscribe = true;
@@ -73,7 +73,7 @@ export class EventSubWsSocket {
 						const subs = this._listener._getSubscriptionsForUser(this._userId);
 						if (!subs.length) {
 							this._logger.debug(
-								`Stopping socket for user ${this._userId} because no subscriptions are active`
+								`Stopping socket for user ${this._userId} because no subscriptions are active`,
 							);
 							this.stop();
 							break;
@@ -83,7 +83,7 @@ export class EventSubWsSocket {
 						}
 					}
 					this._initializeKeepaliveTimeout(
-						(payload as EventSubWelcomePayload).session.keepalive_timeout_seconds!
+						(payload as EventSubWelcomePayload).session.keepalive_timeout_seconds!,
 					);
 					this._reconnectInProgress = false;
 					this._connection.acknowledgeSuccessfulReconnect();
@@ -102,7 +102,7 @@ export class EventSubWsSocket {
 				}
 				case 'notification': {
 					this._restartKeepaliveTimer();
-					const id = (payload as EventSubNotificationPayload).subscription.id;
+					const { id } = (payload as EventSubNotificationPayload).subscription;
 					const subscription = this._listener._getCorrectSubscriptionByTwitchId(id);
 					if (!subscription) {
 						this._logger.error(`Notification from unknown event received: ${id}`);
@@ -119,7 +119,7 @@ export class EventSubWsSocket {
 					break;
 				}
 				case 'revocation': {
-					const id = (payload as EventSubNotificationPayload).subscription.id;
+					const { id } = (payload as EventSubNotificationPayload).subscription;
 					const subscription = this._listener._getCorrectSubscriptionByTwitchId(id);
 					if (!subscription) {
 						this._logger.error(`Revocation from unknown event received: ${id}`);

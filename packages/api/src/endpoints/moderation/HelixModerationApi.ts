@@ -1,7 +1,5 @@
-import type { HelixPaginatedResponse, HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixPaginatedResponse, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { createModeratorActionQuery, createSingleKeyQuery } from '../../interfaces/endpoints/generic.external';
 import {
 	createAutoModProcessBody,
@@ -16,20 +14,18 @@ import {
 	type HelixBanUserData,
 	type HelixBlockedTermData,
 	type HelixModeratorData,
-	type HelixShieldModeStatusData
+	type HelixShieldModeStatusData,
 } from '../../interfaces/endpoints/moderation.external';
 import {
 	type HelixAutoModSettingsUpdate,
 	type HelixBanFilter,
 	type HelixBanUserRequest,
 	type HelixCheckAutoModStatusData,
-	type HelixModeratorFilter
+	type HelixModeratorFilter,
 } from '../../interfaces/endpoints/moderation.input';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
-import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixAutoModSettings } from './HelixAutoModSettings';
 import { HelixAutoModStatus } from './HelixAutoModStatus';
@@ -71,8 +67,8 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderation:read'],
 			query: {
 				...createModerationUserListQuery(channel, filter),
-				...createPaginationQuery(filter)
-			}
+				...createPaginationQuery(filter),
+			},
 		});
 
 		return createPaginatedResult(result, HelixBan, this._client);
@@ -89,11 +85,11 @@ export class HelixModerationApi extends BaseApi {
 				url: 'moderation/banned',
 				userId: extractUserId(channel),
 				scopes: ['moderation:read'],
-				query: createBroadcasterQuery(channel)
+				query: createBroadcasterQuery(channel),
 			},
 			this._client,
 			data => new HelixBan(data, this._client),
-			50 // possibly a relatively consistent workaround for twitchdev/issues#18
+			50, // possibly a relatively consistent workaround for twitchdev/issues#18
 		);
 	}
 
@@ -120,7 +116,7 @@ export class HelixModerationApi extends BaseApi {
 	 */
 	async getModerators(
 		channel: UserIdResolvable,
-		filter?: HelixModeratorFilter
+		filter?: HelixModeratorFilter,
 	): Promise<HelixPaginatedResult<HelixModerator>> {
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixModeratorData>>({
 			type: 'helix',
@@ -129,8 +125,8 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderation:read', 'channel:manage:moderators'],
 			query: {
 				...createModerationUserListQuery(channel, filter),
-				...createPaginationQuery(filter)
-			}
+				...createPaginationQuery(filter),
+			},
 		});
 
 		return createPaginatedResult(result, HelixModerator, this._client);
@@ -147,10 +143,10 @@ export class HelixModerationApi extends BaseApi {
 				url: 'moderation/moderators',
 				userId: extractUserId(channel),
 				scopes: ['moderation:read', 'channel:manage:moderators'],
-				query: createBroadcasterQuery(channel)
+				query: createBroadcasterQuery(channel),
 			},
 			this._client,
-			data => new HelixModerator(data, this._client)
+			data => new HelixModerator(data, this._client),
 		);
 	}
 
@@ -180,7 +176,7 @@ export class HelixModerationApi extends BaseApi {
 			method: 'POST',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:moderators'],
-			query: createModeratorModifyQuery(broadcaster, user)
+			query: createModeratorModifyQuery(broadcaster, user),
 		});
 	}
 
@@ -197,7 +193,7 @@ export class HelixModerationApi extends BaseApi {
 			method: 'DELETE',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:manage:moderators'],
-			query: createModeratorModifyQuery(broadcaster, user)
+			query: createModeratorModifyQuery(broadcaster, user),
 		});
 	}
 
@@ -209,7 +205,7 @@ export class HelixModerationApi extends BaseApi {
 	 */
 	async checkAutoModStatus(
 		channel: UserIdResolvable,
-		data: HelixCheckAutoModStatusData[]
+		data: HelixCheckAutoModStatusData[],
 	): Promise<HelixAutoModStatus[]> {
 		const result = await this._client.callApi<HelixResponse<HelixAutoModStatusData>>({
 			type: 'helix',
@@ -219,8 +215,8 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderation:read'],
 			query: createBroadcasterQuery(channel),
 			jsonBody: {
-				data
-			}
+				data,
+			},
 		});
 
 		return result.data.map(statusData => new HelixAutoModStatus(statusData));
@@ -240,7 +236,7 @@ export class HelixModerationApi extends BaseApi {
 			method: 'POST',
 			userId: extractUserId(user),
 			scopes: ['moderator:manage:automod'],
-			jsonBody: createAutoModProcessBody(user, msgId, allow)
+			jsonBody: createAutoModProcessBody(user, msgId, allow),
 		});
 	}
 
@@ -261,7 +257,7 @@ export class HelixModerationApi extends BaseApi {
 			userId: broadcasterId,
 			scopes: ['moderator:read:automod_settings'],
 			canOverrideScopedUserContext: true,
-			query: this._createModeratorActionQuery(broadcasterId)
+			query: this._createModeratorActionQuery(broadcasterId),
 		});
 
 		return result.data.map(data => new HelixAutoModSettings(data));
@@ -279,7 +275,7 @@ export class HelixModerationApi extends BaseApi {
 	 */
 	async updateAutoModSettings(
 		broadcaster: UserIdResolvable,
-		data: HelixAutoModSettingsUpdate
+		data: HelixAutoModSettingsUpdate,
 	): Promise<HelixAutoModSettings[]> {
 		const broadcasterId = extractUserId(broadcaster);
 		const result = await this._client.callApi<HelixResponse<HelixAutoModSettingsData>>({
@@ -290,7 +286,7 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderator:manage:automod_settings'],
 			canOverrideScopedUserContext: true,
 			query: this._createModeratorActionQuery(broadcasterId),
-			jsonBody: createAutoModSettingsBody(data)
+			jsonBody: createAutoModSettingsBody(data),
 		});
 
 		return result.data.map(settingsData => new HelixAutoModSettings(settingsData));
@@ -320,7 +316,7 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderator:manage:banned_users'],
 			canOverrideScopedUserContext: true,
 			query: this._createModeratorActionQuery(broadcasterId),
-			jsonBody: createBanUserBody(data)
+			jsonBody: createBanUserBody(data),
 		});
 
 		return result.data.map(banData => new HelixBanUser(banData, banData.end_time, this._client));
@@ -347,8 +343,8 @@ export class HelixModerationApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			query: {
 				...this._createModeratorActionQuery(broadcasterId),
-				...createSingleKeyQuery('user_id', extractUserId(user))
-			}
+				...createSingleKeyQuery('user_id', extractUserId(user)),
+			},
 		});
 	}
 
@@ -368,7 +364,7 @@ export class HelixModerationApi extends BaseApi {
 	 */
 	async getBlockedTerms(
 		broadcaster: UserIdResolvable,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResult<HelixBlockedTerm>> {
 		const broadcasterId = extractUserId(broadcaster);
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixBlockedTermData>>({
@@ -379,8 +375,8 @@ export class HelixModerationApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			query: {
 				...this._createModeratorActionQuery(broadcasterId),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResult(result, HelixBlockedTerm, this._client);
@@ -409,8 +405,8 @@ export class HelixModerationApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			query: this._createModeratorActionQuery(broadcasterId),
 			jsonBody: {
-				text
-			}
+				text,
+			},
 		});
 
 		return result.data.map(blockedTermData => new HelixBlockedTerm(blockedTermData));
@@ -435,8 +431,8 @@ export class HelixModerationApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			query: {
 				...this._createModeratorActionQuery(broadcasterId),
-				id
-			}
+				id,
+			},
 		});
 	}
 
@@ -461,8 +457,8 @@ export class HelixModerationApi extends BaseApi {
 			canOverrideScopedUserContext: true,
 			query: {
 				...this._createModeratorActionQuery(broadcasterId),
-				...createSingleKeyQuery('message_id', messageId)
-			}
+				...createSingleKeyQuery('message_id', messageId),
+			},
 		});
 	}
 
@@ -480,7 +476,7 @@ export class HelixModerationApi extends BaseApi {
 			userId: broadcasterId,
 			scopes: ['moderator:read:shield_mode', 'moderator:manage:shield_mode'],
 			canOverrideScopedUserContext: true,
-			query: this._createModeratorActionQuery(broadcasterId)
+			query: this._createModeratorActionQuery(broadcasterId),
 		});
 
 		return new HelixShieldModeStatus(result.data[0], this._client);
@@ -506,7 +502,7 @@ export class HelixModerationApi extends BaseApi {
 			scopes: ['moderator:manage:shield_mode'],
 			canOverrideScopedUserContext: true,
 			query: this._createModeratorActionQuery(broadcasterId),
-			jsonBody: createUpdateShieldModeStatusBody(activate)
+			jsonBody: createUpdateShieldModeStatusBody(activate),
 		});
 
 		return new HelixShieldModeStatus(result.data[0], this._client);

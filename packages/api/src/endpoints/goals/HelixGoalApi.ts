@@ -1,7 +1,5 @@
-import type { HelixResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId, rtfm } from '@twurple/common';
+import { createBroadcasterQuery, type HelixResponse } from '@twurple/api-call';
+import { extractUserId, rtfm, type UserIdResolvable } from '@twurple/common';
 import { type HelixGoalData } from '../../interfaces/endpoints/goal.external';
 import { BaseApi } from '../BaseApi';
 import { HelixGoal } from './HelixGoal';
@@ -27,7 +25,7 @@ export class HelixGoalApi extends BaseApi {
 			url: 'goals',
 			userId: extractUserId(broadcaster),
 			scopes: ['channel:read:goals'],
-			query: createBroadcasterQuery(broadcaster)
+			query: createBroadcasterQuery(broadcaster),
 		});
 
 		return result.data.map(data => new HelixGoal(data, this._client));

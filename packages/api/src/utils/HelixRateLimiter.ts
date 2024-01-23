@@ -1,6 +1,5 @@
 import { type Response } from '@d-fischer/cross-fetch';
-import type { RateLimiterResponseParameters } from '@d-fischer/rate-limiter';
-import { ResponseBasedRateLimiter } from '@d-fischer/rate-limiter';
+import { type RateLimiterResponseParameters, ResponseBasedRateLimiter } from '@d-fischer/rate-limiter';
 import { callTwitchApiRaw } from '@twurple/api-call';
 import type { TwitchApiCallOptionsInternal } from '../client/ApiClient';
 
@@ -11,9 +10,10 @@ export class HelixRateLimiter extends ResponseBasedRateLimiter<TwitchApiCallOpti
 		clientId,
 		accessToken,
 		authorizationType,
-		fetchOptions
+		fetchOptions,
+		mockServerPort,
 	}: TwitchApiCallOptionsInternal): Promise<Response> {
-		return await callTwitchApiRaw(options, clientId, accessToken, authorizationType, fetchOptions);
+		return await callTwitchApiRaw(options, clientId, accessToken, authorizationType, fetchOptions, mockServerPort);
 	}
 
 	protected needsToRetryAfter(res: Response): number | null {
@@ -27,11 +27,11 @@ export class HelixRateLimiter extends ResponseBasedRateLimiter<TwitchApiCallOpti
 	}
 
 	protected getParametersFromResponse(res: Response): RateLimiterResponseParameters {
-		const headers = res.headers;
+		const { headers } = res;
 		return {
 			limit: +headers.get('ratelimit-limit')!,
 			remaining: +headers.get('ratelimit-remaining')!,
-			resetsAt: +headers.get('ratelimit-reset')! * 1000
+			resetsAt: +headers.get('ratelimit-reset')! * 1000,
 		};
 	}
 }

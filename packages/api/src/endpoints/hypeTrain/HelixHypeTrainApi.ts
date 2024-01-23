@@ -1,17 +1,13 @@
-import type { HelixPaginatedResponse } from '@twurple/api-call';
-import { createBroadcasterQuery } from '@twurple/api-call';
-import type { UserIdResolvable } from '@twurple/common';
-import { extractUserId } from '@twurple/common';
+import { createBroadcasterQuery, type HelixPaginatedResponse } from '@twurple/api-call';
+import { extractUserId, type UserIdResolvable } from '@twurple/common';
 import { type HelixEventData } from '../../interfaces/endpoints/generic.external';
 import {
 	type HelixHypeTrainEventData,
-	type HelixHypeTrainEventType
+	type HelixHypeTrainEventType,
 } from '../../interfaces/endpoints/hypeTrain.external';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
-import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixHypeTrainEvent } from './HelixHypeTrainEvent';
 
@@ -40,7 +36,7 @@ export class HelixHypeTrainApi extends BaseApi {
 	 */
 	async getHypeTrainEventsForBroadcaster(
 		broadcaster: UserIdResolvable,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResult<HelixHypeTrainEvent>> {
 		const result = await this._client.callApi<
 			HelixPaginatedResponse<HelixEventData<HelixHypeTrainEventData, HelixHypeTrainEventType>>
@@ -51,8 +47,8 @@ export class HelixHypeTrainApi extends BaseApi {
 			scopes: ['channel:read:hype_train'],
 			query: {
 				...createBroadcasterQuery(broadcaster),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResult(result, HelixHypeTrainEvent, this._client);
@@ -64,18 +60,18 @@ export class HelixHypeTrainApi extends BaseApi {
 	 * @param broadcaster The broadcaster to fetch Hype Train events for.
 	 */
 	getHypeTrainEventsForBroadcasterPaginated(
-		broadcaster: UserIdResolvable
+		broadcaster: UserIdResolvable,
 	): HelixPaginatedRequest<HelixEventData<HelixHypeTrainEventData, HelixHypeTrainEventType>, HelixHypeTrainEvent> {
 		return new HelixPaginatedRequest(
 			{
 				url: 'hypetrain/events',
 				userId: extractUserId(broadcaster),
 				scopes: ['channel:read:hype_train'],
-				query: createBroadcasterQuery(broadcaster)
+				query: createBroadcasterQuery(broadcaster),
 			},
 			this._client,
 			(data: HelixEventData<HelixHypeTrainEventData, HelixHypeTrainEventType>) =>
-				new HelixHypeTrainEvent(data, this._client)
+				new HelixHypeTrainEvent(data, this._client),
 		);
 	}
 }

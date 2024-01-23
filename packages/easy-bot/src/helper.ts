@@ -19,6 +19,11 @@ export interface CreateBotCommandOptions {
 	 * The interval in which expired cooldown data should be cleared, in seconds. Defaults to 10 minutes.
 	 */
 	cooldownCleanupRate?: number;
+
+	/**
+	 * Alternative names for the command that can be used to call it.
+	 */
+	aliases?: string[];
 }
 
 /**
@@ -35,7 +40,7 @@ export interface CreateBotCommandOptions {
 export function createBotCommand(
 	commandName: string,
 	handler: (params: string[], context: BotCommandContext) => void | Promise<void>,
-	options: CreateBotCommandOptions = {}
+	options: CreateBotCommandOptions = {},
 ): BotCommand {
 	return new (class extends BotCommand {
 		name = commandName;
@@ -60,6 +65,10 @@ export function createBotCommand(
 					}
 				}
 			}, (this._options.cooldownCleanupRate ?? 600) * 1000).unref();
+		}
+
+		get aliases() {
+			return options.aliases ?? [];
 		}
 
 		canExecute(channelId: string, userId: string): boolean {
@@ -91,7 +100,7 @@ export function createBotCommand(
 			if (this._options.userCooldown) {
 				this._allowedExecutionPerChannelUser.set(
 					`${context.broadcasterId}:${context.userId}`,
-					now + this._options.userCooldown * 1000
+					now + this._options.userCooldown * 1000,
 				);
 			}
 

@@ -1,7 +1,6 @@
 import { Enumerable } from '@d-fischer/shared-utils';
 import { rtfm } from '@twurple/common';
-import type { AccessToken } from '../AccessToken';
-import { accessTokenIsExpired } from '../AccessToken';
+import { type AccessToken, accessTokenIsExpired } from '../AccessToken';
 import { getAppToken } from '../helpers';
 import { TokenFetcher } from '../TokenFetcher';
 import { type AuthProvider } from './AuthProvider';
@@ -86,15 +85,15 @@ export class AppTokenAuthProvider implements AuthProvider {
 					if (scopes.every(scope => !this._impliedScopes.includes(scope))) {
 						throw new Error(
 							`One of the scopes ${scopes.join(
-								', '
-							)} requested but only the scope ${this._impliedScopes.join(', ')} is implied`
+								', ',
+							)} requested but only the scope ${this._impliedScopes.join(', ')} is implied`,
 						);
 					}
 				} else {
 					throw new Error(
 						`One of the scopes ${scopes.join(
-							', '
-						)} requested but the client credentials flow does not support scopes`
+							', ',
+						)} requested but the client credentials flow does not support scopes`,
 					);
 				}
 			}

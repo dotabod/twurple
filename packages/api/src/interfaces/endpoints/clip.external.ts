@@ -19,6 +19,7 @@ export interface HelixClipData {
 	thumbnail_url: string;
 	duration: number;
 	vod_offset: number | null;
+	is_featured: boolean;
 }
 
 /** @private */
@@ -34,16 +35,17 @@ export interface HelixClipCreateResponse {
 export function createClipCreateQuery(channel: UserIdResolvable, createAfterDelay: boolean) {
 	return {
 		broadcaster_id: extractUserId(channel),
-		has_delay: createAfterDelay.toString()
+		has_delay: createAfterDelay.toString(),
 	};
 }
 
 /** @internal */
 export function createClipQuery(params: HelixClipIdFilter) {
-	const { filterType, ids, startDate, endDate } = params;
+	const { filterType, ids, startDate, endDate, isFeatured } = params;
 	return {
 		[filterType]: ids,
 		started_at: startDate,
-		ended_at: endDate
+		ended_at: endDate,
+		is_featured: isFeatured?.toString(),
 	};
 }

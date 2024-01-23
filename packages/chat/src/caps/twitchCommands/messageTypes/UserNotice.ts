@@ -1,5 +1,4 @@
-import type { MessageInternalConfig, MessageInternalContents } from 'ircv3';
-import { Message } from 'ircv3';
+import { Message, type MessageInternalConfig, type MessageInternalContents } from 'ircv3';
 import { ChatUser } from '../../../ChatUser';
 import { parseEmoteOffsets } from '../../../utils/emoteUtil';
 
@@ -14,7 +13,7 @@ export class UserNotice extends Message<UserNoticeFields> {
 	constructor(command: string, contents?: MessageInternalContents, config?: MessageInternalConfig) {
 		super(command, contents, config, {
 			channel: { type: 'channel' },
-			text: { trailing: true, optional: true }
+			text: { trailing: true, optional: true },
 		});
 	}
 

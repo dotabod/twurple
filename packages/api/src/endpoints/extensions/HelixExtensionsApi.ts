@@ -1,25 +1,22 @@
 import type { HelixPaginatedResponse, HelixResponse } from '@twurple/api-call';
-import type { HelixExtensionData } from '@twurple/common';
-import { HelixExtension, rtfm } from '@twurple/common';
+import { HelixExtension, type HelixExtensionData, rtfm } from '@twurple/common';
 import { type HelixChannelReferenceData } from '../../interfaces/endpoints/channel.external';
 import {
 	createExtensionProductBody,
 	createExtensionTransactionQuery,
 	createReleasedExtensionFilter,
 	type HelixExtensionBitsProductData,
-	type HelixExtensionTransactionData
+	type HelixExtensionTransactionData,
 } from '../../interfaces/endpoints/extensions.external';
 import {
 	type HelixExtensionBitsProductUpdatePayload,
 	type HelixExtensionTransactionsFilter,
-	type HelixExtensionTransactionsPaginatedFilter
+	type HelixExtensionTransactionsPaginatedFilter,
 } from '../../interfaces/endpoints/extensions.input';
 import { createSingleKeyQuery } from '../../interfaces/endpoints/generic.external';
 import { HelixPaginatedRequest } from '../../utils/pagination/HelixPaginatedRequest';
-import type { HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import { createPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
-import type { HelixForwardPagination } from '../../utils/pagination/HelixPagination';
-import { createPaginationQuery } from '../../utils/pagination/HelixPagination';
+import { createPaginatedResult, type HelixPaginatedResult } from '../../utils/pagination/HelixPaginatedResult';
+import { createPaginationQuery, type HelixForwardPagination } from '../../utils/pagination/HelixPagination';
 import { BaseApi } from '../BaseApi';
 import { HelixChannelReference } from '../channel/HelixChannelReference';
 import { HelixExtensionBitsProduct } from './HelixExtensionBitsProduct';
@@ -51,7 +48,7 @@ export class HelixExtensionsApi extends BaseApi {
 		const result = await this._client.callApi<HelixResponse<HelixExtensionData>>({
 			type: 'helix',
 			url: 'extensions/released',
-			query: createReleasedExtensionFilter(extensionId, version)
+			query: createReleasedExtensionFilter(extensionId, version),
 		});
 
 		return new HelixExtension(result.data[0]);
@@ -67,15 +64,15 @@ export class HelixExtensionsApi extends BaseApi {
 	 */
 	async getLiveChannelsWithExtension(
 		extensionId: string,
-		pagination?: HelixForwardPagination
+		pagination?: HelixForwardPagination,
 	): Promise<HelixPaginatedResult<HelixChannelReference>> {
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixChannelReferenceData>>({
 			type: 'helix',
 			url: 'extensions/live',
 			query: {
 				...createSingleKeyQuery('extension_id', extensionId),
-				...createPaginationQuery(pagination)
-			}
+				...createPaginationQuery(pagination),
+			},
 		});
 
 		return createPaginatedResult(result, HelixChannelReference, this._client);
@@ -87,15 +84,15 @@ export class HelixExtensionsApi extends BaseApi {
 	 * @param extensionId The ID of the extension.
 	 */
 	getLiveChannelsWithExtensionPaginated(
-		extensionId: string
+		extensionId: string,
 	): HelixPaginatedRequest<HelixChannelReferenceData, HelixChannelReference> {
 		return new HelixPaginatedRequest(
 			{
 				url: 'extensions/live',
-				query: createSingleKeyQuery('extension_id', extensionId)
+				query: createSingleKeyQuery('extension_id', extensionId),
 			},
 			this._client,
-			data => new HelixChannelReference(data, this._client)
+			data => new HelixChannelReference(data, this._client),
 		);
 	}
 
@@ -112,7 +109,7 @@ export class HelixExtensionsApi extends BaseApi {
 			type: 'helix',
 			url: 'bits/extensions',
 			forceType: 'app',
-			query: createSingleKeyQuery('should_include_all', includeDisabled?.toString())
+			query: createSingleKeyQuery('should_include_all', includeDisabled?.toString()),
 		});
 
 		return result.data.map(data => new HelixExtensionBitsProduct(data));
@@ -134,7 +131,7 @@ export class HelixExtensionsApi extends BaseApi {
 			url: 'bits/extensions',
 			method: 'PUT',
 			forceType: 'app',
-			jsonBody: createExtensionProductBody(data)
+			jsonBody: createExtensionProductBody(data),
 		});
 
 		return new HelixExtensionBitsProduct(result.data[0]);
@@ -148,7 +145,7 @@ export class HelixExtensionsApi extends BaseApi {
 	 */
 	async getExtensionTransactions(
 		extensionId: string,
-		filter: HelixExtensionTransactionsPaginatedFilter = {}
+		filter: HelixExtensionTransactionsPaginatedFilter = {},
 	): Promise<HelixPaginatedResult<HelixExtensionTransaction>> {
 		const result = await this._client.callApi<HelixPaginatedResponse<HelixExtensionTransactionData>>({
 			type: 'helix',
@@ -156,8 +153,8 @@ export class HelixExtensionsApi extends BaseApi {
 			forceType: 'app',
 			query: {
 				...createExtensionTransactionQuery(extensionId, filter),
-				...createPaginationQuery(filter)
-			}
+				...createPaginationQuery(filter),
+			},
 		});
 
 		return createPaginatedResult(result, HelixExtensionTransaction, this._client);
@@ -171,16 +168,16 @@ export class HelixExtensionsApi extends BaseApi {
 	 */
 	getExtensionTransactionsPaginated(
 		extensionId: string,
-		filter: HelixExtensionTransactionsFilter = {}
+		filter: HelixExtensionTransactionsFilter = {},
 	): HelixPaginatedRequest<HelixExtensionTransactionData, HelixExtensionTransaction> {
 		return new HelixPaginatedRequest(
 			{
 				url: 'extensions/transactions',
 				forceType: 'app',
-				query: createExtensionTransactionQuery(extensionId, filter)
+				query: createExtensionTransactionQuery(extensionId, filter),
 			},
 			this._client,
-			data => new HelixExtensionTransaction(data, this._client)
+			data => new HelixExtensionTransaction(data, this._client),
 		);
 	}
 }
